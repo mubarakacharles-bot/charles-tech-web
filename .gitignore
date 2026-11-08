@@ -1,0 +1,35 @@
+# Local secrets and environment-specific configuration
+.env
+.env.*
+!.env.example
+*.local.php
+charles-tech-db.php
+private/
+
+# Local database files and backups (keep the checked-in schema and seed data)
+*.sqlite
+*.sqlite3
+*.db
+*.dump
+*.bak
+*.backup
+*.sql.gz
+database/local-*.sql
+database/backup-*.sql
+
+# Logs, caches, temporary files, and editor/OS metadata
+*.log
+*.pid
+*.cache
+tmp/
+temp/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Optional dependency/build output
+node_modules/
+vendor/
+dist/

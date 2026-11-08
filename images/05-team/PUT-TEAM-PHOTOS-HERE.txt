@@ -1,0 +1,2 @@
+Team photos: member-1.jpg, member-2.jpg, member-3.jpg, member-4.jpg
+Square portrait, face in the centre, 600x600. Names/roles are typed in index.html (search "OUR TEAM").

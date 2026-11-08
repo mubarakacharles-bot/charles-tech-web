@@ -1,0 +1,101 @@
+CHARLES TECH WEBSITE — HOW THE PICTURES WORK
+=============================================
+
+PROJECT DOCUMENTATION
+   See README.md for the project overview, architecture, XAMPP setup, database
+   configuration, API routes, and current backend limitations.
+
+1. WHAT TO UPLOAD TO YOUR HOSTING
+   Upload EVERYTHING in this folder, keeping the same folders:
+       index.html
+       manifest.webmanifest      (makes the website installable as an app)
+       sw.js                     (offline app + saves every picture on the device)
+       assets/css/bootstrap.min.css (Bootstrap layout and components)
+       .htaccess                 (only used by Apache hosting; harmless elsewhere)
+       assets/icons/             (app icons)
+       images/                   (ALL the pictures of the website)
+       tools/                    (helper for the Attendance picture — optional on the server)
+   If the images/ folder is uploaded next to index.html, no picture can be lost.
+   The app (offline + install) works only on https:// hosting, not when you double-click the file.
+
+2. WHERE EACH PICTURE LIVES (same order as the navigation bar)
+   images/00-logo-and-icons/   logo-wide.png, logo-mark.png, icon-equity.png, icon-mtn.png,
+                               icon-whatsapp.png, icon-map.png, icon-chat.png, icon-phone.png
+   images/01-home/             slide-1.jpg … slide-6.jpg  (auto-moving)   + workshop.jpg
+   images/02-shop/             slide-1.jpg … slide-3.jpg  (auto-moving)
+   images/02-shop/products/    <product code>.jpg   e.g. d001.jpg  (codes: product-codes.csv)
+   images/03-learn/            slide-1.jpg … slide-3.jpg  (auto-moving)   + gallery-01.jpg … gallery-18.jpg
+   images/04-hot-deals/        slide-1.jpg … slide-3.jpg  (auto-moving)
+   images/05-team/             member-1.jpg … member-4.jpg  (square portrait, 600×600)
+   images/06-attendance/       BACKUP copy only — the real picture is written inside index.html
+   images/07-other-pages/      banner-docs.jpg, banner-tutorials.jpg, banner-about.jpg,
+                               banner-contact.jpg, about-manager.jpg
+
+3. TO CHANGE A PICTURE
+   Save your new picture with EXACTLY the same name over the old one (same folder, same ending
+   .jpg or .png). Upload it. Done — no code to edit.
+   Best sizes:  slides 1600×900 (landscape)  ·  banners 1600×400  ·  team 600×600  ·  products 800×800
+   In index.html every picture has two comment lines above it:
+       🖼️ IMAGE : the kind of picture that fits there
+       📁 FILE  : the exact file name
+   Check everything: open  index.html?images  — missing files are listed in red.
+
+4. TEAM — ADDING THE 3 NEW PEOPLE
+   a) Put their photos in images/05-team/ as member-2.jpg, member-3.jpg, member-4.jpg
+   b) In index.html search for  "OUR TEAM"  and type each person's name, role, WhatsApp and phone
+      between the quotes. Use  show:false  to hide a person until they are ready.
+
+5. ATTENDANCE & STOCK
+   • Its picture is written INSIDE the code (search "ATTENDANCE PICTURE"), so it can never go missing.
+     To change it: open tools/image-to-code.html, choose the picture, press Copy, paste it there.
+   • Attendance & Stock still uses its older, separate local admin sign-in and is NOT connected
+     to the website's server-side account/session. Do not assume the website admin account works
+     there; administrator authentication needs to be migrated before using it as a shared backend.
+     Students keep signing in with their username or phone number.
+
+6. AFTER YOU CHANGE index.html OR ADD NEW PICTURE NAMES
+   Open sw.js and increment VERSION (currently chts-v7). Visitors see a
+   "New version is ready — Refresh" message. Replacing a picture with the same name needs nothing:
+   visitors get the new picture on their next visit.
+
+7. WHAT WAS UPDATED IN THIS VERSION
+   • All 120 product photos are now named by product code (d001.jpg … d120.jpg) as the shop expects,
+     made square 800×800 with a clean background, plus a small 400×400 copy (d001-400.jpg) that phones load
+     first (faster, less data). To change a product picture: replace BOTH d0xx.jpg (800×800) and d0xx-400.jpg (400×400).
+   • Team: images/05-team/member-1.jpg is Mubaraka Charles (600×600, face centred).
+     Team members 2–4 are hidden (show:false) until their photos and names are ready — see "OUR TEAM" in index.html.
+   • sw.js VERSION is chts-v7 for the blue storefront design and catalog display.
+
+8. LOCAL XAMPP BACKEND (development only)
+   • Start Apache and MySQL in the XAMPP Control Panel, then open:
+       http://localhost/charles-tech/
+     This local URL uses the project folder through an XAMPP junction in htdocs.
+   • Database schema and the initial 120-product import are in database/schema.sql
+     and database/seed_products.sql. The local database is named charles_tech.
+   • Test the PHP-to-database connection at /charles-tech/api/health.php and the
+     catalog API at /charles-tech/api/products.php.
+   • The local API database password is stored outside htdocs in
+     C:\xampp\private\charles-tech-db.php. Do not copy that file into the site,
+     share its password, or use this XAMPP setup as public production hosting.
+   • The storefront now reads the product catalog from the PHP API when it is available;
+     the embedded catalog remains as its offline fallback. sw.js is at chts-v7 so existing
+     installs update and do not cache private or stale API responses.
+   • Website registration, login, session restore and logout use the MariaDB users table.
+     Passwords are hashed on the server. Register and sign in from the site's Login page.
+   • The Charles Tech storefront has a responsive CSS3/Bootstrap 5 and vanilla JavaScript
+     frontend. Homepage category and featured-product cards use the existing read-only
+     catalog API. Bootstrap is served locally for offline use; authentication and all
+     PHP/database endpoints were left unchanged.
+   • Before using the auth endpoints on a fresh database, run
+       C:\xampp\php\php.exe database\configure_auth_db.php
+     from the project folder in PowerShell. It creates the login-attempt table and grants
+     only the user-table and login-attempt permissions needed by the site. If MariaDB root
+     has a password, set $env:CHTS_DB_ROOT_PASSWORD for that PowerShell session first.
+   • To make the first administrator, register that account normally, then run:
+       C:\xampp\php\php.exe database\promote_admin.php your-email@example.com
+     The promotion script is CLI-only. Sign out and sign back in to refresh the session role.
+   • The Attendance & Stock app still uses its older, separate local admin credential flow;
+     do not reuse an old browser-stored admin password there. Its admin login must be
+     migrated before managing attendance as a server-authenticated administrator.
+   • Product edits, stock changes, carts, orders and business settings are not yet connected
+     to backend write endpoints. Existing browser-side data is not shared across devices.

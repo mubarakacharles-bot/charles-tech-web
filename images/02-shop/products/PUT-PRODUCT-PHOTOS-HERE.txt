@@ -1,0 +1,2 @@
+Product photos: name each file after its product code, e.g. d001.jpg
+Square 800x800, plain background. Codes are in product-codes.csv
