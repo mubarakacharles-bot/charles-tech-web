@@ -5660,7 +5660,7 @@ function saveOrders(o){ LS.set('chts_orders', o); }
 /* PUBLISHED_DATA: product photos, prices, new products, deleted products, hot deals and stock baked INTO this file,
    so every device that opens the file shows the same thing. It is filled in automatically by
    Admin Dashboard > "Create share-ready file" — never edit it by hand. */
-/*PUB_START*/const PUBLISHED_DATA = {"overrides":{},"custom":[],"deleted":[],"deals":{},"inventory":{},"biz":null};/*PUB_END*/
+/*PUB_START*/const PUBLISHED_DATA = {"overrides":{},"custom":[],"deleted":[],"deals":{"d037":{"pct":10,"endsAt":1794836751364},"d003":{"pct":10,"endsAt":1794836751364},"d018":{"pct":10,"endsAt":1794836751364},"d024":{"pct":10,"endsAt":1794836751364},"d017":{"pct":10,"endsAt":1794836751364},"d059":{"pct":10,"endsAt":1794836751364},"d078":{"pct":10,"endsAt":1794836751364},"d077":{"pct":10,"endsAt":1794836751364}},"inventory":{},"biz":null};/*PUB_END*/
 const PUBLISHED_OVERRIDES = PUBLISHED_DATA.overrides || {};
 function getProductOverrides(){
   const local = LS.get('chts_product_overrides', {});
