@@ -15,8 +15,7 @@
   • The folders follow the navigation bar, from Home to the last page:
         images/00-logo-and-icons/   logo + small icons (Equity, MTN, WhatsApp …)          → use .png
         images/01-home/             Home auto-moving pictures  slide-1.jpg … slide-6.jpg  + workshop.jpg
-        images/02-shop/             Shop auto-moving pictures  slide-1.jpg … slide-3.jpg
-        images/02-shop/products/    product photos named by product code, e.g. d001.jpg
+        images/02-shop/products/    shop product photos named by product code, e.g. d001.jpg
         images/03-learn/            Learn auto-moving pictures slide-1.jpg … slide-3.jpg  + gallery-01.jpg … gallery-18.jpg
         images/04-hot-deals/        Hot Deals auto-moving pictures slide-1.jpg … slide-3.jpg
         images/05-team/             team photos  member-1.jpg … member-4.jpg
@@ -1402,12 +1401,17 @@ body.img-guide img.img-missing{outline-color:#ef4444!important}
   .bs-prog{ position:absolute; left:0; bottom:0; height:4px; width:0; z-index:4; background:linear-gradient(90deg,#3b82f6,#fbbf24); }
   .bigslider.hot .bs-prog{ background:linear-gradient(90deg,#f97316,#fbbf24); }
   @media (max-width:700px){
-    .bigslider{ height:560px; }
-    .bs-slide{ grid-template-columns:1fr; gap:10px; padding:20px 20px 56px; text-align:center; align-content:center; }
-    .bs-slide .bs-pic{ order:-1; justify-self:center; width:min(52vw,190px); }
+    .bigslider{ height:clamp(440px,120vw,560px); border-radius:16px; }
+    .bs-slide{ grid-template-columns:minmax(0,1fr); gap:10px; padding:20px 18px 56px; text-align:center; align-content:center; }
+    .bs-slide .bs-pic{ order:-1; justify-self:center; width:min(44vw,180px); }
     .bs-slide .bs-art{ order:-1; min-height:110px; } .bs-art span{ font-size:54px; }
     .bs-cta{ justify-content:center; } .bs-sub{ margin-left:auto; margin-right:auto; }
     .bs-arrow{ display:none; }
+  }
+  @media (max-width:380px){
+    .bigslider{ height:460px; }
+    .bs-slide{ padding-inline:14px; }
+    .bs-cta .btn{ flex:1 1 100%; }
   }
   @media (prefers-reduced-motion:reduce){ .bs-bg, .bs-ticker-in, .bs-big, .bs-art span{ animation:none !important; } }
 
@@ -1954,7 +1958,12 @@ body.img-guide img.img-missing{outline-color:#ef4444!important}
 
   /* ---------- SHOP LAYOUT: category sidebar + hero + tabs ---------- */
   .shop-layout{ display:grid; grid-template-columns:230px 1fr; gap:20px; align-items:start; }
-  @media (max-width:860px){ .shop-layout{ grid-template-columns:1fr; } }
+  .shop-main{ min-width:0; }
+  @media (max-width:860px){
+    .shop-layout{ grid-template-columns:minmax(0,1fr); gap:14px; }
+    #sec-products #catSidebarList{ display:flex; gap:8px; overflow-x:auto; padding:8px; scroll-snap-type:x proximity; }
+    #sec-products .cat-item{ flex:0 0 auto; min-height:42px; padding:10px 12px; border:1px solid var(--line-soft); border-radius:999px; white-space:nowrap; scroll-snap-align:start; }
+  }
 
   .cat-sidebar{
     background: linear-gradient(180deg, var(--panel-2), var(--panel));
@@ -3680,37 +3689,6 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
 
   <!-- ===== PRODUCTS SECTION ===== -->
   <section id="sec-products" class="page-section">
-    <!-- SHOP — AUTO-MOVING PICTURES (they change by themselves; nobody needs to click).
-         One <div class="hs ..."> = one slide. Copy a block to add a slide, delete a block to remove one.
-         To change a picture: replace the file on the 📁 FILE line with your own (same name, same folder). -->
-    <div class="hero-slides hs-fx sec-slides" data-auto="5500" role="region" aria-roledescription="carousel" aria-label="Shop pictures">
-
-      <!-- 🖼️ IMAGE: SHOP SLIDE 1 — LANDSCAPE PHOTO (16:9, 1600×900 — sensors, modules, components) -->
-      <!-- 📁 FILE : images/02-shop/slide-1.jpg -->
-      <div class="hs fx-fade on">
-        <img class="hs-img" src="images/02-shop/slide-1.jpg" alt="Sensor and module kit" width="1600" height="900" decoding="async" loading="lazy">
-        <div class="hs-txt"><span>🛒 Shop · priced in RWF</span><h2>Every part for your next project</h2><p>Arduino, ESP32, Raspberry Pi, sensors and modules — stock tracked live.</p></div>
-      </div>
-
-      <!-- 🖼️ IMAGE: SHOP SLIDE 2 — LANDSCAPE PHOTO (16:9, 1600×900 — development boards) -->
-      <!-- 📁 FILE : images/02-shop/slide-2.jpg -->
-      <div class="hs fx-circle">
-        <img class="hs-img" src="images/02-shop/slide-2.jpg" alt="Development boards" width="1600" height="900" decoding="async" loading="lazy">
-        <div class="hs-txt"><span>🔷 Boards</span><h2>Arduino, ESP32 &amp; Raspberry Pi</h2><p>Genuine boards tested on our own bench in Musanze.</p></div>
-      </div>
-
-      <!-- 🖼️ IMAGE: SHOP SLIDE 3 — LANDSCAPE PHOTO or WIDE BANNER (16:9, 1600×900 — shop / delivery) -->
-      <!-- 📁 FILE : images/02-shop/slide-3.jpg -->
-      <div class="hs fx-diag">
-        <img class="hs-img" src="images/02-shop/slide-3.jpg" alt="Charles Tech shop" width="1600" height="900" decoding="async" loading="lazy">
-        <div class="hs-txt"><span>🚚 Order online</span><h2>Pay with MTN MoMo or Equity Bank</h2><p>Order here, track your order, and pick up or get it delivered.</p></div>
-      </div>
-
-      <button type="button" class="hs-btn prev" aria-label="Previous picture">‹</button>
-      <button type="button" class="hs-btn next" aria-label="Next picture">›</button>
-      <div class="hs-dots" role="tablist" aria-label="Choose picture"></div>
-      <i class="hs-bar"></i>
-    </div>
     <div class="section-head">
       <h2>🛒 Products</h2>
       <p>Shop Arduino, ESP32, Raspberry Pi, sensors, AI modules &amp; 3D-print parts — priced in RWF. Stock is tracked live.</p>
@@ -8464,7 +8442,7 @@ window.publishSiteFile = async function(){
   }
 
   /* ======================================================================================
-     AUTO-MOVING PICTURES — works for every box with class "hero-slides" (Home, Shop, Learn, Hot Deals).
+     AUTO-MOVING PICTURES — works for every box with class "hero-slides" (Home, Learn, Hot Deals).
      • Moves by itself every data-auto milliseconds — nobody needs to click.
      • Effects: fade / circle / diagonal / blur / drop / diamond (never a sideways slide).
      • Never stops by itself (not even when the mouse is over it); it only rests while it is off the screen

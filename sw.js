@@ -6,7 +6,7 @@
      when you replace a picture file (same name), visitors get the new one on their next visit.
    • After you change index.html or add new picture names below: change VERSION (e.g. v2 → v3).
    ===================================================================================== */
-const VERSION = 'chts-v14';
+const VERSION = 'chts-v15';
 const CORE = VERSION + '-core', PICS = VERSION + '-pictures';
 
 const CORE_FILES = [
@@ -37,9 +37,6 @@ const PICTURE_FILES = [
     "images/01-home/slide-5.jpg",
     "images/01-home/slide-6.jpg",
     "images/01-home/workshop.jpg",
-    "images/02-shop/slide-1.jpg",
-    "images/02-shop/slide-2.jpg",
-    "images/02-shop/slide-3.jpg",
     "images/03-learn/gallery-01.jpg",
     "images/03-learn/gallery-02.jpg",
     "images/03-learn/gallery-03.jpg",
