@@ -2456,7 +2456,9 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
   }
 </style>
 <style id="store-product-refresh">
-  #sec-home .home-learning{padding:24px 0 42px}
+  #sec-home .home-learning{
+    padding:24px 0 42px;font-family:'IBM Plex Sans','Segoe UI',sans-serif
+  }
   #sec-home .home-learning-hero{
     position:relative;display:grid;min-height:clamp(330px,43vw,500px);align-items:center;
     overflow:hidden;border:1px solid #e1e8f2;border-radius:26px;
@@ -2484,7 +2486,7 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
   }
   #sec-home .home-learning-hero h1{
     max-width:690px;margin:0 0 16px;color:#111c33;font-size:clamp(36px,5vw,62px);
-    font-weight:850;line-height:1.04;letter-spacing:-.055em
+    font-family:'Sora','Segoe UI',sans-serif;font-weight:800;line-height:1.06;letter-spacing:-.045em
   }
   #sec-home .home-learning-accent{
     color:#2563eb;background:linear-gradient(110deg,#1d4ed8,#0891b2);
@@ -2518,31 +2520,49 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
     color:#2563eb;font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase
   }
   #sec-home .home-course-heading h2{
-    margin:8px 0;color:#14203a;font-size:clamp(25px,3vw,36px);font-weight:820;letter-spacing:-.04em
+    margin:8px 0;color:#14203a;font-family:'Sora','Segoe UI',sans-serif;
+    font-size:clamp(25px,3vw,36px);font-weight:700;letter-spacing:-.04em
   }
   #sec-home .home-course-heading p{margin:0;color:#637087;line-height:1.7}
   #sec-home .home-course-grid{
     display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px
   }
   #sec-home .home-course-card{
-    position:relative;display:flex;min-width:0;min-height:230px;flex-direction:column;align-items:flex-start;
-    overflow:hidden;padding:clamp(20px,3vw,30px);border:1px solid #e0e7f2;border-radius:22px;
+    position:relative;display:flex;min-width:0;min-height:360px;flex-direction:column;align-items:stretch;
+    overflow:hidden;padding:0;border:1px solid #e0e7f2;border-radius:22px;
     background:linear-gradient(145deg,#fff 0%,#f7f9fd 100%);color:#17233c;text-decoration:none;
     box-shadow:0 16px 42px -34px rgba(20,44,90,.5);
     transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease
+  }
+  #sec-home .home-course-image{
+    position:relative;display:block;height:176px;overflow:hidden;background:#e8eef8
+  }
+  #sec-home .home-course-image::after{
+    position:absolute;inset:30% 0 0;background:linear-gradient(180deg,transparent,rgba(8,19,43,.52));
+    content:"";pointer-events:none
+  }
+  #sec-home .home-course-image img{
+    width:100%;height:100%;object-fit:cover;transition:transform .35s ease
+  }
+  #sec-home .home-course-card:hover .home-course-image img{transform:scale(1.035)}
+  #sec-home .home-course-image-label{
+    position:absolute;right:14px;bottom:13px;left:16px;z-index:1;color:#fff;
+    font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase
+  }
+  #sec-home .home-course-card-copy{
+    display:flex;flex:1;flex-direction:column;align-items:flex-start;padding:21px 24px 24px
   }
   #sec-home .home-course-card:hover{
     transform:translateY(-4px);border-color:#9bb8f4;
     box-shadow:0 22px 48px -30px rgba(37,99,235,.32)
   }
-  #sec-home .home-course-icon{
-    display:grid;width:48px;height:48px;place-items:center;margin-bottom:18px;border-radius:15px;
-    background:linear-gradient(135deg,#eaf1ff,#dceaff);color:#2459d3;font-size:23px
-  }
   #sec-home .home-course-card h3{
-    margin:0 0 8px;color:#15213b;font-size:20px;font-weight:800;letter-spacing:-.025em
+    margin:0 0 8px;color:#15213b;font-family:'Sora','Segoe UI',sans-serif;
+    font-size:19px;font-weight:700;letter-spacing:-.025em
   }
-  #sec-home .home-course-card p{max-width:58ch;margin:0 0 18px;color:#5a667c;line-height:1.65}
+  #sec-home .home-course-card-description{
+    display:block;max-width:58ch;margin:0 0 18px;color:#5a667c;line-height:1.7
+  }
   #sec-home .home-course-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:auto}
   #sec-home .home-course-tags span{
     padding:5px 9px;border:1px solid #e1e8f3;border-radius:99px;background:#fff;
@@ -2554,13 +2574,27 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
     background:radial-gradient(520px 220px at 100% 0%,rgba(59,130,246,.2),transparent 68%),linear-gradient(135deg,#101b36,#0c142a);
     color:#edf3ff
   }
-  #sec-home .home-learning-method h2{margin:0 0 6px;color:#fff;font-size:21px;font-weight:800}
+  #sec-home .home-learning-method h2{
+    margin:0 0 6px;color:#fff;font-family:'Sora','Segoe UI',sans-serif;font-size:21px;font-weight:700
+  }
   #sec-home .home-learning-method p{max-width:68ch;margin:0;color:#bdcbe4;line-height:1.65}
   #sec-home .home-learning-method .btn{
     min-height:46px;padding:11px 17px;border:1px solid #647ff0;border-radius:12px;
     background:linear-gradient(135deg,#526af5,#3d4bd9);color:#fff;font-weight:750;text-decoration:none
   }
+  #sec-home>h1{
+    color:#14203a;background:none;-webkit-text-fill-color:#14203a;
+    font-family:'Sora','Segoe UI',sans-serif;font-size:clamp(30px,4vw,42px);
+    font-weight:750;line-height:1.12;letter-spacing:-.04em
+  }
+  #sec-home>.subtitle{color:#5a667c;line-height:1.7}
+  #sec-home>.subtitle b{color:#2459d3}
   #sec-home .legacy-home{display:none!important}
+  #sec-team .section-head h2{
+    color:#14203a;font-family:'Sora','Segoe UI',sans-serif;
+    font-size:clamp(28px,4vw,40px);font-weight:750;letter-spacing:-.04em;
+    text-transform:uppercase
+  }
   @media(max-width:700px){
     #sec-home .home-learning{padding-top:14px}
     #sec-home .home-learning-hero{min-height:420px;border-radius:20px}
@@ -2570,7 +2604,9 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
     #sec-home .home-learning-hero h1{max-width:520px;font-size:clamp(34px,9vw,46px)}
     #sec-home .home-learning-badge{top:14px;right:14px;width:62px;height:62px;border-radius:18px;font-size:8px}
     #sec-home .home-course-grid{grid-template-columns:1fr}
-    #sec-home .home-course-card{min-height:210px}
+    #sec-home .home-course-card{min-height:0}
+    #sec-home .home-course-image{height:160px}
+    #sec-home .home-course-card-copy{padding:19px 20px 21px}
     #sec-home .home-learning-method{grid-template-columns:1fr}
   }
   @media(max-width:360px){
@@ -3131,16 +3167,26 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
         </div>
         <div class="home-course-grid">
           <a class="home-course-card" href="#education" data-section="education">
-            <span class="home-course-icon" aria-hidden="true">⚙️</span>
-            <h3>Embedded Systems</h3>
-            <p>Menya uko microcontroller igenzura ibikoresho. Korana na Arduino na STM32, sensors, GPIO na C/C++.</p>
-            <span class="home-course-tags"><span>Arduino</span><span>STM32</span><span>Sensors</span><span>C/C++</span></span>
+            <span class="home-course-image">
+              <img src="images/03-learn/slide-1.jpg" alt="Microcontroller board connected to sensors and electronic components" loading="lazy" decoding="async">
+              <span class="home-course-image-label">Arduino · STM32 · Sensors</span>
+            </span>
+            <span class="home-course-card-copy">
+              <h3>Embedded Systems</h3>
+              <span class="home-course-card-description">Menya uko microcontroller igenzura ibikoresho. Korana na Arduino na STM32, sensors, GPIO na C/C++.</span>
+              <span class="home-course-tags"><span>Arduino</span><span>STM32</span><span>Sensors</span><span>C/C++</span></span>
+            </span>
           </a>
           <a class="home-course-card" href="#education" data-section="education">
-            <span class="home-course-icon" aria-hidden="true">📡</span>
-            <h3>Internet of Things (IoT)</h3>
-            <p>Huza ibikoresho na interineti ukoresheje ESP32/ESP8266, Wi-Fi na MQTT; ukurikirane amakuru aturutse kuri sensors.</p>
-            <span class="home-course-tags"><span>ESP32</span><span>Wi-Fi</span><span>MQTT</span><span>IoT</span></span>
+            <span class="home-course-image">
+              <img src="images/03-learn/gallery-08.jpg" alt="Collection of sensors and wireless modules used in IoT projects" loading="lazy" decoding="async">
+              <span class="home-course-image-label">ESP32 · Wi-Fi · MQTT</span>
+            </span>
+            <span class="home-course-card-copy">
+              <h3>Internet of Things (IoT)</h3>
+              <span class="home-course-card-description">Huza ibikoresho na interineti ukoresheje ESP32/ESP8266, Wi-Fi na MQTT; ukurikirane amakuru aturutse kuri sensors.</span>
+              <span class="home-course-tags"><span>ESP32</span><span>Wi-Fi</span><span>MQTT</span><span>IoT</span></span>
+            </span>
           </a>
         </div>
       </section>
@@ -3507,7 +3553,7 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
   <!-- ===== TEAM SECTION ===== -->
   <section id="sec-team" class="page-section">
     <div class="section-head">
-      <h2>👥 Our Team</h2>
+      <h2>Welcome to Our Team</h2>
       <p>The people behind Charles Tech — Embedded Systems, IoT &amp; 3D Design.</p>
     </div>
     <div class="team-grid" id="teamGrid"></div>
