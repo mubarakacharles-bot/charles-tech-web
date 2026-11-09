@@ -1353,7 +1353,8 @@ body.img-guide img.img-missing{outline-color:#ef4444!important}
 
   /* ===== BIG AUTO-MOVING PRODUCT HERO ===== */
   .bigslider{ position:relative; border-radius:22px; overflow:hidden; margin:0 0 16px; height:clamp(400px,48vw,520px); background:#08142f; color:#fff;
-    box-shadow:0 16px 44px rgba(0,0,0,.45); isolation:isolate; user-select:none; }
+    box-shadow:0 16px 44px rgba(0,0,0,.45); isolation:isolate; user-select:none; touch-action:pan-y; }
+  .bigslider:focus-visible{outline:3px solid #67e8f9;outline-offset:4px}
   .bigslider.hot{ background:#2a0e03; }
   .bs-bg{ position:absolute; inset:-25%; z-index:0; animation:bsBg 14s ease-in-out infinite alternate;
     background:radial-gradient(circle at 18% 30%,rgba(59,130,246,.55),transparent 42%),radial-gradient(circle at 82% 72%,rgba(14,165,233,.5),transparent 45%),radial-gradient(circle at 60% 15%,rgba(250,204,21,.25),transparent 35%); }
@@ -1380,8 +1381,9 @@ body.img-guide img.img-missing{outline-color:#ef4444!important}
   .bs-price{ font-family:'IBM Plex Mono',monospace; font-size:clamp(24px,3.4vw,40px); font-weight:800; color:#fbbf24; margin-bottom:6px; }
   .bs-price s{ font-size:.5em; font-weight:500; color:#cbd5d1; margin-left:10px; }
   .bs-stock{ font-size:12px; color:#c7d9ff; margin-bottom:12px; }
-  .bs-pic{ position:relative; justify-self:center; width:min(100%,410px); aspect-ratio:1/1; background:#fff; border-radius:22px; display:flex; align-items:center; justify-content:center;
+  .bs-pic{ position:relative; justify-self:center; width:min(100%,410px); aspect-ratio:1/1; padding:0;background:#fff; border:0;border-radius:22px; display:flex; align-items:center; justify-content:center;
     overflow:hidden; box-shadow:0 22px 50px rgba(0,0,0,.32); cursor:pointer; color:#111; font-size:0; }
+  .bs-pic:focus-visible{outline:3px solid #67e8f9;outline-offset:4px}
   .bs-slide.on .bs-pic{ animation:bsPop 1s cubic-bezier(.2,.9,.3,1.2) both .15s; }
   @keyframes bsPop{ from{ opacity:0; transform:translateX(70px) rotate(8deg) scale(.85); } to{ opacity:1; transform:rotate(2deg); } }
   .bs-pic .pc-emoji{display:none}
@@ -1401,8 +1403,10 @@ body.img-guide img.img-missing{outline-color:#ef4444!important}
   .bs-arrow:hover{ background:#3b82f6; color:#ffffff; transform:scale(1.08); } .bigslider.hot .bs-arrow:hover{ background:#f97316; color:#fff; }
   .bs-prev{ left:12px; } .bs-next{ right:12px; }
   .bs-dots{ position:absolute; left:0; right:0; bottom:16px; z-index:4; display:flex; justify-content:center; gap:8px; }
-  .bs-dots button{ width:10px; height:10px; padding:0; border-radius:10px; border:0; background:rgba(255,255,255,.4); cursor:pointer; transition:all .3s; }
-  .bs-dots button.on{ width:30px; background:#fbbf24; }
+  .bs-dots button{ display:grid;place-items:center;width:36px;height:36px;padding:0;border:0;border-radius:50%;background:transparent;cursor:pointer; }
+  .bs-dots button::before{width:9px;height:9px;border-radius:10px;background:rgba(255,255,255,.55);content:"";transition:all .25s}
+  .bs-dots button.on::before{width:24px;background:#fbbf24}
+  .bs-arrow:focus-visible,.bs-dots button:focus-visible{outline:2px solid #67e8f9;outline-offset:2px}
   .bs-prog{ position:absolute; left:0; bottom:0; height:4px; width:0; z-index:4; background:linear-gradient(90deg,#3b82f6,#fbbf24); }
   .bigslider.hot .bs-prog{ background:linear-gradient(90deg,#f97316,#fbbf24); }
   @media (max-width:700px){
@@ -3143,7 +3147,7 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
     color:#fff!important;box-shadow:0 10px 24px rgba(37,99,235,.38)!important
   }
   #shopBigSlider .bs-cta .btn-primary:hover{border-color:#7dd3fc!important;background:linear-gradient(135deg,#7dd3fc,#3b82f6 58%,#2563eb)!important}
-  #shopBigSlider .bs-dots button.on{background:#38bdf8}
+  #shopBigSlider .bs-dots button.on::before{background:#38bdf8}
   #shopBigSlider .bs-prog{background:linear-gradient(90deg,#22d3ee,#3b82f6 58%,#818cf8)}
 </style>
 </head>
@@ -3733,7 +3737,7 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
         <div class="pub-bar" id="pubBarShop" hidden></div>
         <div class="form-msg err" id="catalogApiStatus" role="status" aria-live="polite" hidden style="display:none;"></div>
         <!-- Featured products: photos only -->
-        <div class="bigslider" id="shopBigSlider" aria-roledescription="carousel" aria-label="Featured products"></div>
+        <div class="bigslider" id="shopBigSlider" role="region" aria-roledescription="carousel" aria-label="Featured products" aria-live="off" tabindex="0"></div>
 
         <div class="shop-deals-hint" id="shopDealsHint"><span>Reba ibicuruzwa ku giciro cyiza.</span><a href="#hotdeals" data-section="hotdeals">Reba ibiciro byagabanyijwe →</a></div>
 
@@ -6222,10 +6226,14 @@ function bsProductSlide(p, shopPhotoOnly = false){
       <h2 class="bs-name">${p.name}</h2>
       <div class="bs-price">${fmtRWF(p.price)}${p.deal ? `<s>${fmtRWF(p.basePrice)}</s>` : ''}</div>
       <div class="bs-cta"><button class="btn btn-primary" onclick="openProductModal('${p.id}')">Gura ubu</button></div></div>
-    <div class="bs-pic" onclick="openProductModal('${p.id}')">${picture}</div></div>`;
+    <button type="button" class="bs-pic" aria-label="Reba ${escapeAttr(p.name)}" onclick="openProductModal('${p.id}')">${picture}</button></div>`;
 }
 function bsRender(rootId, hot, products){
   const root = document.getElementById(rootId); if (!root) return;
+  root.tabIndex = 0;
+  root.setAttribute('role','region');
+  root.setAttribute('aria-roledescription','carousel');
+  root.setAttribute('aria-live','off');
   const sig = products.map(p => [p.id, p.price, p.stock, rootId === 'shopBigSlider' ? bsShopProductImages(p).join(',') : getProductImages(p).length].join(':')).join('|');
   if (root.dataset.sig === sig) return;                        // unchanged: don't restart the motion
   root.dataset.sig = sig;
@@ -6239,14 +6247,30 @@ function bsRender(rootId, hot, products){
   root.style.display = '';
   root.innerHTML = `<div class="bs-bg"></div>
     ${slides.join('')}
-    ${slides.length > 1 ? `<button class="bs-arrow bs-prev" aria-label="Previous">‹</button><button class="bs-arrow bs-next" aria-label="Next">›</button>
-    <div class="bs-dots">${slides.map((_,i) => `<button aria-label="Slide ${i+1}"></button>`).join('')}</div>` : ''}
+    ${slides.length > 1 ? `<button type="button" class="bs-arrow bs-prev" aria-label="Previous product">‹</button><button type="button" class="bs-arrow bs-next" aria-label="Next product">›</button>
+    <div class="bs-dots" role="group" aria-label="Choose a product">${slides.map((_,i) => `<button type="button" aria-label="Product ${i+1} of ${slides.length}" aria-pressed="false"></button>`).join('')}</div>` : ''}
     <div class="bs-prog"></div>`;
+  root.querySelectorAll('.bs-slide').forEach((slide,index) => {
+    slide.setAttribute('role','group');
+    slide.setAttribute('aria-roledescription','slide');
+    slide.setAttribute('aria-label',`${index + 1} of ${slides.length}`);
+    slide.setAttribute('aria-hidden','true');
+  });
   const st = BS[rootId] = { i: 0, t: 0, hold: false, n: slides.length, root };
   const go = (i) => {
     st.i = (i + st.n) % st.n; st.t = 0;
-    root.querySelectorAll('.bs-slide').forEach((el,k) => el.classList.toggle('on', k === st.i));
-    root.querySelectorAll('.bs-dots button').forEach((el,k) => el.classList.toggle('on', k === st.i));
+    root.querySelectorAll('.bs-slide').forEach((el,k) => {
+      const active = k === st.i;
+      el.classList.toggle('on', active);
+      el.setAttribute('aria-hidden',String(!active));
+    });
+    root.querySelectorAll('.bs-dots button').forEach((el,k) => {
+      const active = k === st.i;
+      el.classList.toggle('on', active);
+      el.setAttribute('aria-pressed',String(active));
+    });
+    const bar = root.querySelector('.bs-prog');
+    if (bar) bar.style.width = '0%';
   };
   st.go = go; go(0);
   const prev = root.querySelector('.bs-prev'), next = root.querySelector('.bs-next');
@@ -6254,9 +6278,22 @@ function bsRender(rootId, hot, products){
   if (next) next.onclick = () => go(st.i + 1);
   root.querySelectorAll('.bs-dots button').forEach((b,k) => b.onclick = () => go(k));
   root.onmouseenter = () => st.hold = true;  root.onmouseleave = () => st.hold = false;
+  root.onfocusin = () => st.hold = true;
+  root.onfocusout = (e) => { if (!root.contains(e.relatedTarget)) st.hold = false; };
+  root.onkeydown = (e) => {
+    if (e.key === 'ArrowLeft'){ e.preventDefault(); go(st.i - 1); }
+    else if (e.key === 'ArrowRight'){ e.preventDefault(); go(st.i + 1); }
+  };
   let x0 = null;
   root.ontouchstart = (e) => { st.hold = true; x0 = e.touches[0].clientX; };
-  root.ontouchend = (e) => { const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 50) go(st.i + (dx < 0 ? 1 : -1)); setTimeout(() => st.hold = false, 1500); };
+  root.ontouchend = (e) => {
+    if (x0 !== null){
+      const dx = e.changedTouches[0].clientX - x0;
+      if (Math.abs(dx) > 50) go(st.i + (dx < 0 ? 1 : -1));
+    }
+    x0 = null;
+    setTimeout(() => st.hold = false, 1500);
+  };
 }
 (function(){
   const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
