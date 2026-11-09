@@ -142,3 +142,17 @@ CREATE TABLE IF NOT EXISTS business_settings (
     FOREIGN KEY (updated_by) REFERENCES users (id)
     ON UPDATE CASCADE ON DELETE SET NULL
 ) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS student_portal_state (
+  state_id TINYINT UNSIGNED NOT NULL,
+  state_json LONGTEXT NOT NULL,
+  revision BIGINT UNSIGNED NOT NULL DEFAULT 1,
+  updated_by BIGINT UNSIGNED NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (state_id),
+  CONSTRAINT chk_student_portal_state_singleton CHECK (state_id = 1),
+  CONSTRAINT fk_student_portal_state_user
+    FOREIGN KEY (updated_by) REFERENCES users (id)
+    ON UPDATE CASCADE ON DELETE SET NULL
+) ENGINE=InnoDB;

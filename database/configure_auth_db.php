@@ -37,11 +37,27 @@ try {
             KEY idx_auth_login_attempts_updated (updated_at)
         ) ENGINE=InnoDB'
     );
+    $root->exec(
+        'CREATE TABLE IF NOT EXISTS student_portal_state (
+            state_id TINYINT UNSIGNED NOT NULL,
+            state_json LONGTEXT NOT NULL,
+            revision BIGINT UNSIGNED NOT NULL DEFAULT 1,
+            updated_by BIGINT UNSIGNED NULL,
+            created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            PRIMARY KEY (state_id),
+            CONSTRAINT chk_student_portal_state_singleton CHECK (state_id = 1),
+            CONSTRAINT fk_student_portal_state_user
+              FOREIGN KEY (updated_by) REFERENCES users (id)
+              ON UPDATE CASCADE ON DELETE SET NULL
+        ) ENGINE=InnoDB'
+    );
     $root->exec('GRANT SELECT, INSERT ON `charles_tech`.`users` TO ' . $account);
     $root->exec('GRANT UPDATE (`password_hash`) ON `charles_tech`.`users` TO ' . $account);
     $root->exec('GRANT SELECT, INSERT, UPDATE, DELETE ON `charles_tech`.`auth_login_attempts` TO ' . $account);
+    $root->exec('GRANT SELECT, INSERT, UPDATE ON `charles_tech`.`student_portal_state` TO ' . $account);
 
-    fwrite(STDOUT, "Auth table and minimum required database privileges are ready.\n");
+    fwrite(STDOUT, "Auth and Student Portal tables and minimum required database privileges are ready.\n");
 } catch (Throwable $error) {
     fwrite(STDERR, "Could not configure authentication database access: " . $error->getMessage() . "\n");
     exit(1);

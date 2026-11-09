@@ -48,13 +48,16 @@ PROJECT DOCUMENTATION
 5. ATTENDANCE & STOCK
    • Its picture is written INSIDE the code (search "ATTENDANCE PICTURE"), so it can never go missing.
      To change it: open tools/image-to-code.html, choose the picture, press Copy, paste it there.
-   • Attendance & Stock still uses its older, separate local admin sign-in and is NOT connected
-     to the website's server-side account/session. Do not assume the website admin account works
-     there; administrator authentication needs to be migrated before using it as a shared backend.
-     Students keep signing in with their username or phone number.
+   • The portal is in student-portal.html and opens inside the Attendance page. An active
+     website administrator session opens the portal admin dashboard automatically.
+   • Portal data still has a browser-local working copy. To import it, use the administrator
+     dashboard's "Upload browser data to MySQL" button. Later administrator edits are saved to
+     MySQL; "Load database copy" loads the latest server snapshot into this browser.
+   • Student sign-in, student registrations and student actions are still browser-local and are
+     not synchronized across devices. The MySQL snapshot does not replace per-student accounts.
 
 6. AFTER YOU CHANGE index.html OR ADD NEW PICTURE NAMES
-   Open sw.js and increment VERSION (currently chts-v7). Visitors see a
+   Open sw.js and increment VERSION (currently chts-v8). Visitors see a
    "New version is ready — Refresh" message. Replacing a picture with the same name needs nothing:
    visitors get the new picture on their next visit.
 
@@ -64,7 +67,9 @@ PROJECT DOCUMENTATION
      first (faster, less data). To change a product picture: replace BOTH d0xx.jpg (800×800) and d0xx-400.jpg (400×400).
    • Team: images/05-team/member-1.jpg is Mubaraka Charles (600×600, face centred).
      Team members 2–4 are hidden (show:false) until their photos and names are ready — see "OUR TEAM" in index.html.
-   • sw.js VERSION is chts-v7 for the blue storefront design and catalog display.
+   • sw.js VERSION was chts-v7 for the blue storefront design and catalog display.
+   • The Student Portal is now a separate student-portal.html file. sw.js is at chts-v8 for this
+     change and offline caching of the portal shell.
 
 8. LOCAL XAMPP BACKEND (development only)
    • Start Apache and MySQL in the XAMPP Control Panel, then open:
@@ -77,25 +82,26 @@ PROJECT DOCUMENTATION
    • The local API database password is stored outside htdocs in
      C:\xampp\private\charles-tech-db.php. Do not copy that file into the site,
      share its password, or use this XAMPP setup as public production hosting.
-   • The storefront now reads the product catalog from the PHP API when it is available;
-     the embedded catalog remains as its offline fallback. sw.js is at chts-v7 so existing
-     installs update and do not cache private or stale API responses.
+   • The storefront reads the product catalog from the PHP API when it is available; the
+     embedded catalog remains as its offline fallback. sw.js is at chts-v8 so existing installs
+     update and do not cache private or stale API responses.
    • Website registration, login, session restore and logout use the MariaDB users table.
      Passwords are hashed on the server. Register and sign in from the site's Login page.
    • The Charles Tech storefront has a responsive CSS3/Bootstrap 5 and vanilla JavaScript
      frontend. Homepage category and featured-product cards use the existing read-only
-     catalog API. Bootstrap is served locally for offline use; authentication and all
-     PHP/database endpoints were left unchanged.
+     catalog API. Bootstrap is served locally for offline use.
    • Before using the auth endpoints on a fresh database, run
        C:\xampp\php\php.exe database\configure_auth_db.php
-     from the project folder in PowerShell. It creates the login-attempt table and grants
-     only the user-table and login-attempt permissions needed by the site. If MariaDB root
-     has a password, set $env:CHTS_DB_ROOT_PASSWORD for that PowerShell session first.
+     from the project folder in PowerShell. It creates the login-attempt and Student Portal
+     snapshot tables and grants the minimum required database permissions. If MariaDB root has
+     a password, set $env:CHTS_DB_ROOT_PASSWORD for that PowerShell session first.
    • To make the first administrator, register that account normally, then run:
        C:\xampp\php\php.exe database\promote_admin.php your-email@example.com
      The promotion script is CLI-only. Sign out and sign back in to refresh the session role.
-   • The Attendance & Stock app still uses its older, separate local admin credential flow;
-     do not reuse an old browser-stored admin password there. Its admin login must be
-     migrated before managing attendance as a server-authenticated administrator.
+   • To move an existing admin browser snapshot into MySQL, sign into the website as admin,
+     open Attendance & Stock, then select "Upload browser data to MySQL". The browser copy is
+     retained. Database snapshots are admin-only and limited to 8 MB.
+   • Existing student accounts, sign-ins and actions remain browser-local; this is not yet a
+     server-authoritative multi-device Student Portal.
    • Product edits, stock changes, carts, orders and business settings are not yet connected
      to backend write endpoints. Existing browser-side data is not shared across devices.

@@ -25,13 +25,14 @@ The current storefront uses a blue-and-white visual theme, Bootstrap 5 served lo
 | Path | Purpose |
 | --- | --- |
 | `index.html` | Main site, storefront markup, styles, and client-side application code. |
+| `student-portal.html` | Isolated Attendance & Stock application loaded in the portal frame. |
 | `assets/` | Local Bootstrap stylesheet and PWA icons. |
 | `images/` | Product and site imagery. |
-| `api/` | PHP health and read-only product catalogue endpoints. |
+| `api/` | PHP health, product catalogue, and administrator-only portal data endpoints. |
 | `api/auth/` | Registration, login, current-session, and logout endpoints. |
 | `database/schema.sql` | MariaDB/MySQL schema. |
 | `database/seed_products.sql` | Initial product catalogue data. |
-| `database/configure_auth_db.php` | CLI-only setup for authentication table and minimum database grants. |
+| `database/configure_auth_db.php` | CLI-only setup for authentication and portal tables and minimum database grants. |
 | `database/promote_admin.php` | CLI-only promotion of a registered account to administrator. |
 | `sw.js` | PWA service worker and offline caches. |
 | `manifest.webmanifest` | Installable web app metadata. |
@@ -64,7 +65,7 @@ The current storefront uses a blue-and-white visual theme, Bootstrap 5 served lo
 
    Use a least-privilege application account. This file is intentionally not part of the repository; never commit real passwords.
 6. Open [http://localhost/charles-tech/](http://localhost/charles-tech/). Check the connection at `/api/health.php` and the catalogue at `/api/products.php`.
-7. To enable authentication on a fresh database, open PowerShell in the project directory and run:
+7. To enable authentication and Student Portal storage on a fresh or existing database, open PowerShell in the project directory and run:
 
    ```powershell
    C:\xampp\php\php.exe database\configure_auth_db.php
@@ -98,12 +99,22 @@ The PHP API finds its database configuration at a `private\charles-tech-db.php` 
 | `POST` | `/api/auth/login.php` | Start an authenticated session. |
 | `GET` | `/api/auth/me.php` | Restore/check the current session. |
 | `POST` | `/api/auth/logout.php` | End the current session. |
+| `GET` | `/api/portal.php` | Load the Student Portal database copy (website administrators only). |
+| `PUT` | `/api/portal.php` | Import/update the Student Portal database copy (website administrators only; CSRF protected). |
 
 Authentication writes are protected by CSRF tokens and PHP sessions. Passwords are hashed server-side. The service worker does not cache API responses.
 
 ## Current backend scope
 
-The product catalogue and website account/session flows use the PHP and database backend. The schema also defines order, inventory, and business-settings tables, but there are not yet backend write endpoints for product or stock edits, checkout/orders, or business settings. The cart remains browser-side and is not shared across devices. The Attendance & Stock area still has a separate legacy sign-in flow and is not connected to the website account sessions.
+The product catalogue and website account/session flows use the PHP and database backend. The schema also defines order, inventory, and business-settings tables, but there are not yet backend write endpoints for product or stock edits, checkout/orders, or business settings. The cart remains browser-side and is not shared across devices. The Attendance & Stock application is isolated in `student-portal.html`; its administrator can use the website's server-side administrator session to load and synchronize portal data.
+
+### Student Portal data assessment
+
+The Student Portal stores its working copy in browser `localStorage` (`sas_data_v1`). Its student credentials, attendance, portal stock, stock movements, tasks, submissions, discussions, and audit log are part of that copy. The portal administrator can import the whole copy into the MySQL `student_portal_state` table, load an existing database copy, and automatically save subsequent administrator changes. The API restricts snapshots to authenticated website administrators, requires CSRF protection for writes, caps imports at 8 MB, validates the payload shape, and uses revisions to reject stale concurrent writes. This portal stock is separate from the storefront's `product_variants` and `inventory_movements` tables.
+
+On a fresh or existing installation, run `database/configure_auth_db.php` after importing the updated schema to create the portal table and grant the application database account its minimum required privileges. Sign into the website as an administrator, open Attendance & Stock, then use **Upload browser data to MySQL** to migrate that browser's existing data. The local browser backup is retained. Use **Load database copy** to replace the current browser view with the saved database copy. Administrator edits are written back automatically after a database copy has been loaded or imported.
+
+Important limitation: this is administrator-controlled snapshot synchronization, not a fully server-authoritative multi-user portal. Student registrations, student sign-in, and student actions remain in their local browser copies; portal data is not yet isolated into per-student database records or synchronized across student devices. Do not treat a successful admin snapshot import as completing that separate identity-and-per-record authorization migration. Take regular backups and keep the database private.
 
 The local XAMPP setup is for development only. Before public deployment, configure HTTPS, production database credentials and permissions, backups, and hosting-specific PHP/Apache settings. Do not expose a development database or the local XAMPP server to the public internet.
 

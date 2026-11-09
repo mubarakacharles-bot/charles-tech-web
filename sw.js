@@ -6,11 +6,11 @@
      when you replace a picture file (same name), visitors get the new one on their next visit.
    • After you change index.html or add new picture names below: change VERSION (e.g. v2 → v3).
    ===================================================================================== */
-const VERSION = 'chts-v7';
+const VERSION = 'chts-v8';
 const CORE = VERSION + '-core', PICS = VERSION + '-pictures';
 
 const CORE_FILES = [
-  './', './index.html', './manifest.webmanifest',
+  './', './index.html', './student-portal.html', './manifest.webmanifest',
   'assets/css/bootstrap.min.css',
   'assets/icons/icon-192.png', 'assets/icons/icon-512.png', 'assets/icons/maskable-512.png',
   'assets/icons/apple-touch-icon.png', 'assets/icons/favicon.png'
@@ -100,10 +100,10 @@ self.addEventListener('fetch', e => {
     e.respondWith((async () => {
       try {
         const r = (await e.preloadResponse) || await fetch(req);
-        if (r && r.ok) { const c = await caches.open(CORE); c.put('./index.html', r.clone()); }
+        if (r && r.ok) { const c = await caches.open(CORE); c.put(req, r.clone()); }
         return r;
       } catch (err) {
-        return (await caches.match('./index.html')) || (await caches.match('./')) || Response.error();
+        return (await caches.match(req)) || (await caches.match('./index.html')) || (await caches.match('./')) || Response.error();
       }
     })());
     return;
