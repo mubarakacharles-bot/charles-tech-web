@@ -217,6 +217,10 @@ tr.clk{cursor:pointer}
 .task{border-left:4px solid var(--pri)}
 .session-box{margin:14px 0;padding:14px 16px;border:1px solid color-mix(in srgb,var(--acc) 45%,var(--bd));border-radius:14px;background:color-mix(in srgb,var(--acc) 8%,var(--card))}
 .session-box b{display:block;margin-bottom:4px}.session-box .mut{margin-bottom:8px}.session-box .acts{margin-top:8px}
+.session-agenda{border-top:3px solid var(--acc)}.session-agenda h2{display:flex;align-items:center;gap:8px}
+.session-next{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 0;border-top:1px solid var(--bd)}
+.session-next:first-of-type{border-top:0}.session-next .acts{margin:0}.session-next .mut{margin-top:3px}
+@media(max-width:560px){.session-next{grid-template-columns:1fr}.session-next .acts{margin-top:4px}}
 .post{background:var(--card);border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow)}
 .post.adm{border-left:4px solid var(--pri)}
 .post.sub{margin:10px 0 0 16px;background:rgba(59,130,246,.07);box-shadow:none}
@@ -491,7 +495,7 @@ function vTasksAdmin(){
     const st=db.students.filter(s=>inScope(t,s)),ids=new Set(st.map(s=>s.id)),sub=db.subs.filter(x=>x.tid===t.id&&ids.has(x.sid)),pend=sub.filter(x=>x.status==='submitted').length;
     return `<div class="card task"><div class="lrow"><span><b>${esc(t.title)}</b><div class="mut">${esc(t.kind)} \u00b7 ${t.cls?esc(t.cls):'All classes'} \u00b7 ${t.due?'Due '+t.due:'No deadline'}</div></span>${pbar(st.length?sub.length/st.length*100:0,'var(--acc)')}<b>${sub.length}/${st.length}</b></div>
     <p>${txt(t.desc)}</p>${meetingCard(t)}${media(t)}<div class="acts"><button onclick="reviewTask('${t.id}')">Review work${pend?` (${pend} new)`:''}</button><button class="sec" onclick="notifyTask('${t.id}')">\ud83d\udcf2 Notify students</button><button class="sec" onclick="openThread('${t.id}')">Discuss</button><button class="bad sm" onclick="delTask('${t.id}')">Delete</button></div></div>`}).join('');
-  return form+(list||'<div class="card empty">No tasks yet. Publish the first one above.</div>');
+  return sessionAgenda(db.tasks)+form+(list||'<div class="card empty">No tasks yet. Publish the first one above.</div>');
 }
 function toggleMeetingFields(){
   const fields=$('meetFields');if(fields)fields.classList.toggle('hide',$('tk').value!==ONLINE_KIND);
@@ -503,11 +507,59 @@ function safeMeetingUrl(value){
 function meetingCard(task){
   if(task.kind!==ONLINE_KIND)return '';
   const url=safeMeetingUrl(task.meetingUrl),when=meetingTime(task.meetingAt);
-  return `<div class="session-box"><b>Online class</b><div class="mut">Starts ${esc(when)} (your local time) · Join remotely from your phone or computer.</div>${url?`<a class="btnlink" href="${esc(url)}" target="_blank" rel="noopener noreferrer">Join online class ↗</a>`:'<span class="mut">The trainer has not added a secure meeting link yet.</span>'}</div>`;
+  return `<div class="session-box"><b>Online class</b><div class="mut">Starts ${esc(when)} (your local time) · Join remotely from your phone or computer.</div><div class="acts">${url?`<a class="btnlink" href="${esc(url)}" target="_blank" rel="noopener noreferrer">Join online class ↗</a>`:'<span class="mut">The trainer has not added a secure meeting link yet.</span>'}${url&&Number.isFinite(Date.parse(task.meetingAt))?`<button class="sec sm" onclick="downloadCalendar('${esc(task.id)}')">Add calendar reminder</button>`:''}</div></div>`;
 }
 function meetingTime(value){
   const date=value?new Date(value):null;
   return date&&!Number.isNaN(date.getTime())?date.toLocaleString([],{dateStyle:'medium',timeStyle:'short'}):'Time to be confirmed';
+}
+function timeUntil(value){
+  const mins=Math.max(0,Math.floor((Date.parse(value)-Date.now())/60000));
+  if(mins<1)return 'Starting now';
+  if(mins<60)return `Starts in ${mins} min`;
+  const hours=Math.floor(mins/60),days=Math.floor(hours/24),left=hours%24;
+  return days?`Starts in ${days} day${days===1?'':'s'}${left?` ${left} hr`:''}`:`Starts in ${hours} hr`;
+}
+function upcomingSessions(tasks){
+  return tasks.filter(t=>t.kind===ONLINE_KIND&&safeMeetingUrl(t.meetingUrl)&&Number.isFinite(Date.parse(t.meetingAt))&&Date.parse(t.meetingAt)>Date.now())
+    .sort((a,b)=>Date.parse(a.meetingAt)-Date.parse(b.meetingAt)).slice(0,3);
+}
+function sessionAgenda(tasks){
+  const sessions=upcomingSessions(tasks);if(!sessions.length)return '';
+  return `<div class="card session-agenda"><h2>${ic('list')} Upcoming online classes</h2>${sessions.map(t=>`<div class="session-next"><div><b>${esc(t.title)}</b><div class="mut">${esc(t.cls||'All classes')} · ${esc(meetingTime(t.meetingAt))} · ${esc(timeUntil(t.meetingAt))}</div></div><div class="acts"><a class="btnlink" href="${esc(safeMeetingUrl(t.meetingUrl))}" target="_blank" rel="noopener noreferrer">Join ↗</a><button class="sec sm" onclick="downloadCalendar('${esc(t.id)}')">Add reminder</button></div></div>`).join('')}</div>`;
+}
+function icsEscape(value){
+  return String(value||'').replace(/\\/g,'\\\\').replace(/\r\n|\r|\n/g,'\\n').replace(/,/g,'\\,').replace(/;/g,'\\;');
+}
+function foldIcsLine(line){
+  const chunks=[];let chunk='',bytes=0;
+  for(const char of line){
+    const size=new TextEncoder().encode(char).length;
+    if(bytes+size>73){chunks.push(chunk);chunk=' '+char;bytes=1+size}
+    else{chunk+=char;bytes+=size}
+  }
+  chunks.push(chunk);return chunks.join('\r\n');
+}
+function calendarContent(task){
+  const url=safeMeetingUrl(task&&task.meetingUrl),start=Date.parse(task&&task.meetingAt);
+  if(!task||task.kind!==ONLINE_KIND||!url||!Number.isFinite(start))return '';
+  const startDate=new Date(start),endDate=new Date(start+60*60*1000),stamp=d=>d.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'');
+  const lines=[
+    'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Charles Tech//Online Class//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH',
+    'BEGIN:VEVENT',`UID:${icsEscape(clean(task.id,80))}@charlestech.local`,`DTSTAMP:${stamp(new Date())}`,
+    `DTSTART:${stamp(startDate)}`,`DTEND:${stamp(endDate)}`,`SUMMARY:${icsEscape(task.title)}`,
+    `DESCRIPTION:${icsEscape(`${task.desc||''}\nJoin online: ${url}`)}`,`URL:${url}`,
+    'BEGIN:VALARM','TRIGGER:-PT15M','ACTION:DISPLAY',`DESCRIPTION:${icsEscape(`Online class starts in 15 minutes: ${task.title}`)}`,'END:VALARM',
+    'END:VEVENT','END:VCALENDAR'
+  ];
+  return lines.map(foldIcsLine).join('\r\n')+'\r\n';
+}
+function downloadCalendar(tid){
+  const task=visTasks().find(t=>t.id===tid);
+  if(!task||task.kind!==ONLINE_KIND)return toast('This online class is not available.','bad');
+  const content=calendarContent(task);if(!content)return toast('A valid meeting link and session time are required.','bad');
+  const name=clean(task.title,60).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'online-class';
+  download(`${name}.ics`,content,'text/calendar;charset=utf-8');toast('Calendar reminder downloaded');
 }
 async function addTask(){if(!isAdmin())return;
   const title=clean($('tt').value,90),desc=clean2($('tx').value,1500);
@@ -548,7 +600,7 @@ function vTasksStu(){
     ${u&&u.fb?`<div class="fb"><b>Feedback:</b> ${txt(u.fb)}${u.score!=null?` \u00b7 <b>${u.score}/100</b>`:''}</div>`:''}
     ${u&&u.status==='approved'?'':`<label>Your work — what you did and what happened</label><textarea id="sn_${t.id}" rows="3" maxlength="800">${esc(u?u.note:'')}</textarea>${attachUI('sub_'+t.id,u&&u.imgs)}${codeBox('scode_'+t.id,u&&u.code)}<div class="acts"><button onclick="submitWork('${t.id}')">${u?'Update submission':'Submit my work'}</button><button class="sec" onclick="openThread('${t.id}')">Ask / discuss</button></div>`}
     ${u&&u.status==='approved'?`${media(u)}<div class="acts"><button class="sec" onclick="openThread('${t.id}')">Discussion</button></div>`:''}</div>`}).join('');
-  return head+(cards||'<div class="card empty">No practice tasks for your class yet. Check back soon.</div>');
+  return sessionAgenda(ts)+head+(cards||'<div class="card empty">No practice tasks for your class yet. Check back soon.</div>');
 }
 async function submitWork(tid){if(isAdmin()||!myStu())return;const s=myStu(),t=db.tasks.find(x=>x.id===tid);if(!t||!inScope(t,s))return;
   const note=clean2($('sn_'+tid).value,800),code=cleanCode($('scode_'+tid).value),imgs=(PEND['sub_'+tid]||[]).slice();

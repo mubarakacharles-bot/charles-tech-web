@@ -11,7 +11,7 @@ The current storefront uses a blue-and-white visual theme, Bootstrap 5 served lo
 - Registration, login, session restore, logout, CSRF protection, hashed passwords, and login-attempt throttling.
 - Locally served Bootstrap CSS, installable PWA manifest, offline page and image caching.
 - Existing learning, project directory, team, attendance, and information pages retained in the site.
-- Trainers can publish scheduled online-class tasks with a secure meeting link; learners can join remotely, discuss each task, submit work, and receive trainer feedback.
+- Trainers can publish scheduled online-class tasks with a secure meeting link; learners can join remotely, see an upcoming-class agenda, download 60-minute calendar events with a 15-minute alert, discuss each task, submit work, and receive trainer feedback.
 - Local product, brand, and page imagery in `images/`.
 
 ## Technology
