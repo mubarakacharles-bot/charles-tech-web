@@ -790,7 +790,7 @@ const isAdmin=()=>S&&S.role==='admin';
 function lockState(){try{return JSON.parse(localStorage.getItem(LKEY))||{f:0,until:0}}catch(e){return{f:0,until:0}}}
 function setLock(o){localStorage.setItem(LKEY,JSON.stringify(o))}
 async function init(){
-  let t='dark';try{t=localStorage.getItem(TKEY)||'dark'}catch(e){}
+  let t='light';try{t=localStorage.getItem(TKEY)||'light'}catch(e){}
   $('burger').innerHTML=ic('menu');document.querySelectorAll('#login .eye').forEach(b=>b.innerHTML=ic('eye'));$('yr').textContent=new Date().getFullYear();$('ico-out').innerHTML=ic('out');
   setTheme(t);
   await load();

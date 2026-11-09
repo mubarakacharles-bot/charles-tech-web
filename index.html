@@ -8383,8 +8383,11 @@ window.publishSiteFile = async function(){
   'use strict';
   var root=document.documentElement, meta=document.getElementById('metaTheme');
   var KEY='chts-theme';
-  function sysLight(){return window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches}
-  function current(){return root.dataset.theme||(sysLight()?'light':'dark')}
+  function current(){
+    var saved=null;
+    try{saved=localStorage.getItem(KEY)}catch(e){}
+    return saved==='light'||saved==='dark'?saved:(root.dataset.theme||'light');
+  }
   function apply(t,save){
     root.dataset.theme=t;
     if(meta)meta.setAttribute('content',t==='light'?'#1d4ed8':'#040a1c');
@@ -8397,9 +8400,6 @@ window.publishSiteFile = async function(){
   var off=document.createElement('div'); off.id='v3-offline'; off.textContent='You are offline – showing saved pages'; document.body.appendChild(off);
   apply(current(),false);
   document.getElementById('v3-theme').addEventListener('click',function(){apply(current()==='light'?'dark':'light',true)});
-  var mq=window.matchMedia&&matchMedia('(prefers-color-scheme: light)');
-  if(mq&&mq.addEventListener)mq.addEventListener('change',function(){var s=null;try{s=localStorage.getItem(KEY)}catch(e){} if(!s)apply(sysLight()?'light':'dark',false)});
-
   // install prompt
   var dp=null, ib=document.getElementById('v3-install');
   window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();dp=e;ib.hidden=false});
