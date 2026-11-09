@@ -50,11 +50,12 @@ PROJECT DOCUMENTATION
      To change it: open tools/image-to-code.html, choose the picture, press Copy, paste it there.
    • The portal is in student-portal.html and opens inside the Attendance page. An active
      website administrator session opens the portal admin dashboard automatically.
-   • Portal data still has a browser-local working copy. To import it, use the administrator
-     dashboard's "Upload browser data to MySQL" button. Later administrator edits are saved to
-     MySQL; "Load database copy" loads the latest server snapshot into this browser.
-   • Student sign-in, student registrations and student actions are still browser-local and are
-     not synchronized across devices. The MySQL snapshot does not replace per-student accounts.
+   • To import existing browser records and student accounts, use the administrator dashboard's
+     "Upload browser data to MySQL" button. The browser backup is retained; "Load database copy"
+     loads the current server snapshot.
+   • Student passwords are hashed and checked on the server. Students can sign in from other
+     devices after the administrator imports their account. Attendance, coursework, submissions,
+     discussion, stock and student phone changes are persisted to the database.
 
 6. AFTER YOU CHANGE index.html OR ADD NEW PICTURE NAMES
    Open sw.js and increment VERSION (currently chts-v8). Visitors see a
@@ -101,7 +102,8 @@ PROJECT DOCUMENTATION
    • To move an existing admin browser snapshot into MySQL, sign into the website as admin,
      open Attendance & Stock, then select "Upload browser data to MySQL". The browser copy is
      retained. Database snapshots are admin-only and limited to 8 MB.
-   • Existing student accounts, sign-ins and actions remain browser-local; this is not yet a
-     server-authoritative multi-device Student Portal.
+   • New student accounts register against the server. Existing accounts must be imported by an
+     administrator before their first server sign-in. Students can view only their own attendance
+     and work; administrator permissions are required for attendance and stock management.
    • Product edits, stock changes, carts, orders and business settings are not yet connected
      to backend write endpoints. Existing browser-side data is not shared across devices.

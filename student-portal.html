@@ -298,10 +298,10 @@ const isSiteAdminUser=u=>!!(u&&ADM_EMAIL&&u.u===ADM_EMAIL);
 const portalApiUrl=new URL('api/portal.php',document.baseURI).href;
 async function portalRequest(method='GET',state=null){
   const options={method,credentials:'same-origin',headers:{'Accept':'application/json'}};
-  if(method==='PUT'){
+  if(method==='PUT'||method==='POST'){
     options.headers['Content-Type']='application/json';
     options.headers['X-CSRF-Token']=portalCsrf;
-    options.body=JSON.stringify({state,revision:portalRevision});
+    options.body=JSON.stringify(method==='PUT'?{state,revision:portalRevision}:state);
   }
   const response=await fetch(portalApiUrl,options);
   let payload={};
@@ -309,6 +309,20 @@ async function portalRequest(method='GET',state=null){
   if(!response.ok)throw new Error(payload.error||'Could not connect to the portal database.');
   if(typeof payload.csrfToken==='string')portalCsrf=payload.csrfToken;
   return payload;
+}
+async function portalStudentRequest(method='GET',payload=null){
+  const options={method,credentials:'same-origin',headers:{'Accept':'application/json'}};
+  if(method!=='GET'){
+    options.headers['Content-Type']='application/json';
+    options.headers['X-CSRF-Token']=portalCsrf;
+    options.body=JSON.stringify(payload||{});
+  }
+  const response=await fetch(new URL('api/portal-students.php',document.baseURI),options);
+  let result={};
+  try{result=await response.json()}catch(error){throw new Error('The student portal service returned an invalid response.')}
+  if(!response.ok)throw new Error(result.error||'Could not connect to the student portal service.');
+  if(typeof result.csrfToken==='string')portalCsrf=result.csrfToken;
+  return result;
 }
 const KEY='sas_data_v1', LKEY='sas_lock_v1', TKEY='sas_theme', PEPPER='sas-seal-2026', IDLE_MS=5*60*1000, MAXFAIL=5, LOCK_MS=5*60*1000;
 const $=id=>document.getElementById(id);
@@ -379,7 +393,6 @@ $('lu').addEventListener('keydown',e=>{if(e.key==='Enter')$('lp').focus()});
 
 /* ================= student self-registration ================= */
 let regMode=false;
-const RKEY='sas_reg_v1';
 function toggleReg(){
   regMode=!regMode;
   $('regf').classList.toggle('hide',!regMode);$('lp2w').classList.toggle('hide',!regMode);
@@ -399,20 +412,20 @@ async function doRegister(){
   if(!/^[a-z0-9_.]{3,30}$/.test(u)){err.textContent='Username: 3-30 letters, numbers, . or _';return}
   if(p.length<8){err.textContent='Password must be at least 8 characters.';return}
   if(p!==$('lp2').value){err.textContent='Passwords do not match.';return}
-  if(db.users.some(x=>x.u===u)){err.textContent='That username is taken. Choose another.';return}
-  let log=[];try{log=(JSON.parse(localStorage.getItem(RKEY))||[]).filter(t=>Date.now()-t<600000)}catch(e){}
-  if(log.length>=5){err.textContent='Too many registrations from this device. Try again in a few minutes.';return}
-  let st=db.students.find(x=>x.reg.toLowerCase()===reg.toLowerCase());
-  if(st&&db.users.some(x=>x.sid===st.id)){err.textContent='This registration number already has an account. Sign in, or ask the administrator.';return}
-  if(db.students.some(x=>x.phone===ph&&(!st||x.id!==st.id))){err.textContent='This phone number is already registered to another student.';return}
-  if(!st){st={id:uid(),name,cls,reg,phone:ph};db.students.push(st)}st.phone=ph;
-  const salt=newSalt(),usr={id:uid(),u,name:st.name,role:'student',salt,h:await hashPw(p,salt),mc:false,sid:st.id,seenT:0,seenB:Date.now()};
-  db.users.push(usr);
-  log.push(Date.now());try{localStorage.setItem(RKEY,JSON.stringify(log))}catch(e){}
-  S={u,name:usr.name,role:'student',id:usr.id,sid:st.id};
-  await audit('SELF_REGISTER',st.name+' ('+reg+', '+st.cls+')');await save();
-  regMode=false;$('regf').classList.add('hide');['rn','rr','rc','rph'].forEach(i=>$(i).value='');
-  enter();toast('Account created. Welcome, '+usr.name.split(' ')[0]+'!');
+  try{
+    const result=await portalStudentRequest('POST',{action:'register',username:u,name,registrationNumber:reg,className:cls,phone:ph,password:p});
+    await acceptStudentSession(result);
+    regMode=false;$('regf').classList.add('hide');['rn','rr','rc','rph'].forEach(i=>$(i).value='');
+    enter();toast('Account created. Welcome, '+S.name.split(' ')[0]+'!');
+  }catch(error){err.textContent=error.message;console.error('Student registration failed.',error)}
+}
+
+async function acceptStudentSession(result){
+  if(!result.user||result.user.role!=='student'||!Array.isArray(result.state&&result.state.users)
+    ||!Array.isArray(result.state.students))throw new Error('The student portal returned an invalid account record.');
+  db=Object.assign(blank(),result.state);migrate();tampered=false;
+  portalRevision=Number(result.revision)||0;portalRemoteReady=true;
+  S={u:result.user.u,name:result.user.name,role:'student',id:result.user.id,sid:result.user.sid};
 }
 
 /* ================= student portal (view only) ================= */
@@ -664,6 +677,12 @@ async function save(){
     try{const result=await portalRequest('PUT',db);portalRevision=result.revision}
     catch(error){toast(error.message,'bad');console.error('Could not save Student Portal data to MySQL.',error)}
   }
+  if(S&&S.role==='student'&&portalRemoteReady){
+    try{
+      const result=await portalStudentRequest('PUT',{state:db,revision:portalRevision});
+      portalRevision=result.revision;
+    }catch(error){toast(error.message,'bad');console.error('Could not save student portal changes to the database.',error)}
+  }
 }
 async function load(){
   const raw=localStorage.getItem(KEY);
@@ -697,6 +716,7 @@ async function init(){
     const response=await fetch(new URL('api/auth/me.php',document.baseURI),{credentials:'same-origin',headers:{'Accept':'application/json'}});
     if(!response.ok)throw new Error('The website sign-in service returned HTTP '+response.status+'.');
     const session=await response.json();
+    if(typeof session.csrfToken==='string')portalCsrf=session.csrfToken;
     if(session.user&&session.user.isAdmin){
       SITE_ADMIN=session.user;ADM_EMAIL=String(session.user.email||'').toLowerCase();$('lu').value=ADM_EMAIL;
       const portal=await portalRequest('GET');
@@ -718,34 +738,32 @@ async function init(){
       enter();
       return;
     }
+    const studentSession=await portalStudentRequest('GET');
+    if(studentSession.user){
+      await acceptStudentSession(studentSession);
+      $('login').classList.add('hide');$('app').classList.remove('hide');
+      enter();
+      return;
+    }
   }catch(error){$('lerr').textContent=error.message;console.error('Could not connect the Student Portal to its server session or database.',error)}
   $('login').classList.remove('hide');
   $('setupNote').classList.remove('hide');$('lp2w').classList.add('hide');
   $('lbtn').textContent='Sign in';$('regTog').classList.remove('hide');
-  if(!ADM_EMAIL)$('lerr').textContent='Administrator: sign in to the website first, then reopen this panel.';
-  if(!HAS)$('lerr').textContent='Warning: secure hashing unavailable in this browser. Use Chrome, Edge or Firefox.';
+  if(!ADM_EMAIL&&!$('lerr').textContent)$('lerr').textContent='Administrator: sign in to the website first, then reopen this panel.';
 }
 async function doLogin(){
   if(regMode)return doRegister();
   const err=$('lerr');err.textContent='';
   const u=clean($('lu').value,80).toLowerCase(),p=$('lp').value;
-  const L=lockState(),now=Date.now();
-  if(L.until>now){err.textContent='Too many failed attempts. Try again in '+Math.ceil((L.until-now)/60000)+' min.';return}
-  let usr=null,ok=false;
-  usr=db.users.find(x=>x.u===u)||byPhone(u);
-  const h=await hashPw(p,usr?usr.salt:'x'.repeat(32));
-  ok=!!usr&&safeEq(h,usr.h);
-  if(ok&&usr.role==='admin'){
-    err.textContent='Sign in to the website administrator account, then reopen Attendance & Stock.';await audit('LOGIN_BLOCKED',u);await save();return}
-  if(ok){
-    setLock({f:0,until:0});S={u:usr.u,name:usr.name,role:usr.role,id:usr.id,sid:usr.sid};
-    await audit('LOGIN','');await save();return enter();
+  try{
+    const result=await portalStudentRequest('POST',{action:'login',identifier:u,password:p});
+    await acceptStudentSession(result);
+    enter();
+  }catch(error){
+    const legacy=db.users.find(x=>x.u===u||String(db.students.find(s=>s.id===x.sid)?.phone||'').replace(/[\s\-().]/g,'')===u);
+    err.textContent=legacy?'Your account is on the old browser copy. Ask the administrator to import that portal data before signing in.':error.message;
+    console.error('Student sign-in failed.',error);
   }
-  L.f=(L.f||0)+1;
-  if(L.f>=MAXFAIL){L.until=now+LOCK_MS;L.f=0;err.textContent='Locked for 5 minutes after too many failed attempts.'}
-  else err.textContent='Wrong username or password ('+(MAXFAIL-L.f)+' attempts left).';
-  setLock(L);
-  await audit('LOGIN_FAIL',u);await save();
 }
 $('lp').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
 $('lp2').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
@@ -756,6 +774,7 @@ function enter(){
   if(db.users.find(x=>x.id===S.id)?.mc)changePw(true);
 }
 function logout(msg){
+  if(S&&S.role==='student'){portalStudentRequest('POST',{action:'logout'}).catch(error=>console.error('Could not end the student server session.',error))}
   if(S){audit('LOGOUT',msg).then(save)}
   S=null;closeModal();toggleSide(false);$('app').classList.add('hide');$('login').classList.remove('hide');
   regMode=false;$('regf').classList.add('hide');$('lbtn').textContent='Sign in';$('regTog').textContent='New student? Create your account';$('regTog').classList.remove('hide');
@@ -1010,6 +1029,10 @@ async function addStu(){if(!isAdmin())return;
 }
 async function delStu(id){if(!isAdmin())return;
   const s=db.students.find(x=>x.id===id);if(!s||!confirm('Delete '+s.name+'? Their login is removed too; saved attendance records stay.'))return;
+  if(portalRemoteReady){
+    try{await portalRequest('POST',{action:'delete-student-record',accountId:id})}
+    catch(error){toast(error.message,'bad');return}
+  }
   const gone=db.users.filter(x=>x.sid===id).map(x=>x.id);db.subs=db.subs.filter(x=>x.sid!==id);db.posts=db.posts.filter(p=>!gone.includes(p.uid));db.students=db.students.filter(x=>x.id!==id);db.users=db.users.filter(x=>x.sid!==id);await audit('STU_DEL',s.name);await save();render();
 }
 
@@ -1147,9 +1170,9 @@ function movesCsv(){if(!isAdmin())return;
 
 /* ================= ADMIN ================= */
 function vAdm(){
-  return `<div class="card"><h2>Users</h2><div class="wrap"><table><thead><tr><th>Username</th><th>Name</th><th>Role</th><th></th></tr></thead><tbody>
+  return `  <div class="card"><h2>Users</h2><div class="mut">Students create accounts from the sign-in screen; user accounts and password resets are stored on the server.</div><div class="wrap"><table><thead><tr><th>Username</th><th>Name</th><th>Role</th><th></th></tr></thead><tbody>
   ${db.users.map(u=>`<tr><td><b>${esc(u.u)}</b></td><td>${esc(u.name)}</td><td><span class="tag ${u.role==='admin'?'t-info':'t-ok'}">${u.role}</span></td><td><div class="acts" style="margin:0"><button class="sec sm" onclick="resetPw('${u.id}')">Reset password</button>${u.id!==S.id?`<button class="bad sm" onclick="delUser('${u.id}')">Delete</button>`:''}</div></td></tr>`).join('')}</tbody></table></div>
-  <div class="acts"><button onclick="userForm()">+ New user</button><button class="sec" onclick="changePw(false)">Change my password</button></div></div>
+  <div class="acts"><button class="sec" onclick="changePw(false)">Change my password</button></div></div>
   <div class="card"><h2>MySQL database</h2><div class="mut">${portalRemoteReady?'Connected · revision '+portalRevision:portalServerAvailable?'Database revision '+portalRevision+' is available. The existing browser copy is preserved until you choose to load or replace it.':`No database copy loaded${localPortalCopyExists?' · this browser has existing data':''}. Upload the browser copy to start or replace the MySQL snapshot.`} ${portalRemoteReady?'Administrator changes are saved to the database automatically.':'Choose an explicit import or load before enabling database synchronization.'}</div>
   <div class="acts"><button onclick="syncPortal()">Upload browser data to MySQL</button><button class="sec" onclick="pullPortal()">Load database copy</button></div></div>
   <div class="card"><h2>Backup & restore</h2><div class="mut">Download a backup every week and keep it away from learners' computers.</div>
@@ -1164,6 +1187,12 @@ async function syncPortal(){
   try{await audit('DATABASE_IMPORT','browser data');const result=await portalRequest('PUT',db);portalRevision=result.revision;portalRemoteReady=true;render();toast('Portal data uploaded to MySQL')}
   catch(error){toast(error.message,'bad');console.error('Could not import Student Portal data into MySQL.',error)}
 }
+async function adminStudentRequest(action,payload){
+  const response=await fetch(portalApiUrl,{method:'POST',credentials:'same-origin',headers:{'Accept':'application/json','Content-Type':'application/json','X-CSRF-Token':portalCsrf},body:JSON.stringify({action,...payload})});
+  let result={};try{result=await response.json()}catch(error){throw new Error('The student account service returned an invalid response.')}
+  if(!response.ok)throw new Error(result.error||'Could not update the student account.');
+  return result;
+}
 async function pullPortal(){
   if(!isAdmin())return;
   if(!confirm('Replace this browser copy with the current MySQL portal data?'))return;
@@ -1177,19 +1206,6 @@ async function pullPortal(){
   }catch(error){toast(error.message,'bad');console.error('Could not load Student Portal data from MySQL.',error)}
 }
 async function chkLog(){if(!isAdmin())return;const b=await verifyLog();$('logmsg').innerHTML=b<0?'<span class="tag t-ok">Log is intact</span>':'<span class="tag t-bad">Log altered near entry #'+b+'</span>'}
-function userForm(){if(!isAdmin())return;
-  openModal(`<h2>New user</h2><label>Username</label><input id="f1" maxlength="30"><label>Full name</label><input id="f2" maxlength="60">
-  <label>Role</label><select id="f3"><option value="student">Student (can only view own attendance)</option></select><div class="mut" style="margin-top:6px">The administrator is always the website admin e-mail.</div>
-  <label>Temporary password (min 8)</label>${pwf('f4','new-password')}<div class="mut" style="margin-top:6px">The user must change it at first sign-in.</div>
-  <div class="acts"><button onclick="addUser()">Create</button><button class="sec" onclick="closeModal()">Cancel</button></div>`);
-}
-async function addUser(){if(!isAdmin())return;
-  const u=clean($('f1').value,30).toLowerCase(),name=clean($('f2').value),role='student',p=$('f4').value;
-  if(!/^[a-z0-9_.]{3,30}$/.test(u))return toast('Username: 3-30 letters, numbers, . or _','bad');
-  if(db.users.some(x=>x.u===u))return toast('Username already exists','bad');if(p.length<8)return toast('Password too short','bad');
-  const salt=newSalt();db.users.push({id:uid(),u,name:name||u,role,salt,h:await hashPw(p,salt),mc:true});
-  await audit('USER_ADD',u+' ('+role+')');await save();closeModal();render();toast('User created');
-}
 function resetPw(id){if(!isAdmin())return;
   const u=db.users.find(x=>x.id===id);if(isSiteAdminUser(u))return toast('The administrator password is changed on the website','bad');
   openModal(`<h2>Reset password · ${esc(u.u)}</h2><label>New temporary password (min 8)</label>${pwf('f1','new-password')}
@@ -1197,11 +1213,15 @@ function resetPw(id){if(!isAdmin())return;
 }
 async function doReset(id){if(!isAdmin())return;
   const p=$('f1').value;if(p.length<8)return toast('Password too short','bad');const u=db.users.find(x=>x.id===id);if(isSiteAdminUser(u))return;
-  u.salt=newSalt();u.h=await hashPw(p,u.salt);u.mc=true;await audit('PW_RESET',u.u);await save();closeModal();toast('Done – user must change it at next sign-in');
+  try{await adminStudentRequest('reset-password',{accountId:id,password:p})}
+  catch(error){toast(error.message,'bad');return}
+  u.mc=true;await audit('PW_RESET',u.u);await save();closeModal();toast('Done – user must change it at next sign-in');
 }
 async function delUser(id){if(!isAdmin())return;
   const u=db.users.find(x=>x.id===id);if(isSiteAdminUser(u))return toast('The website administrator cannot be deleted','bad');if(u.role==='admin'&&db.users.filter(x=>x.role==='admin').length<2)return toast('Cannot delete the last administrator','bad');
-  if(!confirm('Delete user '+u.u+'?'))return;db.users=db.users.filter(x=>x.id!==id);await audit('USER_DEL',u.u);await save();render();
+  if(!confirm('Delete user '+u.u+'?'))return;
+  if(u.role==='student'&&u.sid){try{await adminStudentRequest('delete-student',{accountId:id})}catch(error){toast(error.message,'bad');return}}
+  db.users=db.users.filter(x=>x.id!==id);await audit('USER_DEL',u.u);await save();render();
 }
 function changePw(forced){
   if(S&&ADM_EMAIL&&S.u===ADM_EMAIL)return toast('Change the administrator password on the website','bad');
@@ -1211,6 +1231,17 @@ function changePw(forced){
 }
 async function doChange(){
   const u=db.users.find(x=>x.id===S.id);
+  if(S&&S.role==='student'){
+    const next=$('f2').value;
+    if(next.length<8||next.length>72)return toast('New password must be between 8 and 72 characters','bad');
+    if(next!==$('f3').value)return toast('Passwords do not match','bad');
+    try{
+      await portalStudentRequest('POST',{action:'password',currentPassword:$('f1').value,newPassword:next});
+      if(u){u.mc=false;u.salt='';u.h=''}
+      closeModal();await save();toast('Password changed');
+    }catch(error){toast(error.message,'bad');console.error('Could not change student password.',error)}
+    return;
+  }
   if(!safeEq(await hashPw($('f1').value,u.salt),u.h))return toast('Current password is wrong','bad');
   const n=$('f2').value;if(n.length<8)return toast('New password must be at least 8 characters','bad');if(n!==$('f3').value)return toast('Passwords do not match','bad');
   if(n===$('f1').value)return toast('Choose a different password','bad');

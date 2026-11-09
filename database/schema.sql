@@ -156,3 +156,26 @@ CREATE TABLE IF NOT EXISTS student_portal_state (
     FOREIGN KEY (updated_by) REFERENCES users (id)
     ON UPDATE CASCADE ON DELETE SET NULL
 ) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS student_portal_accounts (
+  account_id VARCHAR(48) NOT NULL,
+  student_id VARCHAR(48) NOT NULL,
+  username VARCHAR(30) NOT NULL,
+  registration_number VARCHAR(30) NOT NULL,
+  full_name VARCHAR(60) NOT NULL,
+  class_name VARCHAR(30) NOT NULL,
+  phone VARCHAR(40) NOT NULL,
+  password_hash VARCHAR(255) NULL,
+  legacy_salt VARCHAR(128) NULL,
+  legacy_hash VARCHAR(128) NULL,
+  must_change_password TINYINT(1) NOT NULL DEFAULT 0,
+  is_active TINYINT(1) NOT NULL DEFAULT 1,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (account_id),
+  UNIQUE KEY uq_portal_username (username),
+  UNIQUE KEY uq_portal_registration (registration_number),
+  UNIQUE KEY uq_portal_phone (phone),
+  UNIQUE KEY uq_portal_student (student_id),
+  KEY idx_portal_active_class (is_active, class_name)
+) ENGINE=InnoDB;

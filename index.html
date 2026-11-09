@@ -2455,6 +2455,147 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
     .mainnav-v2{padding-inline:8px}
   }
 </style>
+<style id="store-product-refresh">
+  #sec-products{
+    margin-block:18px 30px;padding-block:20px;border:1px solid #1c2a52;border-radius:24px;
+    background:radial-gradient(900px 380px at 8% 0%,rgba(55,91,182,.2),transparent 62%),linear-gradient(160deg,#0a1128 0%,#070c1c 100%);
+    color:#eaf0ff;box-shadow:0 24px 70px -42px rgba(4,12,34,.6)
+  }
+  #sec-products .section-head h2{color:#f5f7ff}
+  #sec-products .section-head p{color:#a7b5d5}
+  #sec-products .shop-layout{grid-template-columns:minmax(0,1fr);gap:0}
+  #sec-products .cat-sidebar{display:none}
+  #sec-products .shop-main{min-width:0}
+  #sec-products .cat-tabs{
+    display:flex;flex-wrap:nowrap;gap:9px;margin:18px 0 16px;padding:8px 2px 10px;
+    overflow-x:auto;overscroll-behavior-inline:contain;scrollbar-width:thin;
+    scrollbar-color:#53658f transparent
+  }
+  #sec-products .cat-tab-btn{
+    display:inline-flex;flex:0 0 auto;align-items:center;min-height:42px;padding:8px 16px;
+    border:1px solid #dce5f2;border-radius:999px;background:#fff;color:#34425f;
+    font:600 12px/1.2 'IBM Plex Sans','Segoe UI',sans-serif;white-space:nowrap;
+    scroll-snap-align:start
+  }
+  #sec-products .cat-tab-btn:hover{border-color:#6b8bf0;background:#f2f6ff;color:#1d4ed8}
+  #sec-products .cat-tab-btn.active{border-color:#fff;background:#fff;color:#18326a;box-shadow:0 4px 14px rgba(37,99,235,.16)}
+  #sec-products #productGrid{
+    grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));
+    gap:18px;align-items:stretch
+  }
+  #sec-products #productGrid .product-card{
+    position:relative;display:flex;min-width:0;height:100%;flex-direction:column;gap:10px;
+    overflow:hidden;padding:12px;border:1px solid #293a70;border-radius:20px;
+    background:linear-gradient(165deg,#151f43 0%,#101833 58%,#0b132b 100%);
+    color:#eaf0ff;box-shadow:0 12px 28px rgba(7,15,40,.12);
+    transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease
+  }
+  #sec-products #productGrid .product-card:hover{
+    transform:translateY(-4px);border-color:#536fe0;
+    box-shadow:0 18px 38px rgba(24,50,112,.24),0 0 0 1px rgba(93,126,255,.12)
+  }
+  #sec-products #productGrid .product-card .pic{
+    position:relative;display:grid;place-items:center;width:100%;height:auto;aspect-ratio:1/1;
+    flex:none;overflow:hidden;padding:10px;border-radius:15px;
+    background:radial-gradient(circle at 50% 42%,#fff 54%,#edf2fb 100%);
+    box-shadow:inset 0 0 0 1px rgba(15,27,61,.07)
+  }
+  #sec-products #productGrid .product-card .pic img.pc-photo,
+  #sec-products #productGrid .product-card .pic .pc-slide{
+    width:100%;height:100%;object-fit:contain;border-radius:10px
+  }
+  #sec-products #productGrid .product-card .pic .pc-emoji{font-size:clamp(54px,7vw,82px);line-height:1}
+  #sec-products #productGrid .product-card .cat{
+    align-self:flex-start;margin:0;padding:4px 9px;border:1px solid rgba(138,164,255,.2);
+    border-radius:999px;background:rgba(95,126,230,.12);color:#b4c8ff;
+    font:600 10px/1.3 'IBM Plex Sans','Segoe UI',sans-serif;letter-spacing:.045em;text-transform:uppercase
+  }
+  #sec-products #productGrid .product-card h4{
+    display:-webkit-box;min-height:40px;overflow:hidden;margin:0;color:#f5f7ff;
+    font:700 14px/1.4 'IBM Plex Sans','Segoe UI',sans-serif;
+    -webkit-box-orient:vertical;-webkit-line-clamp:2
+  }
+  #sec-products #productGrid .product-card .pc-rating{display:none}
+  #sec-products #productGrid .product-card .price{
+    display:flex;align-items:baseline;gap:8px;margin:0;color:#fff;
+    font:750 17px/1.2 'IBM Plex Sans','Segoe UI',sans-serif
+  }
+  #sec-products #productGrid .product-card .price-old{color:#9aa8ca;font-size:11px;font-weight:500}
+  #sec-products #productGrid .product-card .size-select{
+    width:100%;min-width:0;min-height:42px;padding:8px 10px;border:1px solid #344573;
+    border-radius:10px;background:#0c1530;color:#eaf0ff;font:500 12px 'IBM Plex Sans','Segoe UI',sans-serif
+  }
+  #sec-products #productGrid .product-card .product-card-actions{
+    display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:auto
+  }
+  #sec-products #productGrid .product-card .stock{
+    display:inline-flex;align-items:center;gap:6px;color:#81e7a0;
+    font:600 11px/1.3 'IBM Plex Sans','Segoe UI',sans-serif;white-space:nowrap
+  }
+  #sec-products #productGrid .product-card .stock::before{
+    width:7px;height:7px;border-radius:50%;background:#32c76a;content:"";flex:none
+  }
+  #sec-products #productGrid .product-card .stock.low{color:#ffd27a}
+  #sec-products #productGrid .product-card .stock.low::before{background:#f5a623}
+  #sec-products #productGrid .product-card .stock.out{color:#ff9a9a}
+  #sec-products #productGrid .product-card .stock.out::before{background:#ef5350}
+  #sec-products #productGrid .product-card .btn{
+    min-height:42px;flex:1;padding:8px 10px;border:1px solid #596cff;border-radius:12px;
+    background:linear-gradient(135deg,#6875ff,#5149e8);color:#fff;
+    font-size:12px;font-weight:750;box-shadow:0 6px 16px rgba(77,88,232,.23)
+  }
+  #sec-products #productGrid .product-card .btn:disabled{border-color:#38405e;background:#303851;color:#a0a9bf;box-shadow:none}
+  #sec-products #productGrid .product-card .view-hint{margin:0;color:#91a1c8;font-size:10px}
+  #sec-products #productGrid .product-card:focus-within{outline:3px solid rgba(79,125,255,.45);outline-offset:3px}
+
+  #sec-home #storeFeaturedGrid .store-product-card{
+    height:100%;overflow:hidden;border:1px solid #293a70;border-radius:20px;
+    background:linear-gradient(165deg,#151f43 0%,#101833 58%,#0b132b 100%);
+    color:#eaf0ff;box-shadow:0 12px 28px rgba(7,15,40,.12);
+    transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease
+  }
+  #sec-home #storeFeaturedGrid .store-product-card:hover{
+    transform:translateY(-4px);border-color:#536fe0;box-shadow:0 18px 38px rgba(24,50,112,.24)
+  }
+  #sec-home #storeFeaturedGrid .store-product-image{
+    width:auto;height:auto;aspect-ratio:1/1;margin:12px 12px 0;padding:10px;
+    border-radius:15px;background:radial-gradient(circle at 50% 42%,#fff 54%,#edf2fb 100%)
+  }
+  #sec-home #storeFeaturedGrid .store-product-info{padding:12px 14px 14px;border:0;color:#eaf0ff}
+  #sec-home #storeFeaturedGrid .store-product-category{color:#b4c8ff}
+  #sec-home #storeFeaturedGrid .store-product-name{min-height:38px;color:#f5f7ff;font-size:14px;font-weight:700}
+  #sec-home #storeFeaturedGrid .store-product-price .price{color:#fff;font-size:16px}
+  #sec-home #storeFeaturedGrid .store-product-price .price-old{color:#9aa8ca}
+  #sec-home #storeFeaturedGrid .store-product-stock{
+    display:block;margin:0 14px 10px;color:#81e7a0;font-size:11px;font-weight:650
+  }
+  #sec-home #storeFeaturedGrid .store-product-stock.low{color:#ffd27a}
+  #sec-home #storeFeaturedGrid .store-product-stock.out{color:#ff9a9a}
+  #sec-home #storeFeaturedGrid .px-3.pb-3{padding:0 14px 14px!important}
+  #sec-home #storeFeaturedGrid .store-product-card .btn{min-height:42px;border-radius:12px}
+  @media(max-width:700px){
+    #sec-products #productGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    #sec-products #productGrid .product-card{padding:9px;border-radius:16px}
+    #sec-products #productGrid .product-card .product-card-actions{align-items:stretch;flex-direction:column}
+    #sec-products #productGrid .product-card .stock{min-height:18px}
+    #sec-products #productGrid .product-card .btn{width:100%}
+    #sec-home #storeFeaturedGrid .store-product-image{margin:8px 8px 0}
+    #sec-home #storeFeaturedGrid .store-product-info{padding:10px}
+    #sec-home #storeFeaturedGrid .store-product-stock{margin:0 10px 8px}
+    #sec-home #storeFeaturedGrid .px-3.pb-3{padding:0 10px 10px!important}
+  }
+  @media(max-width:340px){
+    #sec-products #productGrid{grid-template-columns:minmax(0,1fr)}
+  }
+  @media(hover:none){
+    #sec-products #productGrid .product-card:hover,
+    #sec-home #storeFeaturedGrid .store-product-card:hover{transform:none}
+  }
+  @media(prefers-reduced-motion:reduce){
+    #sec-products #productGrid .product-card,
+    #sec-home #storeFeaturedGrid .store-product-card{transition:none}
+  }
+</style>
 </head>
 <body>
 
@@ -5418,22 +5559,22 @@ let activeShopCategory = 'All';
 
 function renderCategoryNav(){
   const liveProducts = getLiveProducts();
-  const cats = Array.from(new Set(liveProducts.map(p => p.cat).filter(Boolean)));
+  const cats = Array.from(new Set(liveProducts.map(p => p.cat).filter(cat => cat && cat !== 'All')));
   const countFor = (cat) => cat === 'All' ? liveProducts.length : liveProducts.filter(p => p.cat === cat).length;
 
-  // sidebar list (no "All Categories" option — shoppers pick a specific category)
   const sidebar = document.getElementById('catSidebarList');
   sidebar.innerHTML = cats.map(cat => `
-    <div class="cat-item ${activeShopCategory === cat ? 'active' : ''}" onclick="filterShopByCategory('${escapeAttr(cat)}')">
-      <span>${cat}</span>
+    <div class="cat-item ${activeShopCategory === cat ? 'active' : ''}" data-shop-category="${escapeHtml(cat)}">
+      <span>${escapeHtml(cat)}</span>
       <span class="count">${countFor(cat)} <span class="arrow">›</span></span>
     </div>
   `).join('');
 
-  // pill tabs above the grid (no "All" tab)
   const tabs = document.getElementById('catTabs');
-  tabs.innerHTML = cats.map(cat => `
-    <button class="cat-tab-btn ${activeShopCategory === cat ? 'active' : ''}" onclick="filterShopByCategory('${escapeAttr(cat)}')">${cat}</button>
+  tabs.innerHTML = ['All', ...cats].map(cat => `
+    <button type="button" class="cat-tab-btn ${activeShopCategory === cat ? 'active' : ''}" data-shop-category="${escapeHtml(cat)}" aria-pressed="${activeShopCategory === cat}">
+      ${cat === 'All' ? '▦ ' : ''}${escapeHtml(cat)}
+    </button>
   `).join('');
 }
 
@@ -5443,6 +5584,10 @@ window.filterShopByCategory = function(cat){
   renderProducts();
   document.getElementById('productGrid').scrollIntoView({ behavior:'smooth', block:'start' });
 };
+document.addEventListener('click', event => {
+  const category = event.target.closest('[data-shop-category]');
+  if (category) filterShopByCategory(category.getAttribute('data-shop-category'));
+});
 
 /* ---- moving product picture: photo gallery cross-fades, single photo / emoji drifts gently ---- */
 function pidHash(id){ let h = 0; for (const c of String(id)) h = (h * 31 + c.charCodeAt(0)) | 0; return Math.abs(h); }
@@ -5578,21 +5723,28 @@ function renderProducts(){
 
   grid.innerHTML = products.map(p => {
     const sizes = getProductSizes(p.id);
-    const anyInStock = sizes.some(s => s.stock > 0);
-    const sizeOptions = sizes.map(s => `<option value="${s.id}" ${s.stock === 0 ? 'disabled' : ''}>${escapeAttr(s.label)} — ${s.stock === 0 ? 'Out of stock' : s.stock + ' left'}</option>`).join('');
+    const availableUnits = sizes.length
+      ? sizes.reduce((total, size) => total + Math.max(0, Number(size.stock) || 0), 0)
+      : Math.max(0, Number(p.stock) || 0);
+    const anyInStock = availableUnits > 0;
+    const stockState = !anyInStock ? 'out' : availableUnits <= 5 ? 'low' : 'in';
+    const stockLabel = !anyInStock ? 'Out of stock' : availableUnits <= 5 ? `${availableUnits} left` : `${availableUnits} in stock`;
+    const sizeOptions = sizes.map(s => `<option value="${escapeAttr(s.id)}" ${s.stock === 0 ? 'disabled' : ''}>${escapeHtml(s.label)} — ${s.stock === 0 ? 'Out of stock' : s.stock + ' left'}</option>`).join('');
     return `
     <div class="product-card" onclick="openProductModal('${p.id}')">
       ${window.adminPhotoBtn ? adminPhotoBtn(p.id) : ''}<div class="pic">${productPicHTML(p)}</div>
-      <span class="cat">${p.cat}</span>
-      <h4>${p.name}</h4>
-      <div class="pc-rating">☆☆☆☆☆ <span>0 reviews</span></div>
+      <span class="cat">${escapeHtml(p.cat)}</span>
+      <h4>${escapeHtml(p.name)}</h4>
       ${productPriceHTML(p)}
       ${sizes.length > 1
-        ? `<select class="size-select" id="size-${p.id}" aria-label="Choose size for ${escapeAttr(p.name)}" onclick="event.stopPropagation()">${sizeOptions}</select>`
-        : `<span class="stock">${p.stock > 5 ? 'In stock: ' + p.stock : (p.stock > 0 ? 'Low stock: ' + p.stock : 'Out of stock')}</span>`
+      ? `<select class="size-select" id="size-${escapeAttr(p.id)}" aria-label="Choose size for ${escapeHtml(p.name)}" onclick="event.stopPropagation()">${sizeOptions}</select>`
+      : ''
       }
-      <button class="btn btn-primary btn-sm" ${anyInStock ? '' : 'disabled'} onclick="event.stopPropagation(); addToCart('${p.id}')">Add to Cart</button>
-      <div class="view-hint">Tap for full specs →</div>
+      <div class="product-card-actions">
+      <span class="stock ${stockState}">${stockLabel}</span>
+      <button class="btn btn-primary btn-sm" aria-label="Add ${escapeHtml(p.name)} to cart" ${anyInStock ? '' : 'disabled'} onclick="event.stopPropagation(); addToCart('${p.id}')">🛒 Add to cart</button>
+      </div>
+      <div class="view-hint">View details &amp; full specs →</div>
     </div>`;
   }).join('');
 }
@@ -7119,6 +7271,9 @@ loadServerCatalog();
 
     function storeProductCard(product){
       const available = Number(product.stock) > 0;
+      const stockCount = Math.max(0, Number(product.stock) || 0);
+      const stockState = !available ? 'out' : stockCount <= 5 ? 'low' : 'in';
+      const stockLabel = !available ? 'Out of stock' : stockCount <= 5 ? `${stockCount} left` : 'In stock';
       const productId = escapeStoreText(product.id);
       return `<div class="col-6 col-md-4 col-lg-3">
         <article class="store-product-card">
@@ -7130,6 +7285,7 @@ loadServerCatalog();
               <span class="store-product-price">${productPriceHTML(product)}</span>
             </div>
           </button>
+          <span class="store-product-stock ${stockState}">${stockLabel}</span>
           <div class="px-3 pb-3">
             <button type="button" class="btn store-btn-primary w-100" data-store-add="${productId}" ${available ? '' : 'disabled'}>
               ${available ? 'Add to cart' : 'Out of stock'}

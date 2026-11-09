@@ -100,7 +100,9 @@ The PHP API finds its database configuration at a `private\charles-tech-db.php` 
 | `GET` | `/api/auth/me.php` | Restore/check the current session. |
 | `POST` | `/api/auth/logout.php` | End the current session. |
 | `GET` | `/api/portal.php` | Load the Student Portal database copy (website administrators only). |
+| `POST` | `/api/portal.php` | Reset or deactivate a student account (website administrators only; CSRF protected). |
 | `PUT` | `/api/portal.php` | Import/update the Student Portal database copy (website administrators only; CSRF protected). |
+| `GET`, `POST`, `PUT` | `/api/portal-students.php` | Student registration, sign-in, scoped portal data, submissions, discussion, and password changes. |
 
 Authentication writes are protected by CSRF tokens and PHP sessions. Passwords are hashed server-side. The service worker does not cache API responses.
 
@@ -110,11 +112,11 @@ The product catalogue and website account/session flows use the PHP and database
 
 ### Student Portal data assessment
 
-The Student Portal stores its working copy in browser `localStorage` (`sas_data_v1`). Its student credentials, attendance, portal stock, stock movements, tasks, submissions, discussions, and audit log are part of that copy. The portal administrator can import the whole copy into the MySQL `student_portal_state` table, load an existing database copy, and automatically save subsequent administrator changes. The API restricts snapshots to authenticated website administrators, requires CSRF protection for writes, caps imports at 8 MB, validates the payload shape, and uses revisions to reject stale concurrent writes. This portal stock is separate from the storefront's `product_variants` and `inventory_movements` tables.
+The portal's admin-managed attendance, portal stock, tasks, submissions, discussions, and settings are stored in the MySQL `student_portal_state` snapshot. Student credentials are stored separately in `student_portal_accounts` using server-side password hashes. Students sign in or register with the server, can see only their own attendance and submissions, and their phone changes, submissions, discussion posts, and password changes are saved through the student API. The server filters each student's response and accepts only that student's permitted changes. Portal stock remains separate from the storefront's `product_variants` and `inventory_movements` tables.
 
-On a fresh or existing installation, run `database/configure_auth_db.php` after importing the updated schema to create the portal table and grant the application database account its minimum required privileges. Sign into the website as an administrator, open Attendance & Stock, then use **Upload browser data to MySQL** to migrate that browser's existing data. The local browser backup is retained. Use **Load database copy** to replace the current browser view with the saved database copy. Administrator edits are written back automatically after a database copy has been loaded or imported.
+On a fresh or existing installation, run `database/configure_auth_db.php` after importing the updated schema to create the portal tables and grant the application database account its minimum required privileges. Sign into the website as an administrator, open Attendance & Stock, then use **Upload browser data to MySQL** to migrate that browser's existing data and student credentials. Legacy student passwords are verified on the server and upgraded to PHP password hashes at first sign-in. The local browser backup is retained. Use **Load database copy** to replace the current browser view with the saved database copy. Administrator edits and student activity are saved to MySQL.
 
-Important limitation: this is administrator-controlled snapshot synchronization, not a fully server-authoritative multi-user portal. Student registrations, student sign-in, and student actions remain in their local browser copies; portal data is not yet isolated into per-student database records or synchronized across student devices. Do not treat a successful admin snapshot import as completing that separate identity-and-per-record authorization migration. Take regular backups and keep the database private.
+Existing students must sign in from a browser after the administrator has imported their records. New student accounts can register directly against the database. Database snapshots use optimistic revisions to detect stale administrator writes; student updates are merged server-side into the shared snapshot while preserving server-controlled attendance, tasks, and review results. Keep HTTPS enabled, take regular backups, and keep the database private.
 
 The local XAMPP setup is for development only. Before public deployment, configure HTTPS, production database credentials and permissions, backups, and hosting-specific PHP/Apache settings. Do not expose a development database or the local XAMPP server to the public internet.
 
