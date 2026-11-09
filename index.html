@@ -2866,6 +2866,220 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
     #sec-home #storeFeaturedGrid .store-product-card{transition:none}
   }
 </style>
+<style id="chts-engineering-refresh">
+  :root{
+    --store-ink:#102039;
+    --store-muted:#66758b;
+    --store-line:#dce3ed;
+    --store-primary:#c99a3b;
+    --store-primary-dark:#a87922;
+    --store-blue:#091a31;
+    --store-surface:#fff;
+    --store-soft:#f4f6f9;
+  }
+  html,body{background:#f4f6f9;color:#14243b}
+  .utilbar-v2{
+    min-height:36px;padding:7px clamp(16px,5vw,76px);
+    background:#07182d!important;border-bottom:1px solid rgba(220,177,89,.5);
+    color:#e7edf5;font-size:11px;letter-spacing:.025em
+  }
+  .utilbar-v2 a{color:#e7edf5}
+  .utilbar-v2 .ub-right{gap:20px}
+  .brandbar{
+    position:relative;z-index:61;gap:18px;padding:13px clamp(16px,5vw,76px);
+    border-bottom:1px solid #e0e5ec;background:#fff;color:#102039;
+    box-shadow:0 6px 22px rgba(7,24,45,.055)
+  }
+  .brand-left{gap:12px}
+  .hamburger-btn{
+    width:42px;height:42px;border:1px solid #dfe5ec;border-radius:10px;
+    background:#f6f7f9;color:#102039
+  }
+  .hamburger-btn:hover{border-color:#c99a3b;background:#fbf6eb;color:#102039}
+  .cw-brand{gap:11px}
+  .cw-brand img{width:46px;height:46px}
+  .cw-text b{color:#102039;font-size:22px;letter-spacing:-.7px}
+  .cw-text b i{color:#b1842f}
+  .cw-text small{color:#68758a;font-size:9px;letter-spacing:.08em}
+  .header-search{height:44px;border-color:#dce3ed;border-radius:9px;background:#f8f9fb}
+  .header-search select{max-width:112px;background:#f0f2f5!important;color:#526078!important}
+  .header-search input{background:#f8f9fb!important;color:#14243b!important}
+  .header-search button{background:#102039!important;color:#fff}
+  .header-search button:hover{background:#c99a3b!important}
+  .header-authbtn{border-color:#dce3ed;border-radius:9px;color:#102039}
+  .header-authbtn small{color:#68758a}
+  .header-authbtn.primary{border-color:#c99a3b;background:#c99a3b;color:#111d2c}
+  .header-authbtn.primary small,.header-authbtn.primary span{color:#111d2c}
+  .brand-right-icons .icon-btn{color:#102039}
+  .brand-right-icons .icon-btn:hover{border-color:#e4d1a5;background:#fbf6eb}
+  .icon-badge{background:#c99a3b;color:#102039}
+  .wa-btn{border:1px solid #dce3ed;background:#fff!important;color:#102039;box-shadow:none}
+  .mainnav-v2{
+    position:sticky;top:0;z-index:60;min-height:54px;gap:5px;
+    padding:5px clamp(12px,5vw,76px);
+    overflow-x:auto;overscroll-behavior-inline:contain;scrollbar-width:none;
+    border-bottom:1px solid rgba(255,255,255,.1);background:#091a31!important;
+    box-shadow:0 8px 22px rgba(7,24,45,.16)
+  }
+  .mainnav-v2::-webkit-scrollbar{display:none}
+  .mainnav-v2 a{
+    flex:0 0 auto;min-height:40px;padding:9px 15px;border:1px solid transparent;
+    border-radius:8px;color:#d4deeb;font-size:12px;font-weight:650;letter-spacing:.025em
+  }
+  .mainnav-v2 a:hover{border-color:rgba(220,177,89,.3);background:rgba(255,255,255,.06);color:#fff}
+  .mainnav-v2 a.active,.mainnav-v2 a[aria-current="page"]{
+    border-color:rgba(220,177,89,.55);background:rgba(201,154,59,.13);
+    color:#f1ca77;box-shadow:inset 0 -2px #c99a3b
+  }
+  .side-drawer{
+    border-right:1px solid rgba(220,177,89,.45);
+    background:linear-gradient(180deg,#091a31,#071426);
+    color:#eff3f8
+  }
+  .drawer-head,.drawer-section-label{border-color:rgba(255,255,255,.12);color:#e5bd69}
+  .drawer-close{border-color:rgba(255,255,255,.16);color:#e6edf7}
+  .drawer-links a{color:#d8e0ec}
+  .drawer-links a:hover,.drawer-links a.active{
+    background:rgba(201,154,59,.14);color:#f1ca77
+  }
+  .drawer-links a.danger{color:#f5a6a6}
+  #siteShell>.wrap{width:min(1360px,100%);padding-inline:clamp(16px,5vw,76px)}
+  .page-section:not(#sec-home):not(#sec-products):not(#sec-hotdeals){
+    margin-block:24px;padding:clamp(22px,4vw,42px);
+    border:1px solid #e0e5ec;border-radius:20px;background:#fff;
+    box-shadow:0 12px 36px rgba(16,32,57,.045)
+  }
+  .page-section .section-head h2{color:#102039}
+  .page-section .section-head p{color:#66758b}
+  #sec-home .home-learning{padding:28px 0 48px}
+  #sec-home .home-learning-hero{
+    min-height:clamp(450px,48vw,590px);border:1px solid #20344e;border-radius:8px;
+    background:radial-gradient(ellipse at 78% 12%,rgba(201,154,59,.16),transparent 36%),#07182d;
+    box-shadow:0 28px 64px -36px rgba(7,24,45,.55)
+  }
+  #sec-home .home-learning-hero>img{
+    width:70%;opacity:.74;object-position:center;
+    -webkit-mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.24) 23%,#000 58%);
+    mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.24) 23%,#000 58%)
+  }
+  #sec-home .home-learning-hero::after{
+    background:linear-gradient(90deg,#07182d 0%,rgba(7,24,45,.98) 37%,rgba(7,24,45,.78) 58%,rgba(7,24,45,.1) 100%)
+  }
+  #sec-home .home-learning-copy{max-width:760px;padding:clamp(34px,7vw,88px)}
+  #sec-home .home-learning-kicker{color:#e2bb68;letter-spacing:.16em}
+  #sec-home .home-learning-kicker::before{background:#c99a3b}
+  #sec-home .home-learning-hero h1{
+    max-width:650px;color:#f6f8fb;font-size:clamp(38px,5vw,64px);
+    font-weight:760;letter-spacing:-.04em
+  }
+  #sec-home .home-learning-accent{
+    background:linear-gradient(110deg,#f1d48b,#c99a3b);
+    background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent
+  }
+  #sec-home .home-learning-hero p{max-width:560px;color:#c4cfdd;line-height:1.8}
+  #sec-home .home-learning-actions .course-primary{
+    border-color:#c99a3b;background:linear-gradient(135deg,#e1b654,#c99a3b);
+    color:#101b2c;box-shadow:0 10px 24px -12px rgba(201,154,59,.72)
+  }
+  #sec-home .home-learning-actions .course-primary:hover{background:#edc96d}
+  #sec-home .home-learning-actions .course-secondary{
+    border-color:rgba(225,234,244,.35);background:rgba(255,255,255,.045);color:#f1f4f8
+  }
+  #sec-home .home-learning-actions .course-secondary:hover{background:rgba(255,255,255,.12)}
+  #sec-home .home-learning-badge{
+    border-color:rgba(255,255,255,.35);border-radius:50%;
+    background:rgba(201,154,59,.94);color:#111d2c;
+    box-shadow:0 12px 32px rgba(0,0,0,.22)
+  }
+  #sec-home .home-course-heading>span{color:#a87922;letter-spacing:.16em}
+  #sec-home .home-course-heading h2{color:#102039}
+  #sec-home .home-course-heading p{color:#66758b}
+  #sec-home .home-course-card{
+    border-color:#e0e5ec;border-radius:12px;background:#fff;
+    box-shadow:0 12px 32px rgba(16,32,57,.06)
+  }
+  #sec-home .home-course-card:hover{border-color:#d2b368;box-shadow:0 18px 36px rgba(16,32,57,.12)}
+  #sec-home .home-course-card h3{color:#102039}
+  #sec-home .home-course-card-description{color:#5d6c82}
+  #sec-home .home-course-tags span{border-color:#e5e9ef;background:#f7f8fa;color:#43516a}
+  #sec-home .home-learning-method{
+    border-color:#1b304a;border-radius:12px;
+    background:radial-gradient(520px 220px at 100% 0%,rgba(201,154,59,.12),transparent 68%),linear-gradient(135deg,#0d2038,#09182c)
+  }
+  #sec-home .home-learning-method .btn{
+    border-color:#c99a3b;background:#c99a3b;color:#102039
+  }
+  #sec-home .store-section-head h2,#sec-home .store-about h2{color:#102039}
+  #sec-home .store-view-all{color:#9a7021}
+  #sec-home .store-product-card:hover{border-color:#c99a3b}
+  .btn-primary,.btn.btn-primary,.store-btn-primary{
+    border-color:#c99a3b!important;background:#c99a3b!important;color:#102039!important;
+    box-shadow:0 7px 18px rgba(16,32,57,.13)
+  }
+  .btn-primary:hover,.btn.btn-primary:hover,.store-btn-primary:hover{
+    border-color:#b1842f!important;background:#b1842f!important;color:#102039!important
+  }
+  .footerbar{border-top:3px solid #c99a3b;background:#07182d;color:#eef2f6}
+  .footerbar .footer-text,.footerbar .footer-text small,.footerbar .footer-tag,
+  .footer-links a{color:#c3cedc}
+  .footerbar .footer-text b,.footerbar .footer-tag .accent{color:#f1ca77}
+  :focus-visible{outline-color:#b1842f;outline-offset:3px}
+  @media(max-width:900px){
+    .brandbar{gap:11px}
+    .brandbar .header-search{order:3;flex:1 1 100%}
+    .mainnav-v2{gap:2px;padding-inline:12px}
+    .mainnav-v2 a{padding-inline:12px}
+  }
+  @media(max-width:700px){
+    .utilbar-v2{justify-content:center;padding-inline:12px}
+    .utilbar-v2 .ub-left{justify-content:center;gap:10px}
+    .brandbar{padding:10px 14px}
+    .brand-left{gap:9px}
+    .cw-brand img{width:40px;height:40px}
+    .cw-text b{font-size:19px}
+    .cw-text small{font-size:8px}
+    .mainnav-v2{min-height:50px;padding:4px 10px}
+    .mainnav-v2 a{min-height:38px;padding:8px 11px;font-size:11px}
+    #siteShell>.wrap{padding-inline:14px}
+    .page-section:not(#sec-home):not(#sec-products):not(#sec-hotdeals){
+      margin-block:14px;padding:20px 16px;border-radius:14px
+    }
+    #sec-home .home-learning{padding:16px 0 30px}
+    #sec-home .home-learning-hero{
+      min-height:520px;align-items:center;border-radius:10px;text-align:center
+    }
+    #sec-home .home-learning-hero>img{
+      width:100%;opacity:.38;object-position:center;
+      -webkit-mask-image:none;mask-image:none
+    }
+    #sec-home .home-learning-hero::after{
+      background:linear-gradient(180deg,rgba(7,24,45,.72),rgba(7,24,45,.94) 56%,#07182d)
+    }
+    #sec-home .home-learning-copy{justify-self:center;padding:56px 22px 40px}
+    #sec-home .home-learning-kicker{justify-content:center;font-size:10px}
+    #sec-home .home-learning-hero h1{margin-inline:auto;font-size:clamp(34px,9vw,46px)}
+    #sec-home .home-learning-hero p{margin-inline:auto;font-size:14px}
+    #sec-home .home-learning-actions{flex-direction:column;align-items:stretch}
+    #sec-home .home-learning-actions .btn{width:100%;min-height:48px}
+    #sec-home .home-learning-badge{
+      top:12px;right:12px;width:54px;height:54px;border-radius:50%;font-size:8px
+    }
+    #sec-home .home-course-section{padding-top:32px}
+    #sec-home .home-course-grid{grid-template-columns:1fr}
+    #sec-home .home-course-card{min-height:0}
+    #sec-home .home-learning-method{grid-template-columns:1fr}
+    #sec-home .home-learning-method .btn{width:100%;text-align:center}
+  }
+  @media(max-width:380px){
+    .brandbar{padding-inline:10px}
+    .cw-text small{max-width:176px;line-height:1.25}
+    #siteShell>.wrap{padding-inline:10px}
+    #sec-home .home-learning-hero{min-height:500px}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .mainnav-v2 a,.home-course-card{transition:none}
+  }
+</style>
 </head>
 <body>
 
@@ -3106,11 +3320,13 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
 
   <!-- ===================== MAIN SITE NAVIGATION ===================== -->
   <nav class="mainnav mainnav-v2" aria-label="Main site navigation" id="mainNav">
-    <a href="#home" data-section="home" class="active">🏠 Home</a>
-    <a href="#products" data-section="products">🛒 Shop</a>
-    <a href="#education" data-section="education">🎓 Learn</a>
-    <a href="#hotdeals" data-section="hotdeals" id="hotDealsLink">🔥 Hot Deals</a>
-    <a href="#team" data-section="team">👥 Team</a>
+    <a href="#home" data-section="home" class="active" aria-current="page">Home</a>
+    <a href="#products" data-section="products">Shop</a>
+    <a href="#education" data-section="education">Learn</a>
+    <a href="#hotdeals" data-section="hotdeals" id="hotDealsLink">Hot Deals</a>
+    <a href="#team" data-section="team">Team</a>
+    <a href="#about" data-section="about">About</a>
+    <a href="#contact" data-section="contact">Contact</a>
   </nav>
 
   <!-- ===================== SIDE DRAWER (hamburger menu) ===================== -->
@@ -5705,13 +5921,19 @@ function showSection(name){
   }
 
   document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.mainnav a').forEach(a => a.classList.remove('active'));
+  document.querySelectorAll('.mainnav a').forEach(a => {
+    a.classList.remove('active');
+    a.removeAttribute('aria-current');
+  });
   document.querySelectorAll('.drawer-links a').forEach(a => a.classList.remove('active'));
   const target = document.getElementById('sec-' + name);
   const link = document.querySelector(`.mainnav a[data-section="${name}"]`);
   const drawerLink = document.querySelector(`.drawer-links a[data-section="${name}"]`);
   if (target) target.classList.add('active');
-  if (link) link.classList.add('active');
+  if (link){
+    link.classList.add('active');
+    link.setAttribute('aria-current', 'page');
+  }
   if (drawerLink) drawerLink.classList.add('active');
   closeDrawer();
   window.scrollTo({ top: 0, behavior: 'smooth' });
