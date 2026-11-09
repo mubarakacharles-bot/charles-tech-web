@@ -11,6 +11,7 @@ The current storefront uses a blue-and-white visual theme, Bootstrap 5 served lo
 - Registration, login, session restore, logout, CSRF protection, hashed passwords, and login-attempt throttling.
 - Locally served Bootstrap CSS, installable PWA manifest, offline page and image caching.
 - Existing learning, project directory, team, attendance, and information pages retained in the site.
+- Trainers can publish scheduled online-class tasks with a secure meeting link; learners can join remotely, discuss each task, submit work, and receive trainer feedback.
 - Local product, brand, and page imagery in `images/`.
 
 ## Technology
@@ -108,11 +109,11 @@ Authentication writes are protected by CSRF tokens and PHP sessions. Passwords a
 
 ## Current backend scope
 
-The product catalogue and website account/session flows use the PHP and database backend. The schema also defines order, inventory, and business-settings tables, but there are not yet backend write endpoints for product or stock edits, checkout/orders, or business settings. The cart remains browser-side and is not shared across devices. The Attendance & Stock application is isolated in `student-portal.html`; its administrator can use the website's server-side administrator session to load and synchronize portal data.
+The product catalogue and website account/session flows use the PHP and database backend. The schema also defines order, inventory, and business-settings tables, but there are not yet backend write endpoints for product or stock edits, checkout/orders, or business settings. Shop product-stock changes are browser-side and must be published with the Admin Dashboard's share-ready file to distribute them. The Attendance & Stock application is isolated in `student-portal.html`; its administrator can use the website's server-side administrator session to load and synchronize portal data.
 
 ### Student Portal data assessment
 
-The portal's admin-managed attendance, portal stock, tasks, submissions, discussions, and settings are stored in the MySQL `student_portal_state` snapshot. Student credentials are stored separately in `student_portal_accounts` using server-side password hashes. Students sign in or register with the server, can see only their own attendance and submissions, and their phone changes, submissions, discussion posts, and password changes are saved through the student API. The server filters each student's response and accepts only that student's permitted changes. Portal stock remains separate from the storefront's `product_variants` and `inventory_movements` tables.
+The portal's admin-managed attendance, portal stock, tasks, submissions, discussions, and settings are stored in the MySQL `student_portal_state` snapshot. Online-class meeting details are saved as task fields through the existing portal data flow; no additional backend endpoint is required. Student credentials are stored separately in `student_portal_accounts` using server-side password hashes. Students sign in or register with the server, can see only their own attendance and submissions, and their phone changes, submissions, discussion posts, and password changes are saved through the student API. The server filters each student's response and accepts only that student's permitted changes. Portal stock remains separate from the storefront's `product_variants` and `inventory_movements` tables.
 
 On a fresh or existing installation, run `database/configure_auth_db.php` after importing the updated schema to create the portal tables and grant the application database account its minimum required privileges. Sign into the website as an administrator, open Attendance & Stock, then use **Upload browser data to MySQL** to migrate that browser's existing data and student credentials. Legacy student passwords are verified on the server and upgraded to PHP password hashes at first sign-in. The local browser backup is retained. Use **Load database copy** to replace the current browser view with the saved database copy. Administrator edits and student activity are saved to MySQL.
 

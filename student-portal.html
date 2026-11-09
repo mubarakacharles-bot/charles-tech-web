@@ -215,6 +215,8 @@ tr.clk{cursor:pointer}
 
 .bdg{margin-left:auto;background:var(--bad);color:#fff;border-radius:99px;padding:1px 8px;font-size:11px;font-weight:700}
 .task{border-left:4px solid var(--pri)}
+.session-box{margin:14px 0;padding:14px 16px;border:1px solid color-mix(in srgb,var(--acc) 45%,var(--bd));border-radius:14px;background:color-mix(in srgb,var(--acc) 8%,var(--card))}
+.session-box b{display:block;margin-bottom:4px}.session-box .mut{margin-bottom:8px}.session-box .acts{margin-top:8px}
 .post{background:var(--card);border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow)}
 .post.adm{border-left:4px solid var(--pri)}
 .post.sub{margin:10px 0 0 16px;background:rgba(59,130,246,.07);box-shadow:none}
@@ -454,7 +456,8 @@ async function savePhone(id){const s=db.students.find(x=>x.id===id);if(!s||!(isA
   s.phone=ph;await audit('PHONE_EDIT',s.name);await save();closeModal();render();toast('Phone saved')}
 
 /* ================= shared helpers ================= */
-const KINDS=['Practice','Lab','Project','Homework'];
+const ONLINE_KIND='Live online class';
+const KINDS=['Practice','Lab','Project','Homework',ONLINE_KIND];
 const TAGS={submitted:'t-warn',approved:'t-ok',redo:'t-bad'},LBL={submitted:'Waiting review',approved:'Approved',redo:'Redo needed'};
 const txt=s=>esc(s).replace(/\n/g,'<br>');
 const clean2=(s,n)=>String(s||'').replace(/[\u0000-\u0008\u000b-\u001f<>]/g,'').trim().slice(0,n);
@@ -478,21 +481,45 @@ async function markSeen(k){const u=S&&db.users.find(x=>x.id===S.id);if(!u||(k!==
 function vTasks(){return isAdmin()?vTasksAdmin():vTasksStu()}
 function vTasksAdmin(){
   const cl=classes();
-  const form=storeCard()+`<div class="card"><h2>Publish a practice task</h2>
-  <div class="row"><div><label>Title</label><input id="tt" maxlength="90" placeholder="e.g. Blink an LED with ESP32"></div><div><label>Type</label><select id="tk">${KINDS.map(k=>`<option>${k}</option>`).join('')}</select></div></div>
+  const form=storeCard()+`<div class="card"><h2>Publish a task or online class</h2>
+  <div class="row"><div><label>Title</label><input id="tt" maxlength="90" placeholder="e.g. Blink an LED with ESP32"></div><div><label>Type</label><select id="tk" onchange="toggleMeetingFields()">${KINDS.map(k=>`<option>${k}</option>`).join('')}</select></div></div>
+  <div id="meetFields" class="hide"><div class="row"><div><label>Secure meeting link</label><input id="tmurl" type="url" maxlength="500" placeholder="https://meet.google.com/..."></div><div><label>Session date and time</label><input id="tmtime" type="datetime-local"></div></div><div class="mut">Use your Google Meet, Zoom, Microsoft Teams, or other HTTPS meeting link. Students in the selected class will see a Join button.</div></div>
   <div class="row"><div><label>For class</label><select id="tc"><option value="">All classes</option>${cl.map(c=>`<option>${esc(c)}</option>`).join('')}</select></div><div><label>Deadline</label><input type="date" id="td" min="${today()}"></div></div>
   <label>What to do (steps, components needed, expected result)</label><textarea id="tx" rows="5" maxlength="1500"></textarea>${attachUI('task')}${codeBox('tcode','')}
   <div class="acts"><button onclick="addTask()">Publish task</button></div></div>`;
   const list=db.tasks.slice().sort((a,b)=>b.at-a.at).map(t=>{
     const st=db.students.filter(s=>inScope(t,s)),ids=new Set(st.map(s=>s.id)),sub=db.subs.filter(x=>x.tid===t.id&&ids.has(x.sid)),pend=sub.filter(x=>x.status==='submitted').length;
     return `<div class="card task"><div class="lrow"><span><b>${esc(t.title)}</b><div class="mut">${esc(t.kind)} \u00b7 ${t.cls?esc(t.cls):'All classes'} \u00b7 ${t.due?'Due '+t.due:'No deadline'}</div></span>${pbar(st.length?sub.length/st.length*100:0,'var(--acc)')}<b>${sub.length}/${st.length}</b></div>
-    <p>${txt(t.desc)}</p>${media(t)}<div class="acts"><button onclick="reviewTask('${t.id}')">Review work${pend?` (${pend} new)`:''}</button><button class="sec" onclick="notifyTask('${t.id}')">\ud83d\udcf2 Notify students</button><button class="sec" onclick="openThread('${t.id}')">Discuss</button><button class="bad sm" onclick="delTask('${t.id}')">Delete</button></div></div>`}).join('');
+    <p>${txt(t.desc)}</p>${meetingCard(t)}${media(t)}<div class="acts"><button onclick="reviewTask('${t.id}')">Review work${pend?` (${pend} new)`:''}</button><button class="sec" onclick="notifyTask('${t.id}')">\ud83d\udcf2 Notify students</button><button class="sec" onclick="openThread('${t.id}')">Discuss</button><button class="bad sm" onclick="delTask('${t.id}')">Delete</button></div></div>`}).join('');
   return form+(list||'<div class="card empty">No tasks yet. Publish the first one above.</div>');
+}
+function toggleMeetingFields(){
+  const fields=$('meetFields');if(fields)fields.classList.toggle('hide',$('tk').value!==ONLINE_KIND);
+}
+function safeMeetingUrl(value){
+  try{const url=new URL(String(value||''));return url.protocol==='https:'?url.href:''}
+  catch(error){return ''}
+}
+function meetingCard(task){
+  if(task.kind!==ONLINE_KIND)return '';
+  const url=safeMeetingUrl(task.meetingUrl),when=meetingTime(task.meetingAt);
+  return `<div class="session-box"><b>Online class</b><div class="mut">Starts ${esc(when)} (your local time) · Join remotely from your phone or computer.</div>${url?`<a class="btnlink" href="${esc(url)}" target="_blank" rel="noopener noreferrer">Join online class ↗</a>`:'<span class="mut">The trainer has not added a secure meeting link yet.</span>'}</div>`;
+}
+function meetingTime(value){
+  const date=value?new Date(value):null;
+  return date&&!Number.isNaN(date.getTime())?date.toLocaleString([],{dateStyle:'medium',timeStyle:'short'}):'Time to be confirmed';
 }
 async function addTask(){if(!isAdmin())return;
   const title=clean($('tt').value,90),desc=clean2($('tx').value,1500);
   if(title.length<3)return toast('Give the task a title','bad');if(desc.length<5)return toast('Describe what students must do','bad');
-  db.tasks.push({id:uid(),title,kind:$('tk').value,cls:$('tc').value,due:$('td').value||'',desc,imgs:(PEND.task||[]).slice(),code:cleanCode($('tcode').value),at:Date.now(),by:S.name});delete PEND.task;
+  const kind=$('tk').value,task={id:uid(),title,kind,cls:$('tc').value,due:$('td').value||'',desc,imgs:(PEND.task||[]).slice(),code:cleanCode($('tcode').value),at:Date.now(),by:S.name};
+  if(kind===ONLINE_KIND){
+    const meetingUrl=safeMeetingUrl($('tmurl').value),meetingAt=$('tmtime').value;
+    if(!meetingUrl)return toast('Enter a valid HTTPS meeting link','bad');
+    if(!meetingAt||Number.isNaN(new Date(meetingAt).getTime()))return toast('Choose the online class date and time','bad');
+    task.meetingUrl=meetingUrl;task.meetingAt=new Date(meetingAt).toISOString();
+  }
+  db.tasks.push(task);delete PEND.task;
   await audit('TASK_ADD',title);await save();render();toast('Task published')}
 async function delTask(id){if(!isAdmin())return;const t=db.tasks.find(x=>x.id===id);if(!t||!confirm('Delete "'+t.title+'" with all submissions and discussion?'))return;
   db.tasks=db.tasks.filter(x=>x.id!==id);db.subs=db.subs.filter(x=>x.tid!==id);db.posts=db.posts.filter(p=>p.tid!==id);
@@ -508,13 +535,16 @@ async function gradeSub(tid,sid,status){if(!isAdmin())return;const u=subOf(tid,s
   await audit('TASK_REVIEW',status);await save();render();reviewTask(tid);toast(status==='approved'?'Approved':'Sent back for redo')}
 function vTasksStu(){
   const s=myStu();if(!s)return '<div class="card empty">Your student record was not found. Please ask the administrator.</div>';
-  const ts=visTasks().slice().sort((a,b)=>(a.due||'9999').localeCompare(b.due||'9999')),cnt={todo:0,submitted:0,approved:0,redo:0};
+  const ts=visTasks().slice().sort((a,b)=>{
+    const time=t=>t.kind===ONLINE_KIND&&t.meetingAt&&Date.parse(t.meetingAt)>=Date.now()?Date.parse(t.meetingAt):t.due?Date.parse(t.due+'T23:59:59'):Infinity;
+    return time(a)-time(b)||b.at-a.at;
+  }),cnt={todo:0,submitted:0,approved:0,redo:0};
   ts.forEach(t=>{const u=subOf(t.id,s.id);cnt[u?u.status:'todo']++});
-  const head=`<div class="stats">${stat('To do',cnt.todo,'task','var(--pri)',0)}${stat('Waiting review',cnt.submitted,'list','var(--acc)',70)}${stat('Approved',cnt.approved,'check','var(--ok)',140)}${stat('Redo needed',cnt.redo,'x','var(--bad)',210)}</div>`;
+  const head=`<div class="card"><h2>Learn together online</h2><div class="mut">Open a scheduled class below, then use its discussion to ask your trainer questions. Submit your practice work here to receive feedback without coming to a physical classroom.</div></div><div class="stats">${stat('To do',cnt.todo,'task','var(--pri)',0)}${stat('Waiting review',cnt.submitted,'list','var(--acc)',70)}${stat('Approved',cnt.approved,'check','var(--ok)',140)}${stat('Redo needed',cnt.redo,'x','var(--bad)',210)}</div>`;
   const cards=ts.map(t=>{const u=subOf(t.id,s.id),late=t.due&&t.due<today()&&(!u||u.status==='redo');
     return `<div class="card task"><div class="lrow"><span><b>${esc(t.title)}</b><div class="mut">${esc(t.kind)} \u00b7 ${t.due?'Due '+t.due:'No deadline'} \u00b7 from ${esc(t.by||'Administrator')}</div></span>
     <span class="tag ${u?TAGS[u.status]:'t-info'}">${u?LBL[u.status]:'To do'}</span>${late?'<span class="tag t-bad">Overdue</span>':''}</div>
-    <p>${txt(t.desc)}</p>${media(t)}
+    <p>${txt(t.desc)}</p>${meetingCard(t)}${media(t)}
     ${u&&u.fb?`<div class="fb"><b>Feedback:</b> ${txt(u.fb)}${u.score!=null?` \u00b7 <b>${u.score}/100</b>`:''}</div>`:''}
     ${u&&u.status==='approved'?'':`<label>Your work — what you did and what happened</label><textarea id="sn_${t.id}" rows="3" maxlength="800">${esc(u?u.note:'')}</textarea>${attachUI('sub_'+t.id,u&&u.imgs)}${codeBox('scode_'+t.id,u&&u.code)}<div class="acts"><button onclick="submitWork('${t.id}')">${u?'Update submission':'Submit my work'}</button><button class="sec" onclick="openThread('${t.id}')">Ask / discuss</button></div>`}
     ${u&&u.status==='approved'?`${media(u)}<div class="acts"><button class="sec" onclick="openThread('${t.id}')">Discussion</button></div>`:''}</div>`}).join('');
@@ -610,8 +640,8 @@ function byPhone(v){const ph=normPhone(v);if(!ph)return null;const s=db.students
 const first=s=>String(s.name||'').split(' ')[0];
 const siteLink=()=>{try{const l=parent.location;return /^https?:$/.test(l.protocol)?' '+l.origin+l.pathname:''}catch(e){return ''}};
 const NMSG={
- task:{en:(s,o)=>`Hello ${first(s)}, new ${(o.kind||'practice').toLowerCase()} task from Charles Tech: "${o.title}". ${o.due?'Deadline: '+o.due+'. ':''}Open the Student Portal to read it and submit your work.${siteLink()}`,
-       rw:(s,o)=>`Muraho ${first(s)}, hari igikorwa gishya cy'imyitozo kuri Charles Tech: "${o.title}". ${o.due?'Igihe ntarengwa: '+o.due+'. ':''}Fungura Student Portal ukirebe, maze wohereze akazi kawe.${siteLink()}`},
+ task:{en:(s,o)=>`Hello ${first(s)}, new ${(o.kind||'practice').toLowerCase()} from Charles Tech: "${o.title}". ${o.kind===ONLINE_KIND?`Starts: ${meetingTime(o.meetingAt)}. Join: ${safeMeetingUrl(o.meetingUrl)}. `:''}${o.due?'Deadline: '+o.due+'. ':''}Open the Student Portal to read it and submit your work.${siteLink()}`,
+       rw:(s,o)=>`Muraho ${first(s)}, hari igikorwa gishya kuri Charles Tech: "${o.title}". ${o.kind===ONLINE_KIND?`Igihe: ${meetingTime(o.meetingAt)}. Injira kuri iyi link: ${safeMeetingUrl(o.meetingUrl)}. `:''}${o.due?'Igihe ntarengwa: '+o.due+'. ':''}Fungura Student Portal ukirebe, maze wohereze akazi kawe.${siteLink()}`},
  fb:{en:(s,o)=>`Hello ${first(s)}, your work "${o.title}" was reviewed: ${o.status==='approved'?'APPROVED':'please REDO it'}.${o.fb?' Feedback: '+o.fb+'.':''}${o.score!=null?' Score: '+o.score+'/100.':''}`,
      rw:(s,o)=>`Muraho ${first(s)}, akazi kawe "${o.title}" karasuzumwe: ${o.status==='approved'?'karemewe':'subiramo'}.${o.fb?' Icyo umwarimu avuga: '+o.fb+'.':''}${o.score!=null?' Amanota: '+o.score+'/100.':''}`},
  abs:{en:(s,o)=>`Hello ${first(s)}, you were marked absent on ${o.date}. If you have a reason, please contact your instructor.`,
