@@ -3993,8 +3993,13 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
       </div>
 
       <div class="form-row-between">
+        <label class="checkbox-row" for="rememberLoginEmail">
+          <input type="checkbox" id="rememberLoginEmail" />
+          Remember email on this device
+        </label>
         <a href="#" id="forgotPasswordLink" class="link-muted">Forgot password?</a>
       </div>
+      <div class="form-switch">The site saves only your email. Use your browser’s password manager to remember your password securely.</div>
 
       <button class="btn btn-primary btn-block" style="margin-top:18px;" type="submit">Login</button>
       <div class="form-msg" id="loginMsg" role="alert" aria-live="polite"></div>
@@ -6825,6 +6830,19 @@ document.getElementById('regPassword').addEventListener('input', (e) => {
   else { hint.className = 'pw-strength weak'; hint.textContent = 'Too short — use at least 8 characters.'; }
 });
 
+const REMEMBERED_LOGIN_EMAIL_KEY = 'chts-remembered-login-email';
+const loginEmailInput = document.getElementById('loginEmail');
+const rememberLoginEmail = document.getElementById('rememberLoginEmail');
+try{
+  const rememberedEmail = localStorage.getItem(REMEMBERED_LOGIN_EMAIL_KEY);
+  if(rememberedEmail){
+    loginEmailInput.value = rememberedEmail;
+    rememberLoginEmail.checked = true;
+  }
+}catch(error){
+  console.warn('Could not read the remembered sign-in email from this browser.', error);
+}
+
 document.getElementById('loginForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   const msg = document.getElementById('loginMsg');
@@ -6833,13 +6851,22 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
   msg.className = 'form-msg';
   msg.textContent = 'Signing in…';
   try{
+    const email = loginEmailInput.value.trim().toLowerCase();
     const result = await authRequest('login', {
-      email: document.getElementById('loginEmail').value.trim().toLowerCase(),
+      email,
       password: document.getElementById('loginPassword').value
     });
+    let rememberNotice = '';
+    try{
+      if(rememberLoginEmail.checked) localStorage.setItem(REMEMBERED_LOGIN_EMAIL_KEY, email);
+      else localStorage.removeItem(REMEMBERED_LOGIN_EMAIL_KEY);
+    }catch(error){
+      rememberNotice = ' This browser could not save your email.';
+      console.warn('Could not save the remembered sign-in email in this browser.', error);
+    }
     updateNavVisibility();
     msg.className = 'form-msg ok';
-    msg.textContent = `Welcome back, ${result.user.name}!`;
+    msg.textContent = `Welcome back, ${result.user.name}!${rememberNotice}`;
     setTimeout(() => showSection(result.user.isAdmin ? 'admin' : 'profile'), 500);
   }catch(error){
     msg.className = 'form-msg err';
