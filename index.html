@@ -3100,105 +3100,13 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
     #siteShell>.wrap{padding-inline:10px}
     #sec-home .home-learning-hero{min-height:500px}
   }
-  #shopBigSlider.bs-welcome-active .bs-bg{
-    background:
-      radial-gradient(ellipse at 82% 42%,rgba(201,154,59,.16),transparent 39%),
-      linear-gradient(90deg,rgba(7,24,45,.99) 0%,rgba(7,24,45,.96) 42%,rgba(7,24,45,.7) 70%,rgba(7,24,45,.54) 100%),
-      url("images/03-learn/slide-1.jpg") center 48% / cover no-repeat
-  }
-  #shopBigSlider .bs-slide.bs-welcome-slide{
-    grid-template-columns:minmax(0,1fr);
-    padding:clamp(30px,5vw,58px) clamp(28px,6vw,76px) 58px
-  }
-  #shopBigSlider .bs-welcome-slide .bs-t{position:relative;z-index:1;max-width:790px}
-  #shopBigSlider .bs-welcome-slide .bs-eyebrow{
-    display:inline-flex;align-items:center;gap:10px;margin-bottom:18px;
-    color:#e7bd60;font-size:11px;font-weight:800;letter-spacing:.17em
-  }
-  #shopBigSlider .bs-welcome-slide .bs-eyebrow::before{
-    width:26px;height:2px;border-radius:2px;background:#d3a443;content:""
-  }
-  #shopBigSlider .bs-welcome-slide .bs-big{
-    max-width:790px;margin-bottom:18px;font-size:clamp(42px,5.2vw,70px);
-    line-height:1.04;letter-spacing:-.06em;animation:none;
-    background:none;color:#f5f7fb;-webkit-text-fill-color:#f5f7fb
-  }
-  #shopBigSlider .bs-welcome-highlight{
-    display:inline-block;white-space:nowrap;font-size:.82em;letter-spacing:-.04em;
-    background:linear-gradient(100deg,#f3d17f 0%,#d1a342 88%);
-    background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent
-  }
-  #shopBigSlider .bs-welcome-slide .bs-sub{
-    max-width:540px;margin-bottom:25px;color:#c5cfdd;
-    font-size:clamp(15px,1.55vw,18px);line-height:1.75
-  }
-  #shopBigSlider .bs-welcome-slide .bs-sub small{
-    margin-top:9px;color:#aab8ca;font-size:.82em;line-height:1.6
-  }
-  #shopBigSlider .bs-welcome-slide .bs-cta{gap:11px}
-  #shopBigSlider .bs-welcome-slide .bs-cta .btn{
-    min-height:48px;padding:12px 19px;border-radius:9px;font-weight:700;
-    text-decoration:none;transition:transform .2s,background .2s,border-color .2s
-  }
-  #shopBigSlider .bs-welcome-slide .bs-cta .btn:hover{transform:translateY(-2px)}
-  #shopBigSlider .bs-welcome-primary{
-    border:1px solid #d5aa4c;background:linear-gradient(135deg,#e3bd61,#c99a3b);
-    color:#101b2c;box-shadow:0 10px 24px rgba(201,154,59,.22)
-  }
-  #shopBigSlider .bs-welcome-primary:hover{background:#eccb77;color:#101b2c}
-  #shopBigSlider .bs-welcome-secondary{
-    border:1px solid rgba(226,235,245,.32);background:rgba(255,255,255,.045);color:#eff3f8
-  }
-  #shopBigSlider .bs-welcome-secondary:hover{
-    border-color:rgba(226,235,245,.65);background:rgba(255,255,255,.1);color:#fff
-  }
-  #shopBigSlider .bs-welcome-art{
-    position:absolute;z-index:0;top:0;right:5%;bottom:0;
-    display:grid;width:min(30%,250px);min-height:0;place-items:center;
-    isolation:isolate;opacity:.42;pointer-events:none
-  }
-  #shopBigSlider .bs-hub-orbit{
-    position:absolute;z-index:-1;width:min(78%,280px);aspect-ratio:1;
-    border:1px solid rgba(224,184,92,.32);border-radius:50%;
-    box-shadow:0 0 0 24px rgba(224,184,92,.035),0 0 0 52px rgba(224,184,92,.025)
-  }
-  #shopBigSlider .bs-hub-emblem{
-    display:grid;width:min(68%,232px);aspect-ratio:1;place-items:center;
-    border:1px solid rgba(231,195,112,.58);border-radius:38px;
-    background:linear-gradient(145deg,rgba(24,46,71,.97),rgba(8,24,44,.96));
-    box-shadow:0 28px 65px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.1);
-    transform:rotate(-6deg)
-  }
-  #shopBigSlider .bs-hub-emblem svg{width:63%;height:63%;overflow:visible}
-  #shopBigSlider .bs-hub-caption{
-    position:absolute;right:2%;bottom:8%;padding:10px 14px;
-    border:1px solid rgba(218,229,242,.18);border-radius:8px;
-    background:rgba(11,28,49,.92);color:#d8e1eb;
-    font-size:10px;font-weight:700;letter-spacing:.13em
-  }
-  #shopBigSlider .bs-hub-caption span{color:#eac96e}
+  #sec-home .home-learning-hero h1{font-size:clamp(38px,5vw,58px)}
+  #sec-home .home-learning-accent{font-size:.9em;letter-spacing:-.035em;white-space:nowrap}
   @media(max-width:700px){
-    #shopBigSlider .bs-slide.bs-welcome-slide{
-      grid-template-columns:1fr;gap:8px;align-content:center;
-      padding:28px 22px 58px;text-align:center
-    }
-    #shopBigSlider .bs-welcome-slide .bs-t{grid-row:auto}
-    #shopBigSlider .bs-welcome-slide .bs-eyebrow{justify-content:center;margin:0 0 10px;font-size:9px}
-    #shopBigSlider .bs-welcome-slide .bs-big{margin:0 auto 10px;font-size:clamp(34px,9vw,48px)}
-    #shopBigSlider .bs-welcome-highlight{white-space:normal;font-size:.8em}
-    #shopBigSlider .bs-welcome-slide .bs-sub{margin:0 auto 17px;font-size:14px}
-    #shopBigSlider .bs-welcome-slide .bs-cta{justify-content:center}
-    #shopBigSlider .bs-welcome-slide .bs-cta .btn{width:100%;justify-content:center}
-    #shopBigSlider .bs-welcome-art{
-      top:0;right:0;bottom:auto;left:0;width:100%;height:145px;min-height:0;
-      margin:0;opacity:.24
-    }
-    #shopBigSlider .bs-hub-orbit{width:94px;box-shadow:0 0 0 12px rgba(224,184,92,.035),0 0 0 25px rgba(224,184,92,.025)}
-    #shopBigSlider .bs-hub-emblem{width:84px;border-radius:21px}
-    #shopBigSlider .bs-hub-caption{right:calc(50% - 104px);bottom:-3px;padding:7px 10px;font-size:8px}
+    #sec-home .home-learning-accent{font-size:.72em}
   }
   @media(prefers-reduced-motion:reduce){
-    .mainnav-v2 a,.home-course-card,#shopBigSlider .bs-welcome-slide .bs-cta .btn{transition:none}
+    .mainnav-v2 a,.home-course-card{transition:none}
   }
 </style>
 </head>
@@ -3494,8 +3402,8 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
         <img class="home-auto-image" src="images/03-learn/slide-1.jpg" alt="Kwiga no kubaka imishinga ya Embedded Systems na IoT i Musanze" data-auto-images="images/03-learn/slide-1.jpg|images/01-home/workshop.jpg|images/03-learn/gallery-17.jpg" data-auto-alts="Microcontroller projects for Embedded Systems learners|Charles Tech practical technology workshop in Musanze|ESP32 and circuit-board design for connected projects" fetchpriority="high" decoding="async">
         <div class="home-learning-copy">
           <span class="home-learning-kicker">AMASOMO NGIRO · MUSANZE, RWANDA</span>
-          <h1 id="homeLearningTitle">Wige <span class="home-learning-accent">Embedded Systems</span> na <span class="home-learning-accent">IoT.</span></h1>
-          <p>Menya uko microcontroller, sensors n’ibindi bikoresho bikorana. Wige ushyira mu bikorwa ibyo wiga, wubake imishinga ikora ukoresheje Arduino na ESP32.</p>
+          <h1 id="homeLearningTitle">Murakaza neza<br><span class="home-learning-accent">muri Innovation Hub</span></h1>
+          <p>Menya ibikoresho by’ikoranabuhanga, wige Embedded Systems na IoT, uhindure ibitekerezo byawe imishinga ifatika.</p>
           <div class="home-learning-actions">
             <a class="btn course-primary" href="#education" data-section="education">Reba amasomo <span aria-hidden="true">→</span></a>
             <a class="btn course-secondary" href="https://wa.me/250787767610?text=Muraho%2C%20ndifuza%20kumenya%20amasomo%20ya%20Embedded%20Systems%20na%20IoT%20atangwa%20i%20Musanze." target="_blank" rel="noopener">Baza ibijyanye no kwiyandikisha</a>
@@ -6282,38 +6190,16 @@ const BS = {}, BS_MS = 5500;
 function bsWelcome(hot){
   const sub = hot
     ? `Ibiciro byagabanutse — gura mbere y'uko birangira.<small>Reduced prices on selected parts — buy before the timer ends.</small>`
-    : `Menya ibikoresho by’ikoranabuhanga, wige Embedded Systems na IoT, uhindure ibitekerezo byawe imishinga ifatika.<small>Explore technology, build Embedded Systems and IoT skills, and turn your ideas into real-world projects.</small>`;
-  const welcome = hot ? `
+    : `Murakaza neza kuri     <b>CHARLES TECH INNOVATION HUB</b> — Arduino, ESP32, Raspberry Pi, sensors n'ibindi. Tugeza hose mu Rwanda.<small>Welcome! Buy Arduino, ESP32, Raspberry Pi &amp; IoT parts here — delivered countrywide.</small>`;
+  return `<div class="bs-slide"><div class="bs-t">
+      <div class="bs-eyebrow">${hot ? '🔥 HOT DEALS · MURAKAZA NEZA' : '👋 MURAKAZA NEZA · WELCOME'}</div>
       <h2 class="bs-big">GURIRA HANO</h2>
       <p class="bs-sub">${sub}</p>
       <div class="bs-cta">
         <a class="btn btn-primary" href="https://wa.me/250787767610" target="_blank" rel="noopener">💬 WhatsApp</a>
         <a class="btn btn-ghost" href="tel:+250787767610" style="color:#fff;border-color:rgba(255,255,255,.5)">📞 +250 787 767 610</a>
-      </div>` : `
-      <h2 class="bs-big">Murakaza neza<br><span class="bs-welcome-highlight">muri Innovation Hub</span></h2>
-      <p class="bs-sub">${sub}</p>
-      <div class="bs-cta">
-        <a class="btn bs-welcome-primary" href="#products" data-section="products">Reba ibicuruzwa <span aria-hidden="true">→</span></a>
-        <a class="btn bs-welcome-secondary" href="#education" data-section="education">Menya amasomo</a>
-      </div>`;
-  const art = hot ? `
-    <div class="bs-art" aria-hidden="true"><span>🔥</span><span>📦</span><span>🔌</span><span>🏷️</span></div>` : `
-    <div class="bs-welcome-art" aria-hidden="true">
-      <div class="bs-hub-orbit"></div>
-      <div class="bs-hub-emblem">
-        <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M60 7 105 33v54l-45 26L15 87V33L60 7Z" stroke="#DAB454" stroke-width="2"/>
-          <path d="M60 21 93 40v40l-33 19L27 80V40l33-19Z" stroke="#DAB454" stroke-opacity=".38" stroke-width="1"/>
-          <rect x="42" y="43" width="36" height="34" rx="5" stroke="#F0D17F" stroke-width="2"/>
-          <path d="M50 54h20M50 61h14M50 68h17M35 51h7m-7 9h7m-7 9h7m36-18h7m-7 9h7m-7 9h7M51 36v7m9-7v7m9-7v7m-18 34v7m9-7v7m9-7v7" stroke="#F0D17F" stroke-width="2" stroke-linecap="round"/>
-          <circle cx="60" cy="60" r="3" fill="#F0D17F"/>
-        </svg>
-      </div>
-      <div class="bs-hub-caption"><span>CHARLES TECH</span> · MUSANZE</div>
-    </div>`;
-  return `<div class="bs-slide${hot ? '' : ' bs-welcome-slide'}"><div class="bs-t">
-      <div class="bs-eyebrow">${hot ? '🔥 HOT DEALS · MURAKAZA NEZA' : 'AMASOMO NGIRO · MUSANZE, RWANDA'}</div>
-      ${welcome}</div>${art}</div>`;
+      </div></div>
+    <div class="bs-art" aria-hidden="true"><span>${hot ? '🔥' : '🔧'}</span><span>📦</span><span>🔌</span><span>${hot ? '🏷️' : '🛒'}</span></div></div>`;
 }
 function bsProductSlide(p){
   const stock = p.stock <= 5 ? `🔥 Hasigaye ${p.stock} gusa · only ${p.stock} left` : `✅ Birahari · ${p.stock} in stock`;
@@ -6339,7 +6225,6 @@ function bsRender(rootId, hot, products){
   const st = BS[rootId] = { i: 0, t: 0, hold: false, n: slides.length, root };
   const go = (i) => {
     st.i = (i + st.n) % st.n; st.t = 0;
-    root.classList.toggle('bs-welcome-active', !hot && st.i === 0);
     root.querySelectorAll('.bs-slide').forEach((el,k) => el.classList.toggle('on', k === st.i));
     root.querySelectorAll('.bs-dots button').forEach((el,k) => el.classList.toggle('on', k === st.i));
   };
