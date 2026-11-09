@@ -2470,6 +2470,8 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
     -webkit-mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.2) 12%,#000 46%);
     mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.2) 12%,#000 46%)
   }
+  #sec-home .home-auto-image{transition:opacity .4s ease}
+  #sec-home .home-auto-image.is-changing{opacity:0}
   #sec-home .home-learning-hero::after{
     position:absolute;inset:0;background:linear-gradient(90deg,#f4f7fb 0%,rgba(244,247,251,.98) 37%,rgba(244,247,251,.8) 53%,transparent 82%);
     content:"";pointer-events:none
@@ -2614,7 +2616,7 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
     #sec-home .home-learning-actions .btn{width:100%}
   }
   @media(prefers-reduced-motion:reduce){
-    #sec-home .home-course-card{transition:none}
+    #sec-home .home-course-card,#sec-home .home-auto-image{transition:none}
     #sec-home .home-course-card:hover{transform:none}
   }
 
@@ -3146,7 +3148,7 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
   <section id="sec-home" class="page-section active">
     <div class="home-learning">
       <section class="home-learning-hero" aria-labelledby="homeLearningTitle">
-        <img src="images/03-learn/slide-1.jpg" alt="Kwiga no kubaka imishinga ya Embedded Systems na IoT i Musanze" fetchpriority="high" decoding="async">
+        <img class="home-auto-image" src="images/03-learn/slide-1.jpg" alt="Kwiga no kubaka imishinga ya Embedded Systems na IoT i Musanze" data-auto-images="images/03-learn/slide-1.jpg|images/01-home/workshop.jpg|images/03-learn/gallery-17.jpg" data-auto-alts="Microcontroller projects for Embedded Systems learners|Charles Tech practical technology workshop in Musanze|ESP32 and circuit-board design for connected projects" fetchpriority="high" decoding="async">
         <div class="home-learning-copy">
           <span class="home-learning-kicker">AMASOMO NGIRO · MUSANZE, RWANDA</span>
           <h1 id="homeLearningTitle">Wige <span class="home-learning-accent">Embedded Systems</span> na <span class="home-learning-accent">IoT.</span></h1>
@@ -3168,7 +3170,7 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
         <div class="home-course-grid">
           <a class="home-course-card" href="#education" data-section="education">
             <span class="home-course-image">
-              <img src="images/03-learn/slide-1.jpg" alt="Microcontroller board connected to sensors and electronic components" loading="lazy" decoding="async">
+              <img class="home-auto-image" src="images/03-learn/slide-1.jpg" alt="Microcontroller board connected to sensors and electronic components" data-auto-images="images/03-learn/slide-1.jpg|images/03-learn/gallery-10.jpg|images/03-learn/gallery-13.jpg" data-auto-alts="Microcontroller board connected to sensors and electronic components|Electronic components used to build embedded circuits|Printed circuit board designed for an embedded project" loading="lazy" decoding="async">
               <span class="home-course-image-label">Arduino · STM32 · Sensors</span>
             </span>
             <span class="home-course-card-copy">
@@ -3179,7 +3181,7 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
           </a>
           <a class="home-course-card" href="#education" data-section="education">
             <span class="home-course-image">
-              <img src="images/03-learn/gallery-08.jpg" alt="Collection of sensors and wireless modules used in IoT projects" loading="lazy" decoding="async">
+              <img class="home-auto-image" src="images/03-learn/gallery-08.jpg" alt="Collection of sensors and wireless modules used in IoT projects" data-auto-images="images/03-learn/gallery-08.jpg|images/03-learn/gallery-09.jpg|images/03-learn/gallery-17.jpg" data-auto-alts="Sensors and wireless modules used in IoT projects|Sensor modules for collecting real-world data|ESP32 and circuit-board design for connected projects" loading="lazy" decoding="async">
               <span class="home-course-image-label">ESP32 · Wi-Fi · MQTT</span>
             </span>
             <span class="home-course-card-copy">
@@ -8224,6 +8226,57 @@ window.publishSiteFile = async function(){
   }
   [].forEach.call(document.querySelectorAll('.hero-slides'),Slider);
   if(window.updateNavVisibility) try{ updateNavVisibility(); }catch(e){}
+})();
+</script>
+<script id="home-auto-images">
+(function(){
+  'use strict';
+  var reduceMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  [].forEach.call(document.querySelectorAll('#sec-home .home-auto-image[data-auto-images]'),function(img,index){
+    var sources=(img.getAttribute('data-auto-images')||'').split('|');
+    var alts=(img.getAttribute('data-auto-alts')||'').split('|');
+    if(sources.length<2||sources.length!==alts.length) return;
+
+    var current=sources.indexOf(img.getAttribute('src'));
+    if(current<0) current=0;
+    var timer=null,visible=!('IntersectionObserver' in window);
+    function schedule(delay){
+      clearTimeout(timer);
+      if(!visible||document.hidden||(reduceMotion&&reduceMotion.matches)) return;
+      timer=setTimeout(advance,delay||5200);
+    }
+    function advance(){
+      var next=(current+1)%sources.length;
+      var preload=new Image();
+      preload.onload=function(){
+        if(!visible||document.hidden||(reduceMotion&&reduceMotion.matches)){schedule();return;}
+        current=next;
+        img.classList.add('is-changing');
+        setTimeout(function(){
+          img.alt=alts[current];
+          img.src=sources[current];
+          requestAnimationFrame(function(){img.classList.remove('is-changing');});
+        },180);
+        schedule();
+      };
+      preload.onerror=function(){schedule();};
+      preload.src=sources[next];
+    }
+    if('IntersectionObserver' in window){
+      new IntersectionObserver(function(entries){
+        visible=entries[0].isIntersecting;
+        schedule();
+      },{threshold:.1}).observe(img);
+    }
+    document.addEventListener('visibilitychange',function(){schedule();});
+    if(reduceMotion){
+      var motionChange=function(){schedule();};
+      if(reduceMotion.addEventListener) reduceMotion.addEventListener('change',motionChange);
+      else if(reduceMotion.addListener) reduceMotion.addListener(motionChange);
+    }
+    schedule(1800+index*1500);
+  });
 })();
 </script>
 <script id="chts-deeplink">
