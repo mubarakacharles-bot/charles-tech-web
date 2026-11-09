@@ -300,6 +300,7 @@ textarea.code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;w
 /* ========== ADMINISTRATOR = WEBSITE SESSION ==========
    Only an active server-side website administrator session can open this dashboard. */
 let SITE_ADMIN=null,ADM_EMAIL='',portalRevision=0,portalRemoteReady=false,portalCsrf='',portalServerAvailable=false,localPortalCopyExists=false;
+let portalSyncState='local',portalSyncError='',portalLastSyncedAt=0,portalWriteQueue=Promise.resolve(),portalWritesPending=0;
 const isSiteAdminUser=u=>!!(u&&ADM_EMAIL&&u.u===ADM_EMAIL);
 const portalApiUrl=new URL('api/portal.php',document.baseURI).href;
 async function portalRequest(method='GET',state=null){
@@ -329,6 +330,12 @@ async function portalStudentRequest(method='GET',payload=null){
   if(!response.ok)throw new Error(result.error||'Could not connect to the student portal service.');
   if(typeof result.csrfToken==='string')portalCsrf=result.csrfToken;
   return result;
+}
+function queuePortalWrite(write){
+  portalWritesPending++;updatePortalSyncUi();
+  const operation=portalWriteQueue.then(write);
+  portalWriteQueue=operation.catch(()=>{});
+  return operation.finally(()=>{portalWritesPending=Math.max(0,portalWritesPending-1);updatePortalSyncUi()});
 }
 const KEY='sas_data_v1', LKEY='sas_lock_v1', TKEY='sas_theme', PEPPER='sas-seal-2026', IDLE_MS=5*60*1000, MAXFAIL=5, LOCK_MS=5*60*1000;
 const $=id=>document.getElementById(id);
@@ -430,7 +437,7 @@ async function acceptStudentSession(result){
   if(!result.user||result.user.role!=='student'||!Array.isArray(result.state&&result.state.users)
     ||!Array.isArray(result.state.students))throw new Error('The student portal returned an invalid account record.');
   db=Object.assign(blank(),result.state);migrate();tampered=false;
-  portalRevision=Number(result.revision)||0;portalRemoteReady=true;
+  portalRevision=Number(result.revision)||0;portalRemoteReady=true;portalSyncState='active';portalSyncError='';
   S={u:result.user.u,name:result.user.name,role:'student',id:result.user.id,sid:result.user.sid};
 }
 
@@ -756,14 +763,30 @@ async function save(){
   clearCache();db.seal=await sha(body(db)+PEPPER);
   try{localStorage.setItem(KEY,JSON.stringify(db))}catch(e){toast('Storage is full. Remove old photos or tasks, or save a backup.','bad')}
   if(isAdmin()&&portalRemoteReady){
-    try{const result=await portalRequest('PUT',db);portalRevision=result.revision}
-    catch(error){toast(error.message,'bad');console.error('Could not save Student Portal data to MySQL.',error)}
+    portalSyncState='saving';portalSyncError='';updatePortalSyncUi();
+    try{
+      await queuePortalWrite(async()=>{
+        const result=await portalRequest('PUT',db);
+        portalRevision=result.revision;portalLastSyncedAt=Date.now();
+      });
+      portalSyncState='saved';
+    }catch(error){
+      portalSyncState='error';portalSyncError=error.message;toast('Saved on this device, but MySQL could not be updated: '+error.message,'bad');console.error('Could not save Student Portal data to MySQL.',error)
+    }
+    updatePortalSyncUi();
   }
   if(S&&S.role==='student'&&portalRemoteReady){
+    portalSyncState='saving';portalSyncError='';updatePortalSyncUi();
     try{
-      const result=await portalStudentRequest('PUT',{state:db,revision:portalRevision});
-      portalRevision=result.revision;
-    }catch(error){toast(error.message,'bad');console.error('Could not save student portal changes to the database.',error)}
+      await queuePortalWrite(async()=>{
+        const result=await portalStudentRequest('PUT',{state:db,revision:portalRevision});
+        portalRevision=result.revision;portalLastSyncedAt=Date.now();
+      });
+      portalSyncState='saved';
+    }catch(error){
+      portalSyncState='error';portalSyncError=error.message;toast('Saved on this device, but MySQL could not be updated: '+error.message,'bad');console.error('Could not save student portal changes to the database.',error)
+    }
+    updatePortalSyncUi();
   }
 }
 async function load(){
@@ -806,7 +829,7 @@ async function init(){
         portalRevision=Number(portal.state.revision)||0;portalServerAvailable=true;
         if(!localPortalCopyExists){
           db=Object.assign(blank(),JSON.parse(portal.state.state_json));migrate();tampered=false;
-          portalRemoteReady=true;
+          portalRemoteReady=true;portalSyncState='active';
         }
       }
       let admin=db.users.find(x=>isSiteAdminUser(x));
@@ -1251,12 +1274,44 @@ function movesCsv(){if(!isAdmin())return;
 }
 
 /* ================= ADMIN ================= */
+function portalSyncPanel(){
+  let tone='t-warn',label='This device only',detail='';
+  if(portalWritesPending>0||portalSyncState==='saving'){
+    tone='t-info';label='Saving to MySQL';detail='Your latest portal changes are being written to the shared database.';
+  }else if(portalSyncState==='error'){
+    tone='t-bad';label='MySQL save failed';detail=`Your latest changes are currently only on this device. ${portalSyncError}`;
+  }else if(portalRemoteReady){
+    tone='t-ok';label='MySQL sync active';detail=`Portal changes save automatically · database revision ${portalRevision}${portalLastSyncedAt?` · last saved ${fmtT(portalLastSyncedAt)}`:''}.`;
+  }else if(portalServerAvailable){
+    label='Database copy found';detail=`Revision ${portalRevision} is available. This browser is not connected to it until you choose Load or Upload.`;
+  }else if(localPortalCopyExists){
+    detail='The current browser has a local portal copy. Back it up, then explicitly upload it to MySQL or load the database copy.';
+  }else{
+    detail='No portal data has been connected to this browser yet. Existing database records are not replaced unless you explicitly choose Upload.';
+  }
+  return `<div class="livebar"><span class="tag ${tone}">${label}</span><span class="mut">${esc(detail)}</span></div>`;
+}
+function updatePortalSyncUi(){
+  const el=$('portalSyncStatus');if(el)el.innerHTML=portalSyncPanel();
+}
+function portalDataSummary(){
+  const units=db.items.reduce((sum,item)=>sum+(Number(item.qty)||0),0);
+  return `<div class="stats">
+    ${stat('Students',fmt(db.students.length),'users','var(--pri)',0)}
+    ${stat('Attendance records',fmt(Object.keys(db.attendance).length),'check','var(--ok)',50)}
+    ${stat('Workshop items',fmt(db.items.length),'box','var(--acc)',100)}
+    ${stat('Units on hand',fmt(units),'list','var(--warn)',150)}
+    ${stat('Learning tasks',fmt(db.tasks.length),'task','var(--pri)',200)}
+    ${stat('Submissions & discussions',fmt(db.subs.length+db.posts.length),'chat','var(--acc)',250)}
+  </div>`;
+}
 function vAdm(){
   return `  <div class="card"><h2>Users</h2><div class="mut">Students create accounts from the sign-in screen; user accounts and password resets are stored on the server.</div><div class="wrap"><table><thead><tr><th>Username</th><th>Name</th><th>Role</th><th></th></tr></thead><tbody>
   ${db.users.map(u=>`<tr><td><b>${esc(u.u)}</b></td><td>${esc(u.name)}</td><td><span class="tag ${u.role==='admin'?'t-info':'t-ok'}">${u.role}</span></td><td><div class="acts" style="margin:0"><button class="sec sm" onclick="resetPw('${u.id}')">Reset password</button>${u.id!==S.id?`<button class="bad sm" onclick="delUser('${u.id}')">Delete</button>`:''}</div></td></tr>`).join('')}</tbody></table></div>
   <div class="acts"><button class="sec" onclick="changePw(false)">Change my password</button></div></div>
-  <div class="card"><h2>MySQL database</h2><div class="mut">${portalRemoteReady?'Connected · revision '+portalRevision:portalServerAvailable?'Database revision '+portalRevision+' is available. The existing browser copy is preserved until you choose to load or replace it.':`No database copy loaded${localPortalCopyExists?' · this browser has existing data':''}. Upload the browser copy to start or replace the MySQL snapshot.`} ${portalRemoteReady?'Administrator changes are saved to the database automatically.':'Choose an explicit import or load before enabling database synchronization.'}</div>
-  <div class="acts"><button onclick="syncPortal()">Upload browser data to MySQL</button><button class="sec" onclick="pullPortal()">Load database copy</button></div></div>
+  <div class="card"><h2>Portal data at a glance</h2><div class="mut">Student records, attendance, workshop stock, online classes, submissions and discussion are managed here.</div>${portalDataSummary()}</div>
+  <div class="card"><h2>MySQL database</h2><div id="portalSyncStatus">${portalSyncPanel()}</div><div class="mut">Upload replaces the shared portal snapshot with this browser’s copy. Load replaces this browser’s copy with the database snapshot. Download a backup first and choose the copy that contains the latest records.</div>
+  <div class="acts"><button onclick="syncPortal()">Back up, then upload this browser</button><button class="sec" onclick="pullPortal()">Load the database copy here</button></div></div>
   <div class="card"><h2>Backup & restore</h2><div class="mut">Download a backup every week and keep it away from learners' computers.</div>
   <div class="acts"><button onclick="backup()">Download backup</button><button class="sec" onclick="$('rf').click()">Restore from backup</button></div><input type="file" id="rf" accept=".json" class="hide" onchange="restore(this)"></div>
   <div class="card"><h2>Audit log</h2><div class="acts" style="margin:0 0 12px"><button class="sec sm" onclick="chkLog()">Check log integrity</button><span id="logmsg"></span></div>
@@ -1266,8 +1321,17 @@ function vAdm(){
 async function syncPortal(){
   if(!isAdmin())return;
   if(!confirm(`Upload this browser copy and replace the current MySQL portal data${portalServerAvailable?' at revision '+portalRevision:''}? Keep a downloaded backup first.`))return;
-  try{await audit('DATABASE_IMPORT','browser data');const result=await portalRequest('PUT',db);portalRevision=result.revision;portalRemoteReady=true;render();toast('Portal data uploaded to MySQL')}
-  catch(error){toast(error.message,'bad');console.error('Could not import Student Portal data into MySQL.',error)}
+  portalSyncState='saving';portalSyncError='';updatePortalSyncUi();
+  try{
+    await audit('DATABASE_IMPORT','browser data');
+    await queuePortalWrite(async()=>{
+      const result=await portalRequest('PUT',db);
+      portalRevision=result.revision;portalLastSyncedAt=Date.now();
+    });
+    portalRemoteReady=true;portalServerAvailable=true;portalSyncState='saved';render();toast('Portal data uploaded to MySQL')
+  }catch(error){
+    portalSyncState='error';portalSyncError=error.message;updatePortalSyncUi();toast(error.message,'bad');console.error('Could not import Student Portal data into MySQL.',error)
+  }
 }
 async function adminStudentRequest(action,payload){
   const response=await fetch(portalApiUrl,{method:'POST',credentials:'same-origin',headers:{'Accept':'application/json','Content-Type':'application/json','X-CSRF-Token':portalCsrf},body:JSON.stringify({action,...payload})});
@@ -1283,9 +1347,9 @@ async function pullPortal(){
     if(!result.state){toast('No Student Portal data has been uploaded to MySQL yet.','bad');return}
     const parsed=JSON.parse(result.state.state_json);
     db=Object.assign(blank(),parsed);migrate();tampered=false;
-    portalRevision=Number(result.state.revision)||0;portalRemoteReady=true;
+    portalRevision=Number(result.state.revision)||0;portalRemoteReady=true;portalServerAvailable=true;portalSyncState='active';portalSyncError='';
     await audit('DATABASE_RESTORE','revision '+portalRevision);await save();render();toast('Loaded the MySQL portal copy')
-  }catch(error){toast(error.message,'bad');console.error('Could not load Student Portal data from MySQL.',error)}
+  }catch(error){portalSyncState='error';portalSyncError=error.message;updatePortalSyncUi();toast(error.message,'bad');console.error('Could not load Student Portal data from MySQL.',error)}
 }
 async function chkLog(){if(!isAdmin())return;const b=await verifyLog();$('logmsg').innerHTML=b<0?'<span class="tag t-ok">Log is intact</span>':'<span class="tag t-bad">Log altered near entry #'+b+'</span>'}
 function resetPw(id){if(!isAdmin())return;
