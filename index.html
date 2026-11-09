@@ -2456,6 +2456,112 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
   }
 </style>
 <style id="store-product-refresh">
+  #sec-home .store-hero h1{
+    max-width:720px;font-size:clamp(34px,4.2vw,50px);line-height:1.04;letter-spacing:-.05em
+  }
+  #sec-home .store-hero-copy{max-width:780px}
+  #sec-home .store-hero-highlight{
+    position:relative;display:inline-block;color:#2563eb;
+    background:linear-gradient(110deg,#1d4ed8,#0891b2);
+    background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent
+  }
+  #sec-home .store-hero-highlight::after{
+    position:absolute;right:2px;bottom:-5px;left:2px;height:4px;border-radius:99px;
+    background:linear-gradient(90deg,#2563eb,#22d3ee);content:""
+  }
+  #sec-home .store-hero-highlight-future{white-space:nowrap}
+  #sec-home .store-kicker{letter-spacing:.1em}
+  #sec-home .store-hero p{max-width:510px}
+
+  #sec-hotdeals .hero-slides.sec-slides{
+    border:1px solid rgba(148,163,184,.24);border-radius:24px;
+    box-shadow:0 24px 60px -34px rgba(2,8,23,.7)
+  }
+  #sec-hotdeals .sec-slides .hs-txt span{
+    padding:7px 13px;border:1px solid rgba(255,255,255,.2);
+    background:linear-gradient(120deg,#f97316,#c2410c);
+    font-family:'IBM Plex Sans','Segoe UI',sans-serif;font-size:11px;font-weight:800;
+    letter-spacing:.11em;box-shadow:0 7px 20px rgba(194,65,12,.3)
+  }
+  #sec-hotdeals .sec-slides .hs-txt h2{
+    max-width:660px;font-size:clamp(25px,4.3vw,46px);line-height:1.08;letter-spacing:-.035em
+  }
+  #sec-hotdeals .sec-slides .hs-txt p{max-width:52ch;color:#e2e8f0}
+  #sec-hotdeals .hd-hero{
+    position:relative;overflow:hidden;padding:clamp(22px,4vw,36px);
+    border:1px solid rgba(148,163,184,.22);border-radius:22px;
+    background:radial-gradient(500px 220px at 92% 0%,rgba(249,115,22,.24),transparent 70%),
+      linear-gradient(120deg,#101b36 0%,#111b30 62%,#1b2436 100%);
+    box-shadow:0 22px 54px -38px rgba(2,8,23,.8)
+  }
+  #sec-hotdeals .hd-hero::after{
+    position:absolute;right:clamp(200px,28vw,360px);bottom:-54px;width:180px;height:180px;
+    border:1px solid rgba(251,146,60,.18);border-radius:50%;content:"";pointer-events:none
+  }
+  #sec-hotdeals .hd-hero>div:first-child{position:relative;z-index:1}
+  #sec-hotdeals .hd-eyebrow{color:#fdba74;letter-spacing:.16em}
+  #sec-hotdeals .hd-hero h2{
+    margin:8px 0 10px;font-size:clamp(28px,4vw,42px);line-height:1.05;letter-spacing:-.04em
+  }
+  #sec-hotdeals .hd-hero p{max-width:650px;color:#d4deef;font-size:14px;line-height:1.7}
+  #sec-hotdeals .hd-hero a{color:#fed7aa;text-decoration-thickness:1px;text-underline-offset:3px}
+  #sec-hotdeals .hd-timer{
+    position:relative;z-index:1;min-width:220px;border:1px solid rgba(251,146,60,.35);
+    border-radius:17px;background:rgba(5,12,27,.56);box-shadow:inset 0 1px 0 rgba(255,255,255,.08)
+  }
+  #sec-hotdeals .hd-timer small{color:#cbd5e1}
+  #sec-hotdeals .hd-clock{color:#fff;font-size:clamp(24px,3vw,32px)}
+  #sec-hotdeals .hd-grid{
+    grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:16px;margin-top:18px
+  }
+  #sec-hotdeals .hd-grid .hd-card{
+    min-width:0;gap:10px;padding:12px;border:1px solid #293a70;border-radius:20px;
+    background:linear-gradient(165deg,#151f43 0%,#101833 58%,#0b132b 100%);
+    box-shadow:0 12px 28px rgba(7,15,40,.16);
+    transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease
+  }
+  #sec-hotdeals .hd-grid .hd-card:hover{
+    transform:translateY(-4px);border-color:#f59e0b;
+    box-shadow:0 18px 38px rgba(24,36,72,.28),0 0 0 1px rgba(245,158,11,.12)
+  }
+  #sec-hotdeals .hd-grid .hd-card .pic{
+    position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.08);
+    border-radius:15px;background:radial-gradient(circle at 50% 42%,#fff 54%,#edf2fb 100%)
+  }
+  #sec-hotdeals .hd-grid .hd-card h4{min-height:40px;color:#f5f7ff;font-size:14px;line-height:1.4}
+  #sec-hotdeals .hd-now{color:#fdba74;font-size:18px}
+  #sec-hotdeals .hd-save{color:#86efac}
+  #sec-hotdeals .hd-bar{height:6px;background:rgba(255,255,255,.12)}
+  #sec-hotdeals .hd-bar i{background:linear-gradient(90deg,#fbbf24,#f97316)}
+  #sec-hotdeals .hd-left{color:#aab8d2}
+  #sec-hotdeals .hd-grid .hd-card .btn{
+    min-height:42px;border:1px solid #f97316;border-radius:12px;
+    background:linear-gradient(135deg,#f97316,#c2410c);box-shadow:0 7px 18px rgba(194,65,12,.22)
+  }
+  #sec-hotdeals .hd-empty{
+    padding:clamp(28px,6vw,54px);border-color:rgba(148,163,184,.35);
+    border-radius:20px;background:linear-gradient(145deg,#101b36,#0b132b);color:#d5def0
+  }
+  #sec-hotdeals .hd-empty b{display:inline-block;margin:12px 0 4px;color:#fff;font-size:20px}
+  #sec-hotdeals .hd-empty a{color:#fdba74!important}
+  @media(max-width:640px){
+    #sec-home .store-hero h1{font-size:clamp(26px,7.4vw,32px)}
+    #sec-home .store-hero-highlight::after{bottom:-3px;height:3px}
+    #sec-hotdeals .hd-hero{gap:16px;border-radius:18px}
+    #sec-hotdeals .hd-timer{width:100%;min-width:0}
+    #sec-hotdeals .hd-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+    #sec-hotdeals .hd-grid .hd-card{padding:9px;border-radius:16px}
+    #sec-hotdeals .hd-grid .hd-card .hd-left{font-size:10px}
+  }
+  @media(max-width:360px){
+    #sec-home .store-hero h1{font-size:27px}
+    #sec-hotdeals .hd-grid .hd-card .pic{font-size:56px}
+  }
+  @media(prefers-reduced-motion:reduce){
+    #sec-hotdeals .hd-grid .hd-card{transition:none}
+    #sec-hotdeals .hd-grid .hd-card:hover{transform:none}
+  }
+
   #sec-products{
     margin-block:18px 30px;padding-block:20px;border:1px solid #1c2a52;border-radius:24px;
     background:radial-gradient(900px 380px at 8% 0%,rgba(55,91,182,.2),transparent 62%),linear-gradient(160deg,#0a1128 0%,#070c1c 100%);
@@ -2880,31 +2986,31 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
       <div class="store-hero">
         <img src="images/02-shop/slide-1.jpg" alt="Sensors and electronic components available from Charles Tech" fetchpriority="high" decoding="async">
         <div class="store-hero-copy">
-          <span class="store-kicker">Technology, learning &amp; making in Rwanda</span>
-          <h1>Build something brilliant.</h1>
-          <p>Shop reliable electronics, explore maker kits, and get practical support from Charles Tech in Musanze.</p>
+          <span class="store-kicker">IKORANABUHANGA · KWIGA · GUHANGA IBISHYA MU RWANDA</span>
+          <h1>Duhange <span class="store-hero-highlight">udushya.</span><br>Twubake <span class="store-hero-highlight store-hero-highlight-future">ejo hazaza.</span></h1>
+          <p>Hitamo ibikoresho by’ikoranabuhanga byizewe, tangira imishinga mishya kandi uhabwe ubufasha bufatika hano i Musanze.</p>
           <div class="d-flex flex-wrap gap-2">
-            <a class="btn store-btn-primary" href="#products" data-section="products">Explore the shop <span aria-hidden="true">→</span></a>
-            <a class="btn store-btn-ghost" href="#education" data-section="education">Discover learning</a>
+            <a class="btn store-btn-primary" href="#products" data-section="products">Reba ibikoresho <span aria-hidden="true">→</span></a>
+            <a class="btn store-btn-ghost" href="#education" data-section="education">Tangira kwiga</a>
           </div>
         </div>
-        <div class="store-hero-badge">MADE FOR<br>MAKERS</div>
+        <div class="store-hero-badge">DUHANGE<br>UDUSHYA</div>
       </div>
 
       <div class="store-benefits" aria-label="Charles Tech services">
-        <span><i aria-hidden="true">🚚</i> Local delivery options</span>
-        <span><i aria-hidden="true">🛠</i> Practical tech support</span>
-        <span><i aria-hidden="true">✓</i> Quality-checked products</span>
+        <span><i aria-hidden="true">🚚</i> Kohereza mu Rwanda</span>
+        <span><i aria-hidden="true">🛠</i> Ubufasha bwa tekiniki</span>
+        <span><i aria-hidden="true">✓</i> Ibikoresho byagenzuwe</span>
         <span><i aria-hidden="true">📍</i> Musanze, Rwanda</span>
       </div>
 
       <section class="store-section" aria-labelledby="storeCategoriesTitle">
         <div class="store-section-head">
           <div>
-            <h2 id="storeCategoriesTitle">Shop by category</h2>
-            <p>Find the right tools for work, home and your next build.</p>
+            <h2 id="storeCategoriesTitle">Hitamo ibikoresho ukurikije icyo ukeneye</h2>
+            <p>Ibikoresho by’akazi, urugo no mu mushinga wawe utaha.</p>
           </div>
-          <a class="store-view-all" href="#products" data-section="products">View all <span aria-hidden="true">→</span></a>
+          <a class="store-view-all" href="#products" data-section="products">Reba byose <span aria-hidden="true">→</span></a>
         </div>
         <div class="row g-3" id="storeCategoryGrid"></div>
       </section>
@@ -2912,17 +3018,17 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
       <section class="store-section" aria-labelledby="storeFeaturedTitle">
         <div class="store-section-head">
           <div>
-            <h2 id="storeFeaturedTitle">Featured products</h2>
-            <p>A few useful picks from the Charles Tech catalogue.</p>
+            <h2 id="storeFeaturedTitle">Ibyatoranyijwe kuri wowe</h2>
+            <p>Bimwe mu bikoresho by’ingirakamaro mu bubiko bwa Charles Tech.</p>
           </div>
-          <a class="store-view-all" href="#products" data-section="products">Browse catalogue <span aria-hidden="true">→</span></a>
+          <a class="store-view-all" href="#products" data-section="products">Reba ibicuruzwa byose <span aria-hidden="true">→</span></a>
         </div>
         <div class="row g-3" id="storeFeaturedGrid" aria-live="polite"></div>
       </section>
 
       <section class="store-section" aria-labelledby="storeBrandsTitle">
         <div class="store-brands">
-          <div class="store-brands-label" id="storeBrandsTitle">Platforms and technology we work with</div>
+          <div class="store-brands-label" id="storeBrandsTitle">Ikoranabuhanga dukoresha</div>
           <span class="store-brand-word">Arduino</span>
           <span class="store-brand-word">Raspberry Pi</span>
           <span class="store-brand-word">ESP32</span>
@@ -2934,14 +3040,14 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
       <section class="store-about" aria-labelledby="storeAboutTitle">
         <div>
           <span class="store-kicker" style="color:var(--store-primary)">CHARLES HIGH TECHNOLOGY SOLUTION LTD</span>
-          <h2 id="storeAboutTitle">A local technology partner, built for what’s next.</h2>
-          <p>From electronics and learning kits to embedded systems, IoT and 3D design, Charles Tech helps people turn ideas into working projects. Visit us in Musanze or talk to our team about what you’re building.</p>
+          <h2 id="storeAboutTitle">Umufatanyabikorwa wawe mu ikoranabuhanga—hafi yawe.</h2>
+          <p>Kuva ku bikoresho by’ikoranabuhanga n’amasomo ngiro, kugeza kuri embedded systems, IoT no gushushanya mu buryo bwa 3D, Charles Tech igufasha guhindura igitekerezo umushinga ukora. Dusange i Musanze cyangwa tuganire ku byo wifuza guhanga.</p>
           <div class="store-about-stats">
-            <div><b id="storeProductCount">120+</b><span>catalogue products</span></div>
-            <div><b>Rwanda</b><span>local support</span></div>
-            <div><b>Hands-on</b><span>learning &amp; making</span></div>
+            <div><b id="storeProductCount">120+</b><span>ibicuruzwa</span></div>
+            <div><b>Rwanda</b><span>ubufasha buri hafi</span></div>
+            <div><b>Ngiro</b><span>kwiga no guhanga</span></div>
           </div>
-          <a class="btn store-btn-primary mt-3" href="#about" data-section="about">Meet Charles Tech <span aria-hidden="true">→</span></a>
+          <a class="btn store-btn-primary mt-3" href="#about" data-section="about">Menya Charles Tech <span aria-hidden="true">→</span></a>
         </div>
         <img src="images/01-home/workshop.jpg" alt="Charles Tech workspace in Musanze" loading="lazy" decoding="async">
       </section>
@@ -3239,21 +3345,21 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
       <!-- 📁 FILE : images/04-hot-deals/slide-1.jpg -->
       <div class="hs fx-fade on">
         <img class="hs-img" src="images/04-hot-deals/slide-1.jpg" alt="Hot deals" width="1600" height="900" decoding="async" loading="lazy">
-        <div class="hs-txt"><span>🔥 Limited-time prices</span><h2>Hot deals this week</h2><p>Big discounts on selected parts — while stock lasts.</p></div>
+        <div class="hs-txt"><span>🔥 IGIHE GITO · IBICIRO BYIZA</span><h2>Igabanyirizwa ridasanzwe</h2><p>Hitamo ibikoresho byagabanyirijwe ibiciro, igihe bigihari.</p></div>
       </div>
 
       <!-- 🖼️ IMAGE: HOT DEALS SLIDE 2 — LANDSCAPE PHOTO (16:9, 1600×900 — product on sale) -->
       <!-- 📁 FILE : images/04-hot-deals/slide-2.jpg -->
       <div class="hs fx-circle">
         <img class="hs-img" src="images/04-hot-deals/slide-2.jpg" alt="Electronics lab bench" width="1600" height="900" decoding="async" loading="lazy">
-        <div class="hs-txt"><span>⚡ Save more</span><h2>Kits &amp; tools for less</h2><p>Complete your lab with discounted tools and kits.</p></div>
+        <div class="hs-txt"><span>⚡ UZIGAME BYINSHI</span><h2>Ibikoresho by’umushinga wawe, ku giciro cyiza</h2><p>Shaka ibikoresho by’ingirakamaro mu mishinga yawe yo guhanga no kwiga.</p></div>
       </div>
 
       <!-- 🖼️ IMAGE: HOT DEALS SLIDE 3 — LANDSCAPE PHOTO (16:9, 1600×900 — product on sale) -->
       <!-- 📁 FILE : images/04-hot-deals/slide-3.jpg -->
       <div class="hs fx-diag">
         <img class="hs-img" src="images/04-hot-deals/slide-3.jpg" alt="Sensor kit on sale" width="1600" height="900" decoding="async" loading="lazy">
-        <div class="hs-txt"><span>🎁 Bundle offers</span><h2>Buy the kit, save on parts</h2><p>Sensor and module bundles at special prices.</p></div>
+        <div class="hs-txt"><span>🎁 AMAPAKI YIHARIYE</span><h2>Gura byinshi, wizigamire byinshi</h2><p>Hitamo amapaki y’ibikoresho byatoranyijwe ku giciro cyiza.</p></div>
       </div>
 
       <button type="button" class="hs-btn prev" aria-label="Previous picture">‹</button>
@@ -3263,11 +3369,11 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
     </div>
     <div class="hd-hero">
       <div>
-        <div class="hd-eyebrow">🔥 LIMITED-TIME PRICES</div>
-        <h2>Hot Deals</h2>
-        <p>Selected parts at a reduced price — only until the timer ends or the stock runs out. Want everything else? <a href="#products" data-section="products">Browse the full Shop →</a></p>
+        <div class="hd-eyebrow">🔥 IGABANYIRIZWA RY’IBICIRO · IGIHE GITO</div>
+        <h2>Ibiciro byagabanyijwe</h2>
+        <p>Gura ibicuruzwa byatoranyijwe ku giciro cyiza mbere y’uko igihe kirangira cyangwa ibicuruzwa bikarangira mu bubiko. Ushaka ibindi? <a href="#products" data-section="products">Reba ibicuruzwa byose →</a></p>
       </div>
-      <div class="hd-timer" id="hdTimerBox"><small>Next deal ends in</small><div class="hd-clock" id="hdClock">--</div></div>
+      <div class="hd-timer" id="hdTimerBox"><small>Igihe gisigaye</small><div class="hd-clock" id="hdClock">--</div></div>
     </div>
     <div class="hd-admin" id="hdAdminBar" style="display:none">
       <b>Admin:</b>
@@ -3276,7 +3382,7 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
       <span style="color:var(--text-dim-2)">Or open any product and use “🔥 Hot deal” to set a custom % and duration.</span>
     </div>
     <div class="bigslider hot" id="hotBigSlider" style="margin-top:16px" aria-roledescription="carousel" aria-label="Hot deals"></div>
-    <h3 class="hd-sub" id="hdSubhead" style="display:none">All current deals</h3>
+    <h3 class="hd-sub" id="hdSubhead" style="display:none">Ibicuruzwa byose bigabanyirizwa</h3>
     <div class="hd-grid" id="hdGrid"></div>
   </section>
   <!-- ===== END HOT DEALS SECTION ===== -->
@@ -5767,10 +5873,10 @@ function hdCardHTML(p, clone){
     ${window.adminPhotoBtn ? adminPhotoBtn(p.id) : ''}<div class="pic">${productPicHTML(p)}</div>
     <h4>${p.name}</h4>
     <div><span class="hd-now">${fmtRWF(p.price)}</span><s class="price-old">${fmtRWF(p.basePrice)}</s></div>
-    <div class="hd-save">You save ${fmtRWF(p.basePrice - p.price)}</div>
+    <div class="hd-save">Uzigama ${fmtRWF(p.basePrice - p.price)}</div>
     <div class="hd-bar"><i style="width:${stockPct}%"></i></div>
-    <div class="hd-left"><span>${p.stock <= 5 ? '🔥 Only ' + p.stock + ' left' : p.stock + ' in stock'}</span><span>${p.deal.endsAt ? 'Ends ' + new Date(p.deal.endsAt).toLocaleDateString('en-GB',{day:'numeric',month:'short'}) : ''}</span></div>
-    <button class="btn btn-primary btn-sm" tabindex="${clone ? -1 : 0}" onclick="event.stopPropagation(); ${open}">⚡ Claim deal</button>
+    <div class="hd-left"><span>${p.stock <= 5 ? '🔥 Hasigaye ' + p.stock + ' gusa' : 'Ibiri ku bubiko: ' + p.stock}</span><span>${p.deal.endsAt ? 'Birangira ' + new Date(p.deal.endsAt).toLocaleDateString('en-GB',{day:'numeric',month:'short'}) : ''}</span></div>
+    <button class="btn btn-primary btn-sm" tabindex="${clone ? -1 : 0}" onclick="event.stopPropagation(); ${open}">⚡ Gura kuri iki giciro</button>
   </div>`;
 }
 window.renderHotDeals = function(){
@@ -5783,8 +5889,8 @@ window.renderHotDeals = function(){
   if (!items.length){
     sub.style.display = 'none';
     grid.innerHTML = `<div class="hd-empty" style="grid-column:1/-1"><div style="font-size:42px">🔥</div>
-      <b>No hot deals running right now.</b><br>New offers are added often — check back soon, or <a href="https://wa.me/250787767610" target="_blank" rel="noopener" style="color:#ff9a5c">ask us on WhatsApp</a> for today's best price.
-      <br><button class="btn btn-primary" style="margin-top:14px" data-nav="products">🛒 Browse the Shop</button></div>`;
+      <b>Nta bicuruzwa biri kugabanyirizwa ubu.</b><br>Amagabanyirizwa mashya ashyirwaho kenshi. Ongera ugaruke cyangwa <a href="https://wa.me/250787767610" target="_blank" rel="noopener" style="color:#ff9a5c">tuvugishe kuri WhatsApp</a> umenye igiciro cyiza cy’uyu munsi.
+      <br><button class="btn btn-primary" style="margin-top:14px" data-nav="products">🛒 Reba ibicuruzwa</button></div>`;
     hdTickClock(); return;
   }
   sub.style.display = '';
