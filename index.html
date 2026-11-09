@@ -3100,37 +3100,37 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
     #siteShell>.wrap{padding-inline:10px}
     #sec-home .home-learning-hero{min-height:500px}
   }
-  .bigslider:not(.hot) .bs-bg{
+  #shopBigSlider.bs-welcome-active .bs-bg{
     background:
-      radial-gradient(ellipse at 82% 46%,rgba(201,154,59,.18),transparent 40%),
-      radial-gradient(ellipse at 12% 0%,rgba(43,105,143,.22),transparent 52%),
-      #07182d
+      radial-gradient(ellipse at 82% 42%,rgba(201,154,59,.16),transparent 39%),
+      linear-gradient(90deg,rgba(7,24,45,.99) 0%,rgba(7,24,45,.96) 42%,rgba(7,24,45,.7) 70%,rgba(7,24,45,.54) 100%),
+      url("images/03-learn/slide-1.jpg") center 48% / cover no-repeat
   }
   #shopBigSlider .bs-slide.bs-welcome-slide{
-    grid-template-columns:minmax(0,1.15fr) minmax(230px,.85fr);
-    gap:clamp(18px,4vw,48px);
+    grid-template-columns:minmax(0,1fr);
     padding:clamp(30px,5vw,58px) clamp(28px,6vw,76px) 58px
   }
+  #shopBigSlider .bs-welcome-slide .bs-t{position:relative;z-index:1;max-width:790px}
   #shopBigSlider .bs-welcome-slide .bs-eyebrow{
-    display:inline-flex;align-items:center;gap:10px;margin-bottom:16px;
-    color:#e7bd60;font-size:11px;letter-spacing:.17em
+    display:inline-flex;align-items:center;gap:10px;margin-bottom:18px;
+    color:#e7bd60;font-size:11px;font-weight:800;letter-spacing:.17em
   }
   #shopBigSlider .bs-welcome-slide .bs-eyebrow::before{
     width:26px;height:2px;border-radius:2px;background:#d3a443;content:""
   }
   #shopBigSlider .bs-welcome-slide .bs-big{
-    max-width:650px;margin-bottom:16px;font-size:clamp(38px,6vw,72px);
-    line-height:1.02;letter-spacing:-.055em;animation:none;
+    max-width:790px;margin-bottom:18px;font-size:clamp(42px,5.2vw,70px);
+    line-height:1.04;letter-spacing:-.06em;animation:none;
     background:none;color:#f5f7fb;-webkit-text-fill-color:#f5f7fb
   }
   #shopBigSlider .bs-welcome-highlight{
-    display:inline-block;
+    display:inline-block;white-space:nowrap;font-size:.82em;letter-spacing:-.04em;
     background:linear-gradient(100deg,#f3d17f 0%,#d1a342 88%);
     background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent
   }
   #shopBigSlider .bs-welcome-slide .bs-sub{
-    max-width:510px;margin-bottom:23px;color:#c5cfdd;
-    font-size:clamp(14px,1.5vw,17px);line-height:1.75
+    max-width:540px;margin-bottom:25px;color:#c5cfdd;
+    font-size:clamp(15px,1.55vw,18px);line-height:1.75
   }
   #shopBigSlider .bs-welcome-slide .bs-sub small{
     margin-top:9px;color:#aab8ca;font-size:.82em;line-height:1.6
@@ -3153,7 +3153,9 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
     border-color:rgba(226,235,245,.65);background:rgba(255,255,255,.1);color:#fff
   }
   #shopBigSlider .bs-welcome-art{
-    position:relative;display:grid;min-height:290px;place-items:center;isolation:isolate
+    position:absolute;z-index:0;top:0;right:5%;bottom:0;
+    display:grid;width:min(30%,250px);min-height:0;place-items:center;
+    isolation:isolate;opacity:.42;pointer-events:none
   }
   #shopBigSlider .bs-hub-orbit{
     position:absolute;z-index:-1;width:min(78%,280px);aspect-ratio:1;
@@ -3180,13 +3182,17 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
       grid-template-columns:1fr;gap:8px;align-content:center;
       padding:28px 22px 58px;text-align:center
     }
-    #shopBigSlider .bs-welcome-slide .bs-t{grid-row:2}
+    #shopBigSlider .bs-welcome-slide .bs-t{grid-row:auto}
     #shopBigSlider .bs-welcome-slide .bs-eyebrow{justify-content:center;margin:0 0 10px;font-size:9px}
     #shopBigSlider .bs-welcome-slide .bs-big{margin:0 auto 10px;font-size:clamp(34px,9vw,48px)}
+    #shopBigSlider .bs-welcome-highlight{white-space:normal;font-size:.8em}
     #shopBigSlider .bs-welcome-slide .bs-sub{margin:0 auto 17px;font-size:14px}
     #shopBigSlider .bs-welcome-slide .bs-cta{justify-content:center}
     #shopBigSlider .bs-welcome-slide .bs-cta .btn{width:100%;justify-content:center}
-    #shopBigSlider .bs-welcome-art{grid-row:1;min-height:125px;margin-bottom:7px}
+    #shopBigSlider .bs-welcome-art{
+      top:0;right:0;bottom:auto;left:0;width:100%;height:145px;min-height:0;
+      margin:0;opacity:.24
+    }
     #shopBigSlider .bs-hub-orbit{width:94px;box-shadow:0 0 0 12px rgba(224,184,92,.035),0 0 0 25px rgba(224,184,92,.025)}
     #shopBigSlider .bs-hub-emblem{width:84px;border-radius:21px}
     #shopBigSlider .bs-hub-caption{right:calc(50% - 104px);bottom:-3px;padding:7px 10px;font-size:8px}
@@ -6276,7 +6282,7 @@ const BS = {}, BS_MS = 5500;
 function bsWelcome(hot){
   const sub = hot
     ? `Ibiciro byagabanutse — gura mbere y'uko birangira.<small>Reduced prices on selected parts — buy before the timer ends.</small>`
-    : `Ibikoresho by’ikoranabuhanga byizewe, ubumenyi ngiro n’ibisubizo bishya — byose ahantu hamwe.<small>Discover trusted technology, hands-on learning and innovative solutions, all in one place.</small>`;
+    : `Menya ibikoresho by’ikoranabuhanga, wige Embedded Systems na IoT, uhindure ibitekerezo byawe imishinga ifatika.<small>Explore technology, build Embedded Systems and IoT skills, and turn your ideas into real-world projects.</small>`;
   const welcome = hot ? `
       <h2 class="bs-big">GURIRA HANO</h2>
       <p class="bs-sub">${sub}</p>
@@ -6306,7 +6312,7 @@ function bsWelcome(hot){
       <div class="bs-hub-caption"><span>CHARLES TECH</span> · MUSANZE</div>
     </div>`;
   return `<div class="bs-slide${hot ? '' : ' bs-welcome-slide'}"><div class="bs-t">
-      <div class="bs-eyebrow">${hot ? '🔥 HOT DEALS · MURAKAZA NEZA' : '👋 MURAKAZA NEZA · WELCOME'}</div>
+      <div class="bs-eyebrow">${hot ? '🔥 HOT DEALS · MURAKAZA NEZA' : 'AMASOMO NGIRO · MUSANZE, RWANDA'}</div>
       ${welcome}</div>${art}</div>`;
 }
 function bsProductSlide(p){
@@ -6333,6 +6339,7 @@ function bsRender(rootId, hot, products){
   const st = BS[rootId] = { i: 0, t: 0, hold: false, n: slides.length, root };
   const go = (i) => {
     st.i = (i + st.n) % st.n; st.t = 0;
+    root.classList.toggle('bs-welcome-active', !hot && st.i === 0);
     root.querySelectorAll('.bs-slide').forEach((el,k) => el.classList.toggle('on', k === st.i));
     root.querySelectorAll('.bs-dots button').forEach((el,k) => el.classList.toggle('on', k === st.i));
   };
