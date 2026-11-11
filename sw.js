@@ -6,13 +6,13 @@
      when you replace a picture file (same name), visitors get the new one on their next visit.
    • After you change index.html or add new picture names below: change VERSION (e.g. v2 → v3).
    ===================================================================================== */
-const VERSION = 'chts-v23';
+const VERSION = 'chts-v41';
 const CORE = VERSION + '-core', PICS = VERSION + '-pictures';
 
 const CORE_FILES = [
   './', './index.html', './student-portal.html', './manifest.webmanifest',
-  'assets/css/bootstrap.min.css',
-  'assets/icons/icon-192.png', 'assets/icons/icon-512.png', 'assets/icons/maskable-512.png',
+  'assets/css/bootstrap.min.css', 'assets/css/photographic.css?v=6', 'assets/css/black-theme.css?v=7',
+  'assets/js/site-language.js?v=4', 'assets/icons/icon-192.png', 'assets/icons/icon-512.png', 'assets/icons/maskable-512.png',
   'assets/icons/apple-touch-icon.png', 'assets/icons/favicon.png'
 ];
 /* every picture of the website, from Home to the last page (missing ones are simply skipped) */
@@ -74,7 +74,7 @@ async function saveAll(cacheName, list){
   await Promise.all(list.map(u => fetch(u, { cache: 'no-cache' }).then(r => { if (r.ok) return c.put(u, r); }).catch(() => {})));
 }
 self.addEventListener('install', e => {
-  e.waitUntil(Promise.all([saveAll(CORE, CORE_FILES), saveAll(PICS, PICTURE_FILES)]));
+  e.waitUntil(Promise.all([saveAll(CORE, CORE_FILES), saveAll(PICS, ["images/03-learn/slide-1.jpg"])]));
 });
 self.addEventListener('activate', e => {
   e.waitUntil((async () => {
@@ -92,6 +92,12 @@ self.addEventListener('fetch', e => {
   const url = new URL(req.url);
   if (url.origin !== location.origin) return;                       // other websites are never cached
 
+  // API data is live and may be private; never store backend responses offline.
+  if (url.pathname.includes('/api/')) {
+    e.respondWith(fetch(req));
+    return;
+  }
+
   // pages: newest from the internet, saved copy when offline
   if (req.mode === 'navigate') {
     e.respondWith((async () => {
@@ -106,11 +112,7 @@ self.addEventListener('fetch', e => {
     return;
   }
 
-  // API data is live and may be private; never store backend responses offline.
-  if (url.pathname.includes('/api/')) {
-    e.respondWith(fetch(req));
-    return;
-  }
+
 
   // pictures: instant from the saved copy + refresh in the background
   if (url.pathname.includes('/images/') || req.destination === 'image') {

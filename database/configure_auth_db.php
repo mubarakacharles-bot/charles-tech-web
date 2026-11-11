@@ -27,6 +27,9 @@ try {
     $rootPassword = getenv('CHTS_DB_ROOT_PASSWORD');
     $root = new PDO($dsn, 'root', $rootPassword === false ? '' : $rootPassword, $options);
     $account = $root->quote($username) . '@' . $root->quote($host);
+    if (!$root->query("SHOW COLUMNS FROM users LIKE 'username'")->fetch()) {
+        $root->exec('ALTER TABLE users ADD COLUMN username VARCHAR(30) NULL, ADD UNIQUE KEY uq_users_username (username)');
+    }
     $root->exec(
         'CREATE TABLE IF NOT EXISTS auth_login_attempts (
             attempt_key CHAR(64) NOT NULL,
@@ -76,6 +79,9 @@ try {
             KEY idx_portal_active_class (is_active, class_name)
         ) ENGINE=InnoDB'
     );
+    $root->exec('GRANT SELECT, INSERT, UPDATE ON `charles_tech`.`products` TO ' . $account);
+    $root->exec('GRANT SELECT, INSERT, UPDATE ON `charles_tech`.`product_variants` TO ' . $account);
+    $root->exec('GRANT SELECT, INSERT ON `charles_tech`.`inventory_movements` TO ' . $account);
     $root->exec('GRANT SELECT, INSERT ON `charles_tech`.`users` TO ' . $account);
     $root->exec('GRANT UPDATE (`password_hash`) ON `charles_tech`.`users` TO ' . $account);
     $root->exec('GRANT SELECT, INSERT, UPDATE, DELETE ON `charles_tech`.`auth_login_attempts` TO ' . $account);

@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 require __DIR__ . '/auth/bootstrap.php';
+require_once __DIR__ . '/portal-validation.php';
 auth_start_session();
 
 function portal_require_admin(PDO $pdo): array
@@ -113,6 +114,11 @@ try {
     if (count($state['users']) > 5000 || count($state['students']) > 5000
         || count($state['items']) > 5000 || count($state['tasks']) > 5000) {
         api_json(['error' => 'The portal backup contains too many records.'], 400);
+    }
+
+    $validationError = portal_validate_records($state);
+    if ($validationError !== null) {
+        api_json(['error' => $validationError], 400);
     }
 
     $stateJson = json_encode($state, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR);

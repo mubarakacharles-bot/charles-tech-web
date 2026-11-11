@@ -250,6 +250,7 @@ textarea.code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;w
 @media (max-width:560px){#modal td,#modal th{padding:8px 5px}#modal .btnlink{padding:6px 8px;font-size:12px;margin:2px 3px 2px 0}#modal td:nth-child(2){font-size:12px;word-break:break-all}}
 @media (max-width:560px){#modal table,#modal tbody{display:block;width:100%}#modal thead{display:none}#modal tr{display:block;padding:10px 0;border-bottom:1px solid var(--bd)}#modal td{display:block;border:0;padding:3px 0;word-break:break-word}}
 </style>
+<link rel="stylesheet" href="assets/css/black-theme.css?v=7">
 </head>
 <body>
 
@@ -260,15 +261,16 @@ textarea.code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;w
     <div class="logo"></div>
     <h1>CHARLES TECH</h1>
     <div class="mut" id="loginSub">Charles Technology Solution Ltd<br>Attendance &amp; Stock — secure sign in</div>
-    <div id="setupNote" class="hide mut" style="margin-top:12px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.12)">Administrators are signed in through the website account. Students: use your username or phone number.</div>
+    <div id="setupNote" class="hide mut" style="margin-top:12px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.12)"><b>First-time administrator setup</b><ol style="padding-left:20px;margin:6px 0"><li><a href="index.html?go=register" target="_top" rel="noopener" style="color:#fff;text-decoration:underline">Create a website account</a> with your email.</li><li>In PowerShell, run <code>C:\xampp\php\php.exe database\promote_admin.php your-email@example.com</code> from the project folder.</li><li>Sign in to the website and reopen Attendance &amp; Stock.</li></ol>Students can create their own account and student record here. No administrator setup is required for student registration.</div>
     <label>Username, phone number or admin e-mail</label><div class="pw"><input id="lu" type="password" name="ct-user" autocomplete="off" maxlength="80" placeholder="Hidden while typing" spellcheck="false" autocapitalize="off"><button type="button" class="eye" onclick="peek('lu',this)" aria-label="Show or hide username"></button></div>
     <label>Password</label><div class="pw"><input id="lp" type="password" autocomplete="current-password" maxlength="100" placeholder="••••••••"><button type="button" class="eye" onclick="peek('lp',this)" aria-label="Show or hide password"></button></div>
     <div id="lp2w" class="hide"><label>Confirm password</label><div class="pw"><input id="lp2" type="password" autocomplete="new-password" maxlength="100" placeholder="••••••••"><button type="button" class="eye" onclick="peek('lp2',this)" aria-label="Show or hide password"></button></div></div>
-    <div id="regf" class="hide"><label>Full name</label><input id="rn" maxlength="60" autocomplete="name" placeholder="As on your student card"><label>Registration number</label><input id="rr" maxlength="30" autocomplete="off" placeholder="e.g. 2024/001"><label>Class / group</label><input id="rc" list="rcl" maxlength="30" autocomplete="off" placeholder="e.g. Year 1A"><datalist id="rcl"></datalist><label>Phone number</label><input id="rph" type="tel" inputmode="tel" maxlength="20" autocomplete="tel" placeholder="e.g. 0788 123 456"></div>
+    <div id="regf" class="hide"><p class="mut">New students can register themselves. Your student record is created automatically.</p><label>Full name</label><input id="rn" maxlength="60" autocomplete="name" placeholder="As on your student card"><label>Registration number</label><input id="rr" maxlength="30" autocomplete="off" placeholder="e.g. 2024/001"><label>Class / group</label><input id="rc" list="rcl" maxlength="30" autocomplete="off" placeholder="e.g. Year 1A"><datalist id="rcl"></datalist><label>Phone number</label><input id="rph" type="tel" inputmode="tel" maxlength="20" autocomplete="tel" placeholder="e.g. 0788 123 456"></div>
     <label class="hm"><input type="checkbox" id="hm" checked onchange="hideMode()"> Hide mode – mask everything I type</label>
     <div id="caps" class="capsw hide">⇪ Caps Lock is ON</div>
     <div id="lerr" class="err"></div>
     <div class="acts"><button id="lbtn" style="width:100%;background:#fff;color:#1e3a8a" onclick="doLogin()">Sign in</button></div>
+    <button type="button" onclick="signInPortalAdmin()" style="width:100%;margin-top:10px">Administrator sign in</button>
     <button type="button" id="regTog" class="hide" onclick="toggleReg()" style="width:100%;margin-top:10px;background:rgba(255,255,255,.16);box-shadow:none">New student? Create your account</button>
   </div>
 </div>
@@ -304,7 +306,7 @@ let portalSyncState='local',portalSyncError='',portalLastSyncedAt=0,portalWriteQ
 const isSiteAdminUser=u=>!!(u&&ADM_EMAIL&&u.u===ADM_EMAIL);
 const portalApiUrl=new URL('api/portal.php',document.baseURI).href;
 async function portalRequest(method='GET',state=null){
-  const options={method,credentials:'same-origin',headers:{'Accept':'application/json'}};
+  const options={method,credentials:'same-origin',cache:'no-store',headers:{'Accept':'application/json'}};
   if(method==='PUT'||method==='POST'){
     options.headers['Content-Type']='application/json';
     options.headers['X-CSRF-Token']=portalCsrf;
@@ -337,7 +339,7 @@ function queuePortalWrite(write){
   portalWriteQueue=operation.catch(()=>{});
   return operation.finally(()=>{portalWritesPending=Math.max(0,portalWritesPending-1);updatePortalSyncUi()});
 }
-const KEY='sas_data_v1', LKEY='sas_lock_v1', TKEY='sas_theme', PEPPER='sas-seal-2026', IDLE_MS=5*60*1000, MAXFAIL=5, LOCK_MS=5*60*1000;
+const KEY='sas_data_v1', LKEY='sas_lock_v1', TKEY='chts-theme', PEPPER='sas-seal-2026', IDLE_MS=5*60*1000, MAXFAIL=5, LOCK_MS=5*60*1000;
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const uid=()=>Math.random().toString(36).slice(2,9)+Date.now().toString(36);
@@ -738,7 +740,8 @@ function notifyCustom(){const cls=$('cmc').value,text=clean2($('cmt').value,300)
   notifyOpen({kind:'say',title:'Message '+(cls||'all students'),ids,data:()=>({text}),key:s=>'say|'+stamp+'|'+s.id})}
 
 /* ================= theme ================= */
-function setTheme(t){document.documentElement.dataset.theme=t;try{localStorage.setItem(TKEY,t)}catch(e){}$('themebtn').innerHTML=ic(t==='dark'?'sun':'moon')}
+function setTheme(t){document.documentElement.dataset.theme=t;try{localStorage.setItem(TKEY,t)}catch(e){}$('themebtn').innerHTML=ic(t==='dark'?'sun':'moon');$('themebtn').setAttribute('aria-label',t==='dark'?'Switch to blue theme':'Switch to black theme');$('themebtn').title=t==='dark'?'Switch to blue theme':'Switch to black theme';$('themebtn').setAttribute('aria-pressed',String(t==='light'))}
+window.addEventListener('storage',function(event){if(event.key===TKEY&&(event.newValue==='light'||event.newValue==='dark'))setTheme(event.newValue)});
 function toggleTheme(){setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark')}
 function toggleSide(force){const s=$('side'),o=force===undefined?!s.classList.contains('open'):force;s.classList.toggle('open',o);$('scrim').classList.toggle('hide',!o)}
 
@@ -759,14 +762,23 @@ function migrate(){
   if(!db.cfg.start){const from=addDays(today(),-45),ds=Object.values(db.attendance).map(r=>r.date).filter(d=>d>=from&&d<=today()).sort();db.cfg.start=ds[0]||today();ch=true}
   return ch;
 }
-async function save(){
-  clearCache();db.seal=await sha(body(db)+PEPPER);
-  try{localStorage.setItem(KEY,JSON.stringify(db))}catch(e){toast('Storage is full. Remove old photos or tasks, or save a backup.','bad')}
+let portalSaveQueue=Promise.resolve();
+function save(){
+  clearCache();
+  const snapshot=JSON.parse(JSON.stringify(db));
+  const operation=portalSaveQueue.then(()=>persistPortalSnapshot(snapshot));
+  portalSaveQueue=operation.catch(()=>{});
+  return operation;
+}
+async function persistPortalSnapshot(snapshot){
+  snapshot.seal=await sha(body(snapshot)+PEPPER);
+  if(body(db)===body(snapshot))db.seal=snapshot.seal;
+  try{localStorage.setItem(KEY,JSON.stringify(snapshot))}catch(e){toast('Storage is full. Remove old photos or tasks, or save a backup.','bad')}
   if(isAdmin()&&portalRemoteReady){
     portalSyncState='saving';portalSyncError='';updatePortalSyncUi();
     try{
       await queuePortalWrite(async()=>{
-        const result=await portalRequest('PUT',db);
+        const result=await portalRequest('PUT',snapshot);
         portalRevision=result.revision;portalLastSyncedAt=Date.now();
       });
       portalSyncState='saved';
@@ -779,7 +791,7 @@ async function save(){
     portalSyncState='saving';portalSyncError='';updatePortalSyncUi();
     try{
       await queuePortalWrite(async()=>{
-        const result=await portalStudentRequest('PUT',{state:db,revision:portalRevision});
+        const result=await portalStudentRequest('PUT',{state:snapshot,revision:portalRevision});
         portalRevision=result.revision;portalLastSyncedAt=Date.now();
       });
       portalSyncState='saved';
@@ -813,7 +825,7 @@ const isAdmin=()=>S&&S.role==='admin';
 function lockState(){try{return JSON.parse(localStorage.getItem(LKEY))||{f:0,until:0}}catch(e){return{f:0,until:0}}}
 function setLock(o){localStorage.setItem(LKEY,JSON.stringify(o))}
 async function init(){
-  let t='light';try{t=localStorage.getItem(TKEY)||'light'}catch(e){}
+  let t='dark';try{t=localStorage.getItem(TKEY)||'dark'}catch(e){}
   $('burger').innerHTML=ic('menu');document.querySelectorAll('#login .eye').forEach(b=>b.innerHTML=ic('eye'));$('yr').textContent=new Date().getFullYear();$('ico-out').innerHTML=ic('out');
   setTheme(t);
   await load();
@@ -855,6 +867,19 @@ async function init(){
   $('setupNote').classList.remove('hide');$('lp2w').classList.add('hide');
   $('lbtn').textContent='Sign in';$('regTog').classList.remove('hide');
   if(!ADM_EMAIL&&!$('lerr').textContent)$('lerr').textContent='Administrator: sign in to the website first, then reopen this panel.';
+}
+async function signInPortalAdmin(){
+  const err=$('lerr');err.textContent='';
+  try{
+    const sessionResponse=await fetch(new URL('api/auth/me.php',document.baseURI),{credentials:'same-origin',cache:'no-store'});
+    const session=await sessionResponse.json();
+    if(!sessionResponse.ok||!session.csrfToken)throw new Error('Could not start the administrator sign-in session.');
+    const response=await fetch(new URL('api/auth/login.php',document.baseURI),{method:'POST',credentials:'same-origin',cache:'no-store',headers:{'Content-Type':'application/json','X-CSRF-Token':session.csrfToken},body:JSON.stringify({email:$('lu').value.trim(),password:$('lp').value})});
+    const result=await response.json();
+    if(!response.ok)throw new Error(result.error||'Administrator sign-in failed.');
+    if(!result.user?.isAdmin)throw new Error('This account does not have administrator access.');
+    location.reload();
+  }catch(error){err.textContent=error.message;}
 }
 async function doLogin(){
   if(regMode)return doRegister();
@@ -1310,8 +1335,8 @@ function vAdm(){
   ${db.users.map(u=>`<tr><td><b>${esc(u.u)}</b></td><td>${esc(u.name)}</td><td><span class="tag ${u.role==='admin'?'t-info':'t-ok'}">${u.role}</span></td><td><div class="acts" style="margin:0"><button class="sec sm" onclick="resetPw('${u.id}')">Reset password</button>${u.id!==S.id?`<button class="bad sm" onclick="delUser('${u.id}')">Delete</button>`:''}</div></td></tr>`).join('')}</tbody></table></div>
   <div class="acts"><button class="sec" onclick="changePw(false)">Change my password</button></div></div>
   <div class="card"><h2>Portal data at a glance</h2><div class="mut">Student records, attendance, workshop stock, online classes, submissions and discussion are managed here.</div>${portalDataSummary()}</div>
-  <div class="card"><h2>MySQL database</h2><div id="portalSyncStatus">${portalSyncPanel()}</div><div class="mut">Upload replaces the shared portal snapshot with this browser’s copy. Load replaces this browser’s copy with the database snapshot. Download a backup first and choose the copy that contains the latest records.</div>
-  <div class="acts"><button onclick="syncPortal()">Back up, then upload this browser</button><button class="sec" onclick="pullPortal()">Load the database copy here</button></div></div>
+  <div class="card"><h2>MySQL database</h2><div id="portalSyncStatus">${portalSyncPanel()}</div><div class="mut">Upload replaces the shared portal snapshot with this browser’s copy. Load replaces this browser’s copy with the database snapshot. Download a backup first and choose the copy that contains the latest records. Shop product stock is managed separately in the main Admin Dashboard and is shared by creating a share-ready site file.</div>
+  <div class="acts"><button onclick="syncPortal()">Back up, then upload this browser</button><button class="sec" onclick="pullPortal()">Load the database copy here</button><button class="sec" onclick="window.top.location.href=new URL('index.html?go=admin',document.baseURI).href">Open Shop stock management</button></div></div>
   <div class="card"><h2>Backup & restore</h2><div class="mut">Download a backup every week and keep it away from learners' computers.</div>
   <div class="acts"><button onclick="backup()">Download backup</button><button class="sec" onclick="$('rf').click()">Restore from backup</button></div><input type="file" id="rf" accept=".json" class="hide" onchange="restore(this)"></div>
   <div class="card"><h2>Audit log</h2><div class="acts" style="margin:0 0 12px"><button class="sec sm" onclick="chkLog()">Check log integrity</button><span id="logmsg"></span></div>
@@ -1323,6 +1348,8 @@ async function syncPortal(){
   if(!confirm(`Upload this browser copy and replace the current MySQL portal data${portalServerAvailable?' at revision '+portalRevision:''}? Keep a downloaded backup first.`))return;
   portalSyncState='saving';portalSyncError='';updatePortalSyncUi();
   try{
+    await portalSaveQueue;await portalWriteQueue;
+    download('charles-tech_before_upload_'+today()+'.json',JSON.stringify(db),'application/json');
     await audit('DATABASE_IMPORT','browser data');
     await queuePortalWrite(async()=>{
       const result=await portalRequest('PUT',db);
@@ -1342,7 +1369,9 @@ async function adminStudentRequest(action,payload){
 async function pullPortal(){
   if(!isAdmin())return;
   if(!confirm('Replace this browser copy with the current MySQL portal data?'))return;
+  await portalSaveQueue;await portalWriteQueue;
   try{
+    localStorage.setItem(KEY+'_before_database_load',JSON.stringify(db));
     const result=await portalRequest('GET');
     if(!result.state){toast('No Student Portal data has been uploaded to MySQL yet.','bad');return}
     const parsed=JSON.parse(result.state.state_json);

@@ -1,0 +1,8 @@
+.git
+.vscode
+node_modules
+database
+api
+private
+.env*
+*.log

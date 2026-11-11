@@ -33,7 +33,7 @@
 
 <meta name="description" content="Learn Embedded Systems and IoT in Musanze with practical Arduino, ESP32, sensors and real-world projects at Charles Tech." />
 <link rel="canonical" href="https://www.charlestech.rw/" />
-<meta name="theme-color" content="#040a1c" id="metaTheme" />
+<meta name="theme-color" content="#ffffff" id="metaTheme" />
 <link rel="manifest" href="manifest.webmanifest" />
 <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
 <style id="chts-storefront">
@@ -298,8 +298,9 @@ body.img-guide img.img-missing{outline-color:#ef4444!important}
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 <meta name="apple-mobile-web-app-title" content="Charles Tech Innovation Hub" />
-<link rel="preload" as="image" href="images/01-home/slide-1.jpg" fetchpriority="high" />
-<script>try{var t=localStorage.getItem("chts-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preload" as="image" href="images/03-learn/slide-1.jpg" fetchpriority="high" />
+<script>try{var t=localStorage.getItem("chts-theme");document.documentElement.dataset.theme=t==='light'?'light':'dark'}catch(e){}</script>
+<script>try{document.documentElement.lang=localStorage.getItem('chts-language')==='rw'?'rw':'en'}catch(e){document.documentElement.lang='en'}</script>
 <link rel="icon" type="image/png" href="assets/icons/favicon.png" />
 
 <!-- Open Graph / social share preview -->
@@ -3150,6 +3151,8 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
   #shopBigSlider .bs-dots button.on::before{background:#38bdf8}
   #shopBigSlider .bs-prog{background:linear-gradient(90deg,#22d3ee,#3b82f6 58%,#818cf8)}
 </style>
+<link rel="stylesheet" href="assets/css/photographic.css?v=6">
+<link rel="stylesheet" href="assets/css/black-theme.css?v=7">
 </head>
 <body>
 
@@ -3335,7 +3338,7 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
       <span class="ub-hide-md">🕐 WORKING HOURS 8H – 19H30 · Closed Sun</span>
     </div>
     <div class="ub-right">
-      <span class="ub-lang">🌐 EN · RWF</span>
+      <button class="ub-lang" id="siteLanguageToggle" type="button" aria-label="Switch to Kinyarwanda" title="Switch language">EN | RW</button>
       <a href="#tutorials" data-section="tutorials" class="ub-hide-sm">Tutorials</a>
     </div>
   </div>
@@ -3430,7 +3433,7 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
       <a href="#profile" data-section="profile" data-drawer-link id="drawerProfileLink">👤 User Profile</a>
       <a href="#checkout" data-section="checkout" data-drawer-link>💳 Checkout</a>
       <a href="#logout" data-section="logout" data-drawer-link class="danger" id="drawerLogoutLink">🚪 Logout</a>
-      <a href="#admin" data-section="admin" data-drawer-link id="drawerAdminLink">⚙️ Admin Dashboard</a>
+      <a href="#admin" data-section="admin" data-drawer-link id="drawerAdminLink" data-admin-only hidden>⚙️ Admin Dashboard</a>
     </div>
   </aside>
 
@@ -3442,22 +3445,40 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
       <section class="home-learning-hero" aria-labelledby="homeLearningTitle">
         <img class="home-auto-image" src="images/03-learn/slide-1.jpg" alt="Kwiga no kubaka imishinga ya Embedded Systems na IoT i Musanze" data-auto-images="images/03-learn/slide-1.jpg|images/01-home/workshop.jpg|images/03-learn/gallery-17.jpg" data-auto-alts="Microcontroller projects for Embedded Systems learners|Charles Tech practical technology workshop in Musanze|ESP32 and circuit-board design for connected projects" fetchpriority="high" decoding="async">
         <div class="home-learning-copy">
-          <span class="home-learning-kicker">AMASOMO NGIRO · MUSANZE, RWANDA</span>
-          <h1 id="homeLearningTitle">Murakaza neza<br><span class="home-learning-accent">muri Innovation Hub</span></h1>
-          <p>Menya ibikoresho by’ikoranabuhanga, wige Embedded Systems na IoT, uhindure ibitekerezo byawe imishinga ifatika.</p>
+          <div class="hero-carousel" id="homeHeroCarousel" role="region" aria-roledescription="carousel" aria-label="Ubutumwa bwa Charles Tech">
+            <div class="hero-message is-active" data-hero-slide>
+              <span class="hero-message-kicker">AMASOMO NGIRO · MUSANZE, RWANDA</span>
+              <h1 id="homeLearningTitle">Murakaza neza<br><span class="home-learning-accent">muri Innovation Hub</span></h1>
+              <p>Menya ibikoresho by’ikoranabuhanga, wige Embedded Systems na IoT, uhindure ibitekerezo byawe imishinga ifatika.</p>
+            </div>
+            <div class="hero-message" data-hero-slide aria-hidden="true">
+              <span class="hero-message-kicker">CODE IHURA N’IBIKORESHO</span>
+              <h2>Kora code.<br><span class="home-learning-accent">Huza ibikoresho.</span></h2>
+              <p>Korana na Arduino, ESP32 na sensors wige Embedded Systems na IoT ukoresheje imyitozo ngiro.</p>
+            </div>
+            <div class="hero-message" data-hero-slide aria-hidden="true">
+              <span class="hero-message-kicker">UMUSHINGA UTANGIRA HANO</span>
+              <h2>Ibitekerezo byawe<br><span class="home-learning-accent">bikwiye kubakwa.</span></h2>
+              <p>Iga intambwe ku yindi, gerageza ibyo wize, kandi wungurane ibitekerezo n’abatoza.</p>
+            </div>
+          </div>
           <div class="home-learning-actions">
             <a class="btn course-primary" href="#education" data-section="education">Reba amasomo <span aria-hidden="true">→</span></a>
-            <a class="btn course-secondary" href="https://wa.me/250787767610?text=Muraho%2C%20ndifuza%20kumenya%20amasomo%20ya%20Embedded%20Systems%20na%20IoT%20atangwa%20i%20Musanze." target="_blank" rel="noopener">Baza ibijyanye no kwiyandikisha</a>
+            <a class="btn course-secondary" href="https://wa.me/250787767610?text=Muraho%2C%20ndashaka%20kumenya%20ibyerekeye%20amasomo%20ya%20Embedded%20Systems%20na%20IoT%20i%20Musanze." target="_blank" rel="noopener">Vugana natwe kuri WhatsApp</a>
           </div>
         </div>
         <div class="home-learning-badge">IGA<br>UKORE<br>UHUZE</div>
       </section>
 
+      <div class="skills-marquee" aria-label="Amasomo n'ibikoresho: Arduino, ESP32, sensors, robotics, IoT na C/C++">
+        <div class="skills-marquee-track" aria-hidden="true"><span>ARDUINO</span><i>✳</i><span>ESP32</span><i>✳</i><span>SENSORS</span><i>✳</i><span>ROBOTICS</span><i>✳</i><span>IoT</span><i>✳</i><span>C / C++</span><i>✳</i><span>ARDUINO</span><i>✳</i><span>ESP32</span><i>✳</i><span>SENSORS</span><i>✳</i><span>ROBOTICS</span><i>✳</i><span>IoT</span><i>✳</i><span>C / C++</span><i>✳</i></div>
+      </div>
+
       <section class="home-course-section" aria-labelledby="homeCoursesTitle">
         <div class="home-course-heading">
-          <span>UBUMENYI NGIRO</span>
-          <h2 id="homeCoursesTitle">Hitamo aho utangirira</h2>
-          <p>Amasomo agufasha gusobanukirwa ikoranabuhanga no kurikoresha mu mishinga ifatika.</p>
+          <span>WIGE UBUKOREZI. WUBAKE KIZAZA.</span>
+          <h2 id="homeCoursesTitle">Ubumenyi uhita ukoresha.</h2>
+          <p>Tangirira ku musingi, ukore imyitozo ku bikoresho nyakuri, urangize ufite umushinga ushobora kwereka abandi.</p>
         </div>
         <div class="home-course-grid">
           <a class="home-course-card" href="#education" data-section="education">
@@ -3467,7 +3488,7 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
             </span>
             <span class="home-course-card-copy">
               <h3>Embedded Systems</h3>
-              <span class="home-course-card-description">Menya uko microcontroller igenzura ibikoresho. Korana na Arduino na STM32, sensors, GPIO na C/C++.</span>
+              <span class="home-course-card-description">Andika code igenzura ibikoresho nyakuri. Tangira kuri Arduino na sensors, ukomeze kuri STM32, GPIO na C/C++ uko utera imbere.</span>
               <span class="home-course-tags"><span>Arduino</span><span>STM32</span><span>Sensors</span><span>C/C++</span></span>
             </span>
           </a>
@@ -3478,7 +3499,7 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
             </span>
             <span class="home-course-card-copy">
               <h3>Internet of Things (IoT)</h3>
-              <span class="home-course-card-description">Huza ibikoresho na interineti ukoresheje ESP32/ESP8266, Wi-Fi na MQTT; ukurikirane amakuru aturutse kuri sensors.</span>
+              <span class="home-course-card-description">Huza sensors n’interineti ukoresheje ESP32, Wi-Fi na MQTT. Ohereza, reba kandi ukoreshe amakuru yavuye ku gikoresho cyawe.</span>
               <span class="home-course-tags"><span>ESP32</span><span>Wi-Fi</span><span>MQTT</span><span>IoT</span></span>
             </span>
           </a>
@@ -3487,10 +3508,10 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
 
       <section class="home-learning-method" aria-labelledby="homeLearningMethodTitle">
         <div>
-          <h2 id="homeLearningMethodTitle">Iga, ukore umushinga, utere imbere.</h2>
-          <p>Amasomo ngiro i Musanze agufasha guhera ku shingiro, kugerageza ibikoresho no kunoza umushinga wawe wungurana ibitekerezo n’abatoza.</p>
+          <h2 id="homeLearningMethodTitle">Iga. Gerageza. Wubake ikintu cyawe.</h2>
+          <p>Ntugarukire ku kureba amasomo. Korera ku bikoresho, gerageza ibitekerezo byawe, kandi wungurane ibitekerezo n’abatoza igihe cyose utegura umushinga wawe.</p>
         </div>
-        <a class="btn" href="#education" data-section="education">Menya uko amasomo ateye <span aria-hidden="true">→</span></a>
+        <a class="btn" href="#education" data-section="education">Reba amasomo yose <span aria-hidden="true">→</span></a>
       </section>
     </div>
 
@@ -3878,7 +3899,7 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
   <section id="sec-documentation" class="page-section">
     <!-- 🖼️ IMAGE: SECTION BANNER — wide 4:1, 1600×400 · code / documents / schematics (keep the middle calm, text sits below) -->
     <!-- 📁 FILE : images/07-other-pages/banner-docs.jpg -->
-    <img class="sec-banner" src="images/07-other-pages/banner-docs.jpg" alt="Documentation banner" width="1600" height="400" loading="lazy" decoding="async">
+    <div class="auto-banner-frame"><img class="sec-banner home-auto-image" src="images/07-other-pages/banner-docs.jpg" data-auto-images="images/07-other-pages/banner-docs.jpg|images/03-learn/gallery-13.jpg" data-auto-alts="Documentation banner|Printed circuit board project documentation" alt="Documentation banner" width="1600" height="400" loading="lazy" decoding="async"></div>
     <div class="section-head">
       <h2>📄 Documentations</h2>
       <p>Reference material organised by the same categories as the Shop, so it's easy to find what matches a part you've bought.</p>
@@ -3917,7 +3938,7 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
   <section id="sec-tutorials" class="page-section">
     <!-- 🖼️ IMAGE: SECTION BANNER — wide 4:1, 1600×400 · hands-on tutorial / workbench (keep the middle calm, text sits below) -->
     <!-- 📁 FILE : images/07-other-pages/banner-tutorials.jpg -->
-    <img class="sec-banner" src="images/07-other-pages/banner-tutorials.jpg" alt="Tutorials banner" width="1600" height="400" loading="lazy" decoding="async">
+    <div class="auto-banner-frame"><img class="sec-banner home-auto-image" src="images/07-other-pages/banner-tutorials.jpg" data-auto-images="images/07-other-pages/banner-tutorials.jpg|images/03-learn/slide-1.jpg" data-auto-alts="Tutorials banner|Practical embedded systems learning" alt="Tutorials banner" width="1600" height="400" loading="lazy" decoding="async"></div>
     <div class="section-head">
       <h2>🎬 Tutorials</h2>
       <p>Step-by-step, written walkthroughs for popular builds — grouped by category so you can jump straight to what you're building.</p>
@@ -3981,8 +4002,8 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
       <p>Sign in to track orders and manage your profile.</p>
     </div>
     <form class="form-box" id="loginForm" novalidate autocomplete="on">
-      <label for="loginEmail">Email</label>
-      <input type="email" id="loginEmail" name="email" required autocomplete="username"
+      <label for="loginEmail">Email or username</label>
+      <input type="text" id="loginEmail" name="email" required autocomplete="username"
              placeholder="you@example.com" aria-describedby="loginMsg" />
 
       <label for="loginPassword">Password</label>
@@ -4161,7 +4182,7 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
     <div class="admin-panel active" id="adminPanel-stock">
       <div class="integ-card" id="adminCatalogBackendNote" style="display:none;max-width:none;">
         <b>Catalog database connection</b>
-        <p style="margin:6px 0 0;color:var(--text-dim-2);font-size:12.5px;">The storefront reads product details from the XAMPP database. Product edits, stock changes, orders, and accounts are not connected to backend write endpoints yet; changes made here remain in this browser.</p>
+        <p style="margin:6px 0 0;color:var(--text-dim-2);font-size:12.5px;">Products, prices, and stock changes save directly to the shared database. Only administrators can manage products or see exact stock quantities. Orders remain a browser preview.</p>
       </div>
       <div class="admin-filter-row">
         <input type="text" id="adminStockSearch" placeholder="Search product name or category…" />
@@ -4186,7 +4207,7 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
       </div>
       <datalist id="catDatalist"></datalist>
 
-      <h3 style="color:var(--green-100); font-family:'Sora',sans-serif; font-size:15px;">Product Stock</h3>
+      <h3 style="color:var(--green-100); font-family:'Sora',sans-serif; font-size:15px;">Product Stock</h3><button class="btn btn-primary" onclick="loadServerCatalog()">Refresh live stock</button>
       <div style="overflow-x:auto;"><table class="admin-table" id="adminProductTable"></table></div>
       <div id="adminRemovedBox" style="margin-top:18px;"></div>
 
@@ -4270,7 +4291,7 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
   <section id="sec-about" class="page-section">
     <!-- 🖼️ IMAGE: SECTION BANNER — wide 4:1, 1600×400 · company / team at work (keep the middle calm, text sits below) -->
     <!-- 📁 FILE : images/07-other-pages/banner-about.jpg -->
-    <img class="sec-banner" src="images/07-other-pages/banner-about.jpg" alt="About Charles Tech banner" width="1600" height="400" loading="lazy" decoding="async">
+    <div class="auto-banner-frame"><img class="sec-banner home-auto-image" src="images/07-other-pages/banner-about.jpg" data-auto-images="images/07-other-pages/banner-about.jpg|images/01-home/workshop.jpg" data-auto-alts="About Charles Tech banner|Charles Tech workshop in Musanze" alt="About Charles Tech banner" width="1600" height="400" loading="lazy" decoding="async"></div>
     <div class="section-head">
       <h2>🏢 About Charles Tech</h2>
     </div>
@@ -4346,7 +4367,7 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
   <section id="sec-contact" class="page-section">
     <!-- 🖼️ IMAGE: SECTION BANNER — wide 4:1, 1600×400 · office / phone / map (keep the middle calm, text sits below) -->
     <!-- 📁 FILE : images/07-other-pages/banner-contact.jpg -->
-    <img class="sec-banner" src="images/07-other-pages/banner-contact.jpg" alt="Contact Charles Tech banner" width="1600" height="400" loading="lazy" decoding="async">
+    <div class="auto-banner-frame"><img class="sec-banner home-auto-image" src="images/07-other-pages/banner-contact.jpg" data-auto-images="images/07-other-pages/banner-contact.jpg|images/01-home/slide-2.jpg" data-auto-alts="Contact Charles Tech banner|Charles Tech practical technology workshop" alt="Contact Charles Tech banner" width="1600" height="400" loading="lazy" decoding="async"></div>
     <div class="section-head">
       <h2>✉️ Contact Us</h2>
     </div>
@@ -4499,22 +4520,31 @@ a.cw-brand:hover img{transform:rotate(-6deg) scale(1.05)}.cw-brand img{transitio
           <small>© 2026 CHARLES HIGH TECHNOLOGY SOLUTION Ltd · Musanze, Rwanda</small>
         </div>
       </div>
-      <nav class="footer-links one-place" aria-label="Company and policies">
+      <nav class="footer-links one-place" aria-label="Customer information">
         <a href="#about" data-section="about">🏢 About</a>
         <a href="#contact" data-section="contact"><span class="lg lg-chat"></span>Contact</a>
         <a href="tel:+250787767610"><span class="lg lg-phone"></span>Call us</a>
-        <a href="#privacy" data-section="privacy">🔒 Privacy Policy</a>
-        <a href="#terms" data-section="terms">📜 Terms of Service</a>
-        <a href="#refund" data-section="refund">↩️ Refund Policy</a>
-        <a href="#company" data-section="company" id="footerCompanyLink" style="display:none">✅ Company &amp; Trust</a>
+        <a href="#privacy" data-section="privacy" data-admin-only hidden>🔒 Privacy Policy</a>
+        <a href="#terms" data-section="terms" data-admin-only hidden>📜 Terms of Service</a>
+        <a href="#refund" data-section="refund" data-admin-only hidden>↩️ Refund Policy</a>
+        <a href="#company" data-section="company" id="footerCompanyLink" data-admin-only hidden>✅ Company &amp; Trust</a>
       </nav>
       <div class="footer-logos">
         <span>We accept:</span>
         <span class="pay-chip mtn"><span class="lg lg-mtn"></span>MTN MoMo</span>
         <span class="pay-chip equity"><span class="lg lg-equity"></span>Equity Bank</span>
         <a class="pay-chip" href="https://wa.me/250787767610" target="_blank" rel="noopener"><span class="lg lg-wa"></span>WhatsApp</a>
-        <a class="pay-chip" href="https://www.google.com/maps/search/Musanze+Rwanda" target="_blank" rel="noopener"><span class="lg lg-map"></span>Find us</a>
+        <a class="pay-chip" data-admin-only hidden href="https://www.google.com/maps/search/Musanze+Rwanda" target="_blank" rel="noopener"><span class="lg lg-map"></span>Find us</a>
       </div>
+      <nav class="footer-admin-tools" data-admin-only hidden aria-label="Administrator monitoring">
+        <strong>Administrator controls</strong>
+        <a href="#admin" data-section="admin">Dashboard</a>
+        <button type="button" onclick="showSection('admin');setAdminTab('stock')">Products, prices &amp; live stock</button>
+        <button type="button" onclick="showSection('admin');setAdminTab('orders')">Orders</button>
+        <button type="button" onclick="showSection('admin');setAdminTab('customers')">Customers</button>
+        <a href="#attendance" data-section="attendance">Attendance &amp; Stock</a>
+        <a href="#company" data-section="company">Company &amp; policies</a>
+      </nav>
       <div class="footer-tag">
         This project directory is designed by<br/>
         <span class="accent">CHARLES TECH</span>
@@ -5484,126 +5514,126 @@ const PRODUCT_PHOTOS = {
 
 /* ---------- PRODUCT CATALOG ---------- */
 const PRODUCTS = [
-  {"id": "d001", "name": "Desktop computer", "cat": "Computers & Accessories", "price": 450000, "stock": 46, "icon": "🖥️", "desc": "Desktop computer. Everyday computing gear for home, school and office.", "specs": {"Category": "Computers & Accessories", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d002", "name": "Laptop", "cat": "Computers & Accessories", "price": 650000, "stock": 13, "icon": "💻", "desc": "Laptop. Everyday computing gear for home, school and office.", "specs": {"Category": "Computers & Accessories", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d003", "name": "Keyboard", "cat": "Computers & Accessories", "price": 12000, "stock": 7, "icon": "⌨️", "desc": "Keyboard. Everyday computing gear for home, school and office.", "specs": {"Category": "Computers & Accessories", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d004", "name": "Computer mouse", "cat": "Computers & Accessories", "price": 6000, "stock": 53, "icon": "🖱️", "desc": "Computer mouse. Everyday computing gear for home, school and office.", "specs": {"Category": "Computers & Accessories", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d005", "name": "Monitor", "cat": "Computers & Accessories", "price": 120000, "stock": 23, "icon": "🖥️", "desc": "Monitor. Everyday computing gear for home, school and office.", "specs": {"Category": "Computers & Accessories", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d006", "name": "USB flash drive", "cat": "Computers & Accessories", "price": 8000, "stock": 21, "icon": "💾", "desc": "USB flash drive. Everyday computing gear for home, school and office.", "specs": {"Category": "Computers & Accessories", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d007", "name": "Mobile phone", "cat": "Phones & Accessories", "price": 180000, "stock": 20, "icon": "📱", "desc": "Mobile phone. Phones and the accessories that keep them running.", "specs": {"Category": "Phones & Accessories", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d008", "name": "Phone charger", "cat": "Phones & Accessories", "price": 7000, "stock": 14, "icon": "🔌", "desc": "Phone charger. Phones and the accessories that keep them running.", "specs": {"Category": "Phones & Accessories", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d009", "name": "USB cable", "cat": "Phones & Accessories", "price": 3000, "stock": 53, "icon": "🔌", "desc": "USB cable. Phones and the accessories that keep them running.", "specs": {"Category": "Phones & Accessories", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d010", "name": "Phone earphones", "cat": "Phones & Accessories", "price": 5000, "stock": 12, "icon": "🎧", "desc": "Phone earphones. Phones and the accessories that keep them running.", "specs": {"Category": "Phones & Accessories", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d011", "name": "Phone case", "cat": "Phones & Accessories", "price": 4000, "stock": 49, "icon": "📱", "desc": "Phone case. Phones and the accessories that keep them running.", "specs": {"Category": "Phones & Accessories", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d012", "name": "Power bank", "cat": "Phones & Accessories", "price": 25000, "stock": 53, "icon": "🔋", "desc": "Power bank. Phones and the accessories that keep them running.", "specs": {"Category": "Phones & Accessories", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d013", "name": "Television", "cat": "Television & Video", "price": 350000, "stock": 40, "icon": "📺", "desc": "Television. Screens, players and cables for home entertainment.", "specs": {"Category": "Television & Video", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d014", "name": "TV remote control", "cat": "Television & Video", "price": 5000, "stock": 11, "icon": "🎛️", "desc": "TV remote control. Screens, players and cables for home entertainment.", "specs": {"Category": "Television & Video", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d015", "name": "DVD player", "cat": "Television & Video", "price": 40000, "stock": 43, "icon": "📀", "desc": "DVD player. Screens, players and cables for home entertainment.", "specs": {"Category": "Television & Video", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d016", "name": "Projector", "cat": "Television & Video", "price": 280000, "stock": 33, "icon": "📽️", "desc": "Projector. Screens, players and cables for home entertainment.", "specs": {"Category": "Television & Video", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d017", "name": "HDMI cable", "cat": "Television & Video", "price": 6000, "stock": 8, "icon": "🔌", "desc": "HDMI cable. Screens, players and cables for home entertainment.", "specs": {"Category": "Television & Video", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d018", "name": "TV antenna", "cat": "Television & Video", "price": 15000, "stock": 7, "icon": "📡", "desc": "TV antenna. Screens, players and cables for home entertainment.", "specs": {"Category": "Television & Video", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d019", "name": "Headphones", "cat": "Audio Devices", "price": 25000, "stock": 11, "icon": "🎧", "desc": "Headphones. Sound devices for listening, recording and broadcasting.", "specs": {"Category": "Audio Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d020", "name": "Earphones", "cat": "Audio Devices", "price": 6000, "stock": 19, "icon": "🎧", "desc": "Earphones. Sound devices for listening, recording and broadcasting.", "specs": {"Category": "Audio Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d021", "name": "Bluetooth speaker", "cat": "Audio Devices", "price": 30000, "stock": 20, "icon": "🔊", "desc": "Bluetooth speaker. Sound devices for listening, recording and broadcasting.", "specs": {"Category": "Audio Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d022", "name": "Radio", "cat": "Audio Devices", "price": 18000, "stock": 38, "icon": "📻", "desc": "Radio. Sound devices for listening, recording and broadcasting.", "specs": {"Category": "Audio Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d023", "name": "Microphone", "cat": "Audio Devices", "price": 20000, "stock": 44, "icon": "🎙️", "desc": "Microphone. Sound devices for listening, recording and broadcasting.", "specs": {"Category": "Audio Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d024", "name": "Home speaker", "cat": "Audio Devices", "price": 70000, "stock": 7, "icon": "🔊", "desc": "Home speaker. Sound devices for listening, recording and broadcasting.", "specs": {"Category": "Audio Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d025", "name": "Digital camera", "cat": "Cameras", "price": 300000, "stock": 41, "icon": "📷", "desc": "Digital camera. Cameras and the accessories that go with them.", "specs": {"Category": "Cameras", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d026", "name": "Webcam", "cat": "Cameras", "price": 25000, "stock": 18, "icon": "📷", "desc": "Webcam. Cameras and the accessories that go with them.", "specs": {"Category": "Cameras", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d027", "name": "Security camera", "cat": "Cameras", "price": 45000, "stock": 51, "icon": "📹", "desc": "Security camera. Cameras and the accessories that go with them.", "specs": {"Category": "Cameras", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d028", "name": "Camera tripod", "cat": "Cameras", "price": 15000, "stock": 47, "icon": "📷", "desc": "Camera tripod. Cameras and the accessories that go with them.", "specs": {"Category": "Cameras", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d029", "name": "Camera memory card", "cat": "Cameras", "price": 10000, "stock": 50, "icon": "💾", "desc": "Camera memory card. Cameras and the accessories that go with them.", "specs": {"Category": "Cameras", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d030", "name": "Camera charger", "cat": "Cameras", "price": 12000, "stock": 40, "icon": "🔌", "desc": "Camera charger. Cameras and the accessories that go with them.", "specs": {"Category": "Cameras", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d031", "name": "Wi-Fi router", "cat": "Networking Devices", "price": 35000, "stock": 32, "icon": "📶", "desc": "Wi-Fi router. Internet and network equipment for homes and offices.", "specs": {"Category": "Networking Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d032", "name": "Modem", "cat": "Networking Devices", "price": 45000, "stock": 20, "icon": "🌐", "desc": "Modem. Internet and network equipment for homes and offices.", "specs": {"Category": "Networking Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d033", "name": "Network cable", "cat": "Networking Devices", "price": 3000, "stock": 34, "icon": "🔌", "desc": "Network cable. Internet and network equipment for homes and offices.", "specs": {"Category": "Networking Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d034", "name": "Network switch", "cat": "Networking Devices", "price": 30000, "stock": 43, "icon": "🔀", "desc": "Network switch. Internet and network equipment for homes and offices.", "specs": {"Category": "Networking Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d035", "name": "Wi-Fi adapter", "cat": "Networking Devices", "price": 9000, "stock": 23, "icon": "📶", "desc": "Wi-Fi adapter. Internet and network equipment for homes and offices.", "specs": {"Category": "Networking Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d036", "name": "Range extender", "cat": "Networking Devices", "price": 22000, "stock": 57, "icon": "📶", "desc": "Range extender. Internet and network equipment for homes and offices.", "specs": {"Category": "Networking Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d037", "name": "Printer", "cat": "Printing & Office", "price": 150000, "stock": 6, "icon": "🖨️", "desc": "Printer. Printing, scanning and everyday office electronics.", "specs": {"Category": "Printing & Office", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d038", "name": "Scanner", "cat": "Printing & Office", "price": 120000, "stock": 54, "icon": "🖨️", "desc": "Scanner. Printing, scanning and everyday office electronics.", "specs": {"Category": "Printing & Office", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d039", "name": "Photocopier", "cat": "Printing & Office", "price": 450000, "stock": 57, "icon": "🖨️", "desc": "Photocopier. Printing, scanning and everyday office electronics.", "specs": {"Category": "Printing & Office", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d040", "name": "Barcode scanner", "cat": "Printing & Office", "price": 50000, "stock": 16, "icon": "🏷️", "desc": "Barcode scanner. Printing, scanning and everyday office electronics.", "specs": {"Category": "Printing & Office", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d041", "name": "Label printer", "cat": "Printing & Office", "price": 90000, "stock": 50, "icon": "🏷️", "desc": "Label printer. Printing, scanning and everyday office electronics.", "specs": {"Category": "Printing & Office", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d042", "name": "Calculator", "cat": "Printing & Office", "price": 6000, "stock": 33, "icon": "🧮", "desc": "Calculator. Printing, scanning and everyday office electronics.", "specs": {"Category": "Printing & Office", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d043", "name": "Electric fan", "cat": "Home Appliances", "price": 30000, "stock": 27, "icon": "🌀", "desc": "Electric fan. Electric appliances for around the house.", "specs": {"Category": "Home Appliances", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d044", "name": "Electric iron", "cat": "Home Appliances", "price": 15000, "stock": 23, "icon": "👔", "desc": "Electric iron. Electric appliances for around the house.", "specs": {"Category": "Home Appliances", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d045", "name": "Refrigerator", "cat": "Home Appliances", "price": 350000, "stock": 15, "icon": "🧊", "desc": "Refrigerator. Electric appliances for around the house.", "specs": {"Category": "Home Appliances", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d046", "name": "Washing machine", "cat": "Home Appliances", "price": 300000, "stock": 19, "icon": "🧺", "desc": "Washing machine. Electric appliances for around the house.", "specs": {"Category": "Home Appliances", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d047", "name": "Vacuum cleaner", "cat": "Home Appliances", "price": 85000, "stock": 54, "icon": "🧹", "desc": "Vacuum cleaner. Electric appliances for around the house.", "specs": {"Category": "Home Appliances", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d048", "name": "Electric kettle", "cat": "Home Appliances", "price": 18000, "stock": 27, "icon": "☕", "desc": "Electric kettle. Electric appliances for around the house.", "specs": {"Category": "Home Appliances", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d049", "name": "Microwave oven", "cat": "Kitchen Appliances", "price": 110000, "stock": 12, "icon": "🍲", "desc": "Microwave oven. Electric helpers for the kitchen.", "specs": {"Category": "Kitchen Appliances", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d050", "name": "Blender", "cat": "Kitchen Appliances", "price": 35000, "stock": 11, "icon": "🥤", "desc": "Blender. Electric helpers for the kitchen.", "specs": {"Category": "Kitchen Appliances", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d051", "name": "Toaster", "cat": "Kitchen Appliances", "price": 20000, "stock": 30, "icon": "🍞", "desc": "Toaster. Electric helpers for the kitchen.", "specs": {"Category": "Kitchen Appliances", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d052", "name": "Rice cooker", "cat": "Kitchen Appliances", "price": 30000, "stock": 12, "icon": "🍚", "desc": "Rice cooker. Electric helpers for the kitchen.", "specs": {"Category": "Kitchen Appliances", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d053", "name": "Coffee maker", "cat": "Kitchen Appliances", "price": 45000, "stock": 28, "icon": "☕", "desc": "Coffee maker. Electric helpers for the kitchen.", "specs": {"Category": "Kitchen Appliances", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d054", "name": "Electric hand mixer", "cat": "Kitchen Appliances", "price": 22000, "stock": 60, "icon": "🥣", "desc": "Electric hand mixer. Electric helpers for the kitchen.", "specs": {"Category": "Kitchen Appliances", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d055", "name": "LED bulb", "cat": "Lighting", "price": 2500, "stock": 28, "icon": "💡", "desc": "LED bulb. Bulbs, lamps and portable lights.", "specs": {"Category": "Lighting", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d056", "name": "Desk lamp", "cat": "Lighting", "price": 12000, "stock": 44, "icon": "💡", "desc": "Desk lamp. Bulbs, lamps and portable lights.", "specs": {"Category": "Lighting", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d057", "name": "Flashlight", "cat": "Lighting", "price": 5000, "stock": 22, "icon": "🔦", "desc": "Flashlight. Bulbs, lamps and portable lights.", "specs": {"Category": "Lighting", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d058", "name": "Emergency light", "cat": "Lighting", "price": 15000, "stock": 57, "icon": "💡", "desc": "Emergency light. Bulbs, lamps and portable lights.", "specs": {"Category": "Lighting", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d059", "name": "LED strip light", "cat": "Lighting", "price": 10000, "stock": 8, "icon": "🌈", "desc": "LED strip light. Bulbs, lamps and portable lights.", "specs": {"Category": "Lighting", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d060", "name": "Rechargeable lantern", "cat": "Lighting", "price": 14000, "stock": 52, "icon": "🏮", "desc": "Rechargeable lantern. Bulbs, lamps and portable lights.", "specs": {"Category": "Lighting", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d061", "name": "AA battery", "cat": "Batteries & Charging", "price": 1000, "stock": 167, "icon": "🔋", "desc": "AA battery. Batteries, chargers and power distribution.", "specs": {"Category": "Batteries & Charging", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d062", "name": "AAA battery", "cat": "Batteries & Charging", "price": 1000, "stock": 187, "icon": "🔋", "desc": "AAA battery. Batteries, chargers and power distribution.", "specs": {"Category": "Batteries & Charging", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d063", "name": "Rechargeable battery", "cat": "Batteries & Charging", "price": 4000, "stock": 81, "icon": "🔋", "desc": "Rechargeable battery. Batteries, chargers and power distribution.", "specs": {"Category": "Batteries & Charging", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d064", "name": "Battery charger", "cat": "Batteries & Charging", "price": 12000, "stock": 299, "icon": "🔌", "desc": "Battery charger. Batteries, chargers and power distribution.", "specs": {"Category": "Batteries & Charging", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d065", "name": "USB wall charger", "cat": "Batteries & Charging", "price": 6000, "stock": 286, "icon": "🔌", "desc": "USB wall charger. Batteries, chargers and power distribution.", "specs": {"Category": "Batteries & Charging", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d066", "name": "Extension power strip", "cat": "Batteries & Charging", "price": 9000, "stock": 146, "icon": "🔌", "desc": "Extension power strip. Batteries, chargers and power distribution.", "specs": {"Category": "Batteries & Charging", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d067", "name": "Electric shaver", "cat": "Personal Care Devices", "price": 25000, "stock": 11, "icon": "🪒", "desc": "Electric shaver. Electric grooming and personal health devices.", "specs": {"Category": "Personal Care Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d068", "name": "Hair dryer", "cat": "Personal Care Devices", "price": 20000, "stock": 41, "icon": "💨", "desc": "Hair dryer. Electric grooming and personal health devices.", "specs": {"Category": "Personal Care Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d069", "name": "Electric toothbrush", "cat": "Personal Care Devices", "price": 20000, "stock": 24, "icon": "🪥", "desc": "Electric toothbrush. Electric grooming and personal health devices.", "specs": {"Category": "Personal Care Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d070", "name": "Hair clipper", "cat": "Personal Care Devices", "price": 18000, "stock": 59, "icon": "✂️", "desc": "Hair clipper. Electric grooming and personal health devices.", "specs": {"Category": "Personal Care Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d071", "name": "Digital thermometer", "cat": "Personal Care Devices", "price": 6000, "stock": 46, "icon": "🌡️", "desc": "Digital thermometer. Electric grooming and personal health devices.", "specs": {"Category": "Personal Care Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d072", "name": "Electric massager", "cat": "Personal Care Devices", "price": 28000, "stock": 45, "icon": "💆", "desc": "Electric massager. Electric grooming and personal health devices.", "specs": {"Category": "Personal Care Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d073", "name": "Digital watch", "cat": "Watches & Clocks", "price": 12000, "stock": 29, "icon": "⌚", "desc": "Digital watch. Watches, clocks and timing devices.", "specs": {"Category": "Watches & Clocks", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d074", "name": "Smartwatch", "cat": "Watches & Clocks", "price": 55000, "stock": 42, "icon": "⌚", "desc": "Smartwatch. Watches, clocks and timing devices.", "specs": {"Category": "Watches & Clocks", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d075", "name": "Digital wall clock", "cat": "Watches & Clocks", "price": 14000, "stock": 18, "icon": "🕰️", "desc": "Digital wall clock. Watches, clocks and timing devices.", "specs": {"Category": "Watches & Clocks", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d076", "name": "Alarm clock", "cat": "Watches & Clocks", "price": 8000, "stock": 51, "icon": "⏰", "desc": "Alarm clock. Watches, clocks and timing devices.", "specs": {"Category": "Watches & Clocks", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d077", "name": "Stopwatch", "cat": "Watches & Clocks", "price": 7000, "stock": 10, "icon": "⏱️", "desc": "Stopwatch. Watches, clocks and timing devices.", "specs": {"Category": "Watches & Clocks", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d078", "name": "Timer", "cat": "Watches & Clocks", "price": 5000, "stock": 8, "icon": "⏲️", "desc": "Timer. Watches, clocks and timing devices.", "specs": {"Category": "Watches & Clocks", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d079", "name": "Game console", "cat": "Gaming Accessories", "price": 350000, "stock": 48, "icon": "🎮", "desc": "Game console. Consoles and accessories for gamers.", "specs": {"Category": "Gaming Accessories", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d080", "name": "Game controller", "cat": "Gaming Accessories", "price": 40000, "stock": 20, "icon": "🎮", "desc": "Game controller. Consoles and accessories for gamers.", "specs": {"Category": "Gaming Accessories", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d081", "name": "Gaming headset", "cat": "Gaming Accessories", "price": 35000, "stock": 55, "icon": "🎧", "desc": "Gaming headset. Consoles and accessories for gamers.", "specs": {"Category": "Gaming Accessories", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d082", "name": "Gaming keyboard", "cat": "Gaming Accessories", "price": 40000, "stock": 24, "icon": "⌨️", "desc": "Gaming keyboard. Consoles and accessories for gamers.", "specs": {"Category": "Gaming Accessories", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d083", "name": "Gaming mouse", "cat": "Gaming Accessories", "price": 20000, "stock": 11, "icon": "🖱️", "desc": "Gaming mouse. Consoles and accessories for gamers.", "specs": {"Category": "Gaming Accessories", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d084", "name": "Game memory card", "cat": "Gaming Accessories", "price": 15000, "stock": 60, "icon": "💾", "desc": "Game memory card. Consoles and accessories for gamers.", "specs": {"Category": "Gaming Accessories", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d085", "name": "Doorbell", "cat": "Security Devices", "price": 15000, "stock": 20, "icon": "🔔", "desc": "Doorbell. Alarms, cameras and locks to protect a home or shop.", "specs": {"Category": "Security Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d086", "name": "Electric alarm", "cat": "Security Devices", "price": 20000, "stock": 12, "icon": "🚨", "desc": "Electric alarm. Alarms, cameras and locks to protect a home or shop.", "specs": {"Category": "Security Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d087", "name": "Smoke detector", "cat": "Security Devices", "price": 15000, "stock": 30, "icon": "🚨", "desc": "Smoke detector. Alarms, cameras and locks to protect a home or shop.", "specs": {"Category": "Security Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d088", "name": "Motion sensor light", "cat": "Security Devices", "price": 18000, "stock": 23, "icon": "💡", "desc": "Motion sensor light. Alarms, cameras and locks to protect a home or shop.", "specs": {"Category": "Security Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d089", "name": "Door camera", "cat": "Security Devices", "price": 55000, "stock": 35, "icon": "📹", "desc": "Door camera. Alarms, cameras and locks to protect a home or shop.", "specs": {"Category": "Security Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d090", "name": "Digital door lock", "cat": "Security Devices", "price": 90000, "stock": 46, "icon": "🔐", "desc": "Digital door lock. Alarms, cameras and locks to protect a home or shop.", "specs": {"Category": "Security Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d091", "name": "Digital multimeter", "cat": "Measuring Devices", "price": 18000, "stock": 59, "icon": "📟", "desc": "Digital multimeter. Meters and testers for measuring electricity, weight and climate.", "specs": {"Category": "Measuring Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d092", "name": "Digital weighing scale", "cat": "Measuring Devices", "price": 15000, "stock": 29, "icon": "⚖️", "desc": "Digital weighing scale. Meters and testers for measuring electricity, weight and climate.", "specs": {"Category": "Measuring Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d093", "name": "Measuring tape with digital display", "cat": "Measuring Devices", "price": 12000, "stock": 16, "icon": "📏", "desc": "Measuring tape with digital display. Meters and testers for measuring electricity, weight and climate.", "specs": {"Category": "Measuring Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d094", "name": "Digital thermometer (measuring)", "cat": "Measuring Devices", "price": 7000, "stock": 29, "icon": "🌡️", "desc": "Digital thermometer (measuring). Meters and testers for measuring electricity, weight and climate.", "specs": {"Category": "Measuring Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d095", "name": "Humidity meter", "cat": "Measuring Devices", "price": 12000, "stock": 28, "icon": "💧", "desc": "Humidity meter. Meters and testers for measuring electricity, weight and climate.", "specs": {"Category": "Measuring Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d096", "name": "Voltage tester", "cat": "Measuring Devices", "price": 4000, "stock": 19, "icon": "🔎", "desc": "Voltage tester. Meters and testers for measuring electricity, weight and climate.", "specs": {"Category": "Measuring Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d097", "name": "Resistor", "cat": "Basic Electronic Parts", "price": 100, "stock": 221, "icon": "🟫", "desc": "Resistor. Core components for building and repairing circuits.", "specs": {"Category": "Basic Electronic Parts", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d098", "name": "Capacitor", "cat": "Basic Electronic Parts", "price": 200, "stock": 118, "icon": "🔋", "desc": "Capacitor. Core components for building and repairing circuits.", "specs": {"Category": "Basic Electronic Parts", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d099", "name": "Diode", "cat": "Basic Electronic Parts", "price": 150, "stock": 229, "icon": "➡️", "desc": "Diode. Core components for building and repairing circuits.", "specs": {"Category": "Basic Electronic Parts", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d100", "name": "LED", "cat": "Basic Electronic Parts", "price": 100, "stock": 289, "icon": "💡", "desc": "LED. Core components for building and repairing circuits.", "specs": {"Category": "Basic Electronic Parts", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d101", "name": "Transistor", "cat": "Basic Electronic Parts", "price": 300, "stock": 224, "icon": "🔺", "desc": "Transistor. Core components for building and repairing circuits.", "specs": {"Category": "Basic Electronic Parts", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d102", "name": "Fuse", "cat": "Basic Electronic Parts", "price": 200, "stock": 215, "icon": "⚡", "desc": "Fuse. Core components for building and repairing circuits.", "specs": {"Category": "Basic Electronic Parts", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d103", "name": "Relay module", "cat": "Basic Electronic Modules", "price": 3500, "stock": 68, "icon": "🔌", "desc": "Relay module. Ready-made modules for learning and prototyping.", "specs": {"Category": "Basic Electronic Modules", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d104", "name": "Buzzer module", "cat": "Basic Electronic Modules", "price": 1500, "stock": 205, "icon": "🔔", "desc": "Buzzer module. Ready-made modules for learning and prototyping.", "specs": {"Category": "Basic Electronic Modules", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d105", "name": "Push-button module", "cat": "Basic Electronic Modules", "price": 1000, "stock": 212, "icon": "🔘", "desc": "Push-button module. Ready-made modules for learning and prototyping.", "specs": {"Category": "Basic Electronic Modules", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d106", "name": "LED module", "cat": "Basic Electronic Modules", "price": 1000, "stock": 93, "icon": "💡", "desc": "LED module. Ready-made modules for learning and prototyping.", "specs": {"Category": "Basic Electronic Modules", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d107", "name": "Potentiometer module", "cat": "Basic Electronic Modules", "price": 1500, "stock": 186, "icon": "🎚️", "desc": "Potentiometer module. Ready-made modules for learning and prototyping.", "specs": {"Category": "Basic Electronic Modules", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d108", "name": "Battery holder", "cat": "Basic Electronic Modules", "price": 1000, "stock": 236, "icon": "🔋", "desc": "Battery holder. Ready-made modules for learning and prototyping.", "specs": {"Category": "Basic Electronic Modules", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d109", "name": "Arduino Uno", "cat": "Arduino & Learning Kits", "price": 18000, "stock": 21, "icon": "🔷", "desc": "Arduino Uno. Starter parts for learning embedded systems.", "specs": {"Category": "Arduino & Learning Kits", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d110", "name": "Breadboard", "cat": "Arduino & Learning Kits", "price": 3500, "stock": 16, "icon": "🟦", "desc": "Breadboard. Starter parts for learning embedded systems.", "specs": {"Category": "Arduino & Learning Kits", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d111", "name": "Jumper wires", "cat": "Arduino & Learning Kits", "price": 3000, "stock": 35, "icon": "🧵", "desc": "Jumper wires. Starter parts for learning embedded systems.", "specs": {"Category": "Arduino & Learning Kits", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d112", "name": "USB programming cable", "cat": "Arduino & Learning Kits", "price": 2500, "stock": 30, "icon": "🔌", "desc": "USB programming cable. Starter parts for learning embedded systems.", "specs": {"Category": "Arduino & Learning Kits", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d113", "name": "Basic sensor kit", "cat": "Arduino & Learning Kits", "price": 25000, "stock": 23, "icon": "📡", "desc": "Basic sensor kit. Starter parts for learning embedded systems.", "specs": {"Category": "Arduino & Learning Kits", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d114", "name": "Small DC motor", "cat": "Arduino & Learning Kits", "price": 2500, "stock": 46, "icon": "⚙️", "desc": "Small DC motor. Starter parts for learning embedded systems.", "specs": {"Category": "Arduino & Learning Kits", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d115", "name": "Car radio", "cat": "Car Electronics", "price": 60000, "stock": 50, "icon": "📻", "desc": "Car radio. Electronics for the car and the road.", "specs": {"Category": "Car Electronics", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d116", "name": "Car phone charger", "cat": "Car Electronics", "price": 5000, "stock": 41, "icon": "🔌", "desc": "Car phone charger. Electronics for the car and the road.", "specs": {"Category": "Car Electronics", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d117", "name": "Dash camera", "cat": "Car Electronics", "price": 65000, "stock": 20, "icon": "📹", "desc": "Dash camera. Electronics for the car and the road.", "specs": {"Category": "Car Electronics", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d118", "name": "Car parking sensor", "cat": "Car Electronics", "price": 40000, "stock": 49, "icon": "📡", "desc": "Car parking sensor. Electronics for the car and the road.", "specs": {"Category": "Car Electronics", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d119", "name": "Car battery charger", "cat": "Car Electronics", "price": 45000, "stock": 26, "icon": "🔋", "desc": "Car battery charger. Electronics for the car and the road.", "specs": {"Category": "Car Electronics", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
-  {"id": "d120", "name": "Portable tire inflator", "cat": "Car Electronics", "price": 35000, "stock": 59, "icon": "🛞", "desc": "Portable tire inflator. Electronics for the car and the road.", "specs": {"Category": "Car Electronics", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d001", "name": "Desktop computer", "cat": "Computers & Accessories", "price": 450000, "stock": 1, "icon": "🖥️", "desc": "Desktop computer. Everyday computing gear for home, school and office.", "specs": {"Category": "Computers & Accessories", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d002", "name": "Laptop", "cat": "Computers & Accessories", "price": 650000, "stock": 1, "icon": "💻", "desc": "Laptop. Everyday computing gear for home, school and office.", "specs": {"Category": "Computers & Accessories", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d003", "name": "Keyboard", "cat": "Computers & Accessories", "price": 12000, "stock": 1, "icon": "⌨️", "desc": "Keyboard. Everyday computing gear for home, school and office.", "specs": {"Category": "Computers & Accessories", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d004", "name": "Computer mouse", "cat": "Computers & Accessories", "price": 6000, "stock": 1, "icon": "🖱️", "desc": "Computer mouse. Everyday computing gear for home, school and office.", "specs": {"Category": "Computers & Accessories", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d005", "name": "Monitor", "cat": "Computers & Accessories", "price": 120000, "stock": 1, "icon": "🖥️", "desc": "Monitor. Everyday computing gear for home, school and office.", "specs": {"Category": "Computers & Accessories", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d006", "name": "USB flash drive", "cat": "Computers & Accessories", "price": 8000, "stock": 1, "icon": "💾", "desc": "USB flash drive. Everyday computing gear for home, school and office.", "specs": {"Category": "Computers & Accessories", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d007", "name": "Mobile phone", "cat": "Phones & Accessories", "price": 180000, "stock": 1, "icon": "📱", "desc": "Mobile phone. Phones and the accessories that keep them running.", "specs": {"Category": "Phones & Accessories", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d008", "name": "Phone charger", "cat": "Phones & Accessories", "price": 7000, "stock": 1, "icon": "🔌", "desc": "Phone charger. Phones and the accessories that keep them running.", "specs": {"Category": "Phones & Accessories", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d009", "name": "USB cable", "cat": "Phones & Accessories", "price": 3000, "stock": 1, "icon": "🔌", "desc": "USB cable. Phones and the accessories that keep them running.", "specs": {"Category": "Phones & Accessories", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d010", "name": "Phone earphones", "cat": "Phones & Accessories", "price": 5000, "stock": 1, "icon": "🎧", "desc": "Phone earphones. Phones and the accessories that keep them running.", "specs": {"Category": "Phones & Accessories", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d011", "name": "Phone case", "cat": "Phones & Accessories", "price": 4000, "stock": 1, "icon": "📱", "desc": "Phone case. Phones and the accessories that keep them running.", "specs": {"Category": "Phones & Accessories", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d012", "name": "Power bank", "cat": "Phones & Accessories", "price": 25000, "stock": 1, "icon": "🔋", "desc": "Power bank. Phones and the accessories that keep them running.", "specs": {"Category": "Phones & Accessories", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d013", "name": "Television", "cat": "Television & Video", "price": 350000, "stock": 1, "icon": "📺", "desc": "Television. Screens, players and cables for home entertainment.", "specs": {"Category": "Television & Video", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d014", "name": "TV remote control", "cat": "Television & Video", "price": 5000, "stock": 1, "icon": "🎛️", "desc": "TV remote control. Screens, players and cables for home entertainment.", "specs": {"Category": "Television & Video", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d015", "name": "DVD player", "cat": "Television & Video", "price": 40000, "stock": 1, "icon": "📀", "desc": "DVD player. Screens, players and cables for home entertainment.", "specs": {"Category": "Television & Video", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d016", "name": "Projector", "cat": "Television & Video", "price": 280000, "stock": 1, "icon": "📽️", "desc": "Projector. Screens, players and cables for home entertainment.", "specs": {"Category": "Television & Video", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d017", "name": "HDMI cable", "cat": "Television & Video", "price": 6000, "stock": 1, "icon": "🔌", "desc": "HDMI cable. Screens, players and cables for home entertainment.", "specs": {"Category": "Television & Video", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d018", "name": "TV antenna", "cat": "Television & Video", "price": 15000, "stock": 1, "icon": "📡", "desc": "TV antenna. Screens, players and cables for home entertainment.", "specs": {"Category": "Television & Video", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d019", "name": "Headphones", "cat": "Audio Devices", "price": 25000, "stock": 1, "icon": "🎧", "desc": "Headphones. Sound devices for listening, recording and broadcasting.", "specs": {"Category": "Audio Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d020", "name": "Earphones", "cat": "Audio Devices", "price": 6000, "stock": 1, "icon": "🎧", "desc": "Earphones. Sound devices for listening, recording and broadcasting.", "specs": {"Category": "Audio Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d021", "name": "Bluetooth speaker", "cat": "Audio Devices", "price": 30000, "stock": 1, "icon": "🔊", "desc": "Bluetooth speaker. Sound devices for listening, recording and broadcasting.", "specs": {"Category": "Audio Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d022", "name": "Radio", "cat": "Audio Devices", "price": 18000, "stock": 1, "icon": "📻", "desc": "Radio. Sound devices for listening, recording and broadcasting.", "specs": {"Category": "Audio Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d023", "name": "Microphone", "cat": "Audio Devices", "price": 20000, "stock": 1, "icon": "🎙️", "desc": "Microphone. Sound devices for listening, recording and broadcasting.", "specs": {"Category": "Audio Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d024", "name": "Home speaker", "cat": "Audio Devices", "price": 70000, "stock": 1, "icon": "🔊", "desc": "Home speaker. Sound devices for listening, recording and broadcasting.", "specs": {"Category": "Audio Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d025", "name": "Digital camera", "cat": "Cameras", "price": 300000, "stock": 1, "icon": "📷", "desc": "Digital camera. Cameras and the accessories that go with them.", "specs": {"Category": "Cameras", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d026", "name": "Webcam", "cat": "Cameras", "price": 25000, "stock": 1, "icon": "📷", "desc": "Webcam. Cameras and the accessories that go with them.", "specs": {"Category": "Cameras", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d027", "name": "Security camera", "cat": "Cameras", "price": 45000, "stock": 1, "icon": "📹", "desc": "Security camera. Cameras and the accessories that go with them.", "specs": {"Category": "Cameras", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d028", "name": "Camera tripod", "cat": "Cameras", "price": 15000, "stock": 1, "icon": "📷", "desc": "Camera tripod. Cameras and the accessories that go with them.", "specs": {"Category": "Cameras", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d029", "name": "Camera memory card", "cat": "Cameras", "price": 10000, "stock": 1, "icon": "💾", "desc": "Camera memory card. Cameras and the accessories that go with them.", "specs": {"Category": "Cameras", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d030", "name": "Camera charger", "cat": "Cameras", "price": 12000, "stock": 1, "icon": "🔌", "desc": "Camera charger. Cameras and the accessories that go with them.", "specs": {"Category": "Cameras", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d031", "name": "Wi-Fi router", "cat": "Networking Devices", "price": 35000, "stock": 1, "icon": "📶", "desc": "Wi-Fi router. Internet and network equipment for homes and offices.", "specs": {"Category": "Networking Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d032", "name": "Modem", "cat": "Networking Devices", "price": 45000, "stock": 1, "icon": "🌐", "desc": "Modem. Internet and network equipment for homes and offices.", "specs": {"Category": "Networking Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d033", "name": "Network cable", "cat": "Networking Devices", "price": 3000, "stock": 1, "icon": "🔌", "desc": "Network cable. Internet and network equipment for homes and offices.", "specs": {"Category": "Networking Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d034", "name": "Network switch", "cat": "Networking Devices", "price": 30000, "stock": 1, "icon": "🔀", "desc": "Network switch. Internet and network equipment for homes and offices.", "specs": {"Category": "Networking Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d035", "name": "Wi-Fi adapter", "cat": "Networking Devices", "price": 9000, "stock": 1, "icon": "📶", "desc": "Wi-Fi adapter. Internet and network equipment for homes and offices.", "specs": {"Category": "Networking Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d036", "name": "Range extender", "cat": "Networking Devices", "price": 22000, "stock": 1, "icon": "📶", "desc": "Range extender. Internet and network equipment for homes and offices.", "specs": {"Category": "Networking Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d037", "name": "Printer", "cat": "Printing & Office", "price": 150000, "stock": 1, "icon": "🖨️", "desc": "Printer. Printing, scanning and everyday office electronics.", "specs": {"Category": "Printing & Office", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d038", "name": "Scanner", "cat": "Printing & Office", "price": 120000, "stock": 1, "icon": "🖨️", "desc": "Scanner. Printing, scanning and everyday office electronics.", "specs": {"Category": "Printing & Office", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d039", "name": "Photocopier", "cat": "Printing & Office", "price": 450000, "stock": 1, "icon": "🖨️", "desc": "Photocopier. Printing, scanning and everyday office electronics.", "specs": {"Category": "Printing & Office", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d040", "name": "Barcode scanner", "cat": "Printing & Office", "price": 50000, "stock": 1, "icon": "🏷️", "desc": "Barcode scanner. Printing, scanning and everyday office electronics.", "specs": {"Category": "Printing & Office", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d041", "name": "Label printer", "cat": "Printing & Office", "price": 90000, "stock": 1, "icon": "🏷️", "desc": "Label printer. Printing, scanning and everyday office electronics.", "specs": {"Category": "Printing & Office", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d042", "name": "Calculator", "cat": "Printing & Office", "price": 6000, "stock": 1, "icon": "🧮", "desc": "Calculator. Printing, scanning and everyday office electronics.", "specs": {"Category": "Printing & Office", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d043", "name": "Electric fan", "cat": "Home Appliances", "price": 30000, "stock": 1, "icon": "🌀", "desc": "Electric fan. Electric appliances for around the house.", "specs": {"Category": "Home Appliances", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d044", "name": "Electric iron", "cat": "Home Appliances", "price": 15000, "stock": 1, "icon": "👔", "desc": "Electric iron. Electric appliances for around the house.", "specs": {"Category": "Home Appliances", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d045", "name": "Refrigerator", "cat": "Home Appliances", "price": 350000, "stock": 1, "icon": "🧊", "desc": "Refrigerator. Electric appliances for around the house.", "specs": {"Category": "Home Appliances", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d046", "name": "Washing machine", "cat": "Home Appliances", "price": 300000, "stock": 1, "icon": "🧺", "desc": "Washing machine. Electric appliances for around the house.", "specs": {"Category": "Home Appliances", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d047", "name": "Vacuum cleaner", "cat": "Home Appliances", "price": 85000, "stock": 1, "icon": "🧹", "desc": "Vacuum cleaner. Electric appliances for around the house.", "specs": {"Category": "Home Appliances", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d048", "name": "Electric kettle", "cat": "Home Appliances", "price": 18000, "stock": 1, "icon": "☕", "desc": "Electric kettle. Electric appliances for around the house.", "specs": {"Category": "Home Appliances", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d049", "name": "Microwave oven", "cat": "Kitchen Appliances", "price": 110000, "stock": 1, "icon": "🍲", "desc": "Microwave oven. Electric helpers for the kitchen.", "specs": {"Category": "Kitchen Appliances", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d050", "name": "Blender", "cat": "Kitchen Appliances", "price": 35000, "stock": 1, "icon": "🥤", "desc": "Blender. Electric helpers for the kitchen.", "specs": {"Category": "Kitchen Appliances", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d051", "name": "Toaster", "cat": "Kitchen Appliances", "price": 20000, "stock": 1, "icon": "🍞", "desc": "Toaster. Electric helpers for the kitchen.", "specs": {"Category": "Kitchen Appliances", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d052", "name": "Rice cooker", "cat": "Kitchen Appliances", "price": 30000, "stock": 1, "icon": "🍚", "desc": "Rice cooker. Electric helpers for the kitchen.", "specs": {"Category": "Kitchen Appliances", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d053", "name": "Coffee maker", "cat": "Kitchen Appliances", "price": 45000, "stock": 1, "icon": "☕", "desc": "Coffee maker. Electric helpers for the kitchen.", "specs": {"Category": "Kitchen Appliances", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d054", "name": "Electric hand mixer", "cat": "Kitchen Appliances", "price": 22000, "stock": 1, "icon": "🥣", "desc": "Electric hand mixer. Electric helpers for the kitchen.", "specs": {"Category": "Kitchen Appliances", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d055", "name": "LED bulb", "cat": "Lighting", "price": 2500, "stock": 1, "icon": "💡", "desc": "LED bulb. Bulbs, lamps and portable lights.", "specs": {"Category": "Lighting", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d056", "name": "Desk lamp", "cat": "Lighting", "price": 12000, "stock": 1, "icon": "💡", "desc": "Desk lamp. Bulbs, lamps and portable lights.", "specs": {"Category": "Lighting", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d057", "name": "Flashlight", "cat": "Lighting", "price": 5000, "stock": 1, "icon": "🔦", "desc": "Flashlight. Bulbs, lamps and portable lights.", "specs": {"Category": "Lighting", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d058", "name": "Emergency light", "cat": "Lighting", "price": 15000, "stock": 1, "icon": "💡", "desc": "Emergency light. Bulbs, lamps and portable lights.", "specs": {"Category": "Lighting", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d059", "name": "LED strip light", "cat": "Lighting", "price": 10000, "stock": 1, "icon": "🌈", "desc": "LED strip light. Bulbs, lamps and portable lights.", "specs": {"Category": "Lighting", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d060", "name": "Rechargeable lantern", "cat": "Lighting", "price": 14000, "stock": 1, "icon": "🏮", "desc": "Rechargeable lantern. Bulbs, lamps and portable lights.", "specs": {"Category": "Lighting", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d061", "name": "AA battery", "cat": "Batteries & Charging", "price": 1000, "stock": 1, "icon": "🔋", "desc": "AA battery. Batteries, chargers and power distribution.", "specs": {"Category": "Batteries & Charging", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d062", "name": "AAA battery", "cat": "Batteries & Charging", "price": 1000, "stock": 1, "icon": "🔋", "desc": "AAA battery. Batteries, chargers and power distribution.", "specs": {"Category": "Batteries & Charging", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d063", "name": "Rechargeable battery", "cat": "Batteries & Charging", "price": 4000, "stock": 1, "icon": "🔋", "desc": "Rechargeable battery. Batteries, chargers and power distribution.", "specs": {"Category": "Batteries & Charging", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d064", "name": "Battery charger", "cat": "Batteries & Charging", "price": 12000, "stock": 1, "icon": "🔌", "desc": "Battery charger. Batteries, chargers and power distribution.", "specs": {"Category": "Batteries & Charging", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d065", "name": "USB wall charger", "cat": "Batteries & Charging", "price": 6000, "stock": 1, "icon": "🔌", "desc": "USB wall charger. Batteries, chargers and power distribution.", "specs": {"Category": "Batteries & Charging", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d066", "name": "Extension power strip", "cat": "Batteries & Charging", "price": 9000, "stock": 1, "icon": "🔌", "desc": "Extension power strip. Batteries, chargers and power distribution.", "specs": {"Category": "Batteries & Charging", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d067", "name": "Electric shaver", "cat": "Personal Care Devices", "price": 25000, "stock": 1, "icon": "🪒", "desc": "Electric shaver. Electric grooming and personal health devices.", "specs": {"Category": "Personal Care Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d068", "name": "Hair dryer", "cat": "Personal Care Devices", "price": 20000, "stock": 1, "icon": "💨", "desc": "Hair dryer. Electric grooming and personal health devices.", "specs": {"Category": "Personal Care Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d069", "name": "Electric toothbrush", "cat": "Personal Care Devices", "price": 20000, "stock": 1, "icon": "🪥", "desc": "Electric toothbrush. Electric grooming and personal health devices.", "specs": {"Category": "Personal Care Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d070", "name": "Hair clipper", "cat": "Personal Care Devices", "price": 18000, "stock": 1, "icon": "✂️", "desc": "Hair clipper. Electric grooming and personal health devices.", "specs": {"Category": "Personal Care Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d071", "name": "Digital thermometer", "cat": "Personal Care Devices", "price": 6000, "stock": 1, "icon": "🌡️", "desc": "Digital thermometer. Electric grooming and personal health devices.", "specs": {"Category": "Personal Care Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d072", "name": "Electric massager", "cat": "Personal Care Devices", "price": 28000, "stock": 1, "icon": "💆", "desc": "Electric massager. Electric grooming and personal health devices.", "specs": {"Category": "Personal Care Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d073", "name": "Digital watch", "cat": "Watches & Clocks", "price": 12000, "stock": 1, "icon": "⌚", "desc": "Digital watch. Watches, clocks and timing devices.", "specs": {"Category": "Watches & Clocks", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d074", "name": "Smartwatch", "cat": "Watches & Clocks", "price": 55000, "stock": 1, "icon": "⌚", "desc": "Smartwatch. Watches, clocks and timing devices.", "specs": {"Category": "Watches & Clocks", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d075", "name": "Digital wall clock", "cat": "Watches & Clocks", "price": 14000, "stock": 1, "icon": "🕰️", "desc": "Digital wall clock. Watches, clocks and timing devices.", "specs": {"Category": "Watches & Clocks", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d076", "name": "Alarm clock", "cat": "Watches & Clocks", "price": 8000, "stock": 1, "icon": "⏰", "desc": "Alarm clock. Watches, clocks and timing devices.", "specs": {"Category": "Watches & Clocks", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d077", "name": "Stopwatch", "cat": "Watches & Clocks", "price": 7000, "stock": 1, "icon": "⏱️", "desc": "Stopwatch. Watches, clocks and timing devices.", "specs": {"Category": "Watches & Clocks", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d078", "name": "Timer", "cat": "Watches & Clocks", "price": 5000, "stock": 1, "icon": "⏲️", "desc": "Timer. Watches, clocks and timing devices.", "specs": {"Category": "Watches & Clocks", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d079", "name": "Game console", "cat": "Gaming Accessories", "price": 350000, "stock": 1, "icon": "🎮", "desc": "Game console. Consoles and accessories for gamers.", "specs": {"Category": "Gaming Accessories", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d080", "name": "Game controller", "cat": "Gaming Accessories", "price": 40000, "stock": 1, "icon": "🎮", "desc": "Game controller. Consoles and accessories for gamers.", "specs": {"Category": "Gaming Accessories", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d081", "name": "Gaming headset", "cat": "Gaming Accessories", "price": 35000, "stock": 1, "icon": "🎧", "desc": "Gaming headset. Consoles and accessories for gamers.", "specs": {"Category": "Gaming Accessories", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d082", "name": "Gaming keyboard", "cat": "Gaming Accessories", "price": 40000, "stock": 1, "icon": "⌨️", "desc": "Gaming keyboard. Consoles and accessories for gamers.", "specs": {"Category": "Gaming Accessories", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d083", "name": "Gaming mouse", "cat": "Gaming Accessories", "price": 20000, "stock": 1, "icon": "🖱️", "desc": "Gaming mouse. Consoles and accessories for gamers.", "specs": {"Category": "Gaming Accessories", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d084", "name": "Game memory card", "cat": "Gaming Accessories", "price": 15000, "stock": 1, "icon": "💾", "desc": "Game memory card. Consoles and accessories for gamers.", "specs": {"Category": "Gaming Accessories", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d085", "name": "Doorbell", "cat": "Security Devices", "price": 15000, "stock": 1, "icon": "🔔", "desc": "Doorbell. Alarms, cameras and locks to protect a home or shop.", "specs": {"Category": "Security Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d086", "name": "Electric alarm", "cat": "Security Devices", "price": 20000, "stock": 1, "icon": "🚨", "desc": "Electric alarm. Alarms, cameras and locks to protect a home or shop.", "specs": {"Category": "Security Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d087", "name": "Smoke detector", "cat": "Security Devices", "price": 15000, "stock": 1, "icon": "🚨", "desc": "Smoke detector. Alarms, cameras and locks to protect a home or shop.", "specs": {"Category": "Security Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d088", "name": "Motion sensor light", "cat": "Security Devices", "price": 18000, "stock": 1, "icon": "💡", "desc": "Motion sensor light. Alarms, cameras and locks to protect a home or shop.", "specs": {"Category": "Security Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d089", "name": "Door camera", "cat": "Security Devices", "price": 55000, "stock": 1, "icon": "📹", "desc": "Door camera. Alarms, cameras and locks to protect a home or shop.", "specs": {"Category": "Security Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d090", "name": "Digital door lock", "cat": "Security Devices", "price": 90000, "stock": 1, "icon": "🔐", "desc": "Digital door lock. Alarms, cameras and locks to protect a home or shop.", "specs": {"Category": "Security Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d091", "name": "Digital multimeter", "cat": "Measuring Devices", "price": 18000, "stock": 1, "icon": "📟", "desc": "Digital multimeter. Meters and testers for measuring electricity, weight and climate.", "specs": {"Category": "Measuring Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d092", "name": "Digital weighing scale", "cat": "Measuring Devices", "price": 15000, "stock": 1, "icon": "⚖️", "desc": "Digital weighing scale. Meters and testers for measuring electricity, weight and climate.", "specs": {"Category": "Measuring Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d093", "name": "Measuring tape with digital display", "cat": "Measuring Devices", "price": 12000, "stock": 1, "icon": "📏", "desc": "Measuring tape with digital display. Meters and testers for measuring electricity, weight and climate.", "specs": {"Category": "Measuring Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d094", "name": "Digital thermometer (measuring)", "cat": "Measuring Devices", "price": 7000, "stock": 1, "icon": "🌡️", "desc": "Digital thermometer (measuring). Meters and testers for measuring electricity, weight and climate.", "specs": {"Category": "Measuring Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d095", "name": "Humidity meter", "cat": "Measuring Devices", "price": 12000, "stock": 1, "icon": "💧", "desc": "Humidity meter. Meters and testers for measuring electricity, weight and climate.", "specs": {"Category": "Measuring Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d096", "name": "Voltage tester", "cat": "Measuring Devices", "price": 4000, "stock": 1, "icon": "🔎", "desc": "Voltage tester. Meters and testers for measuring electricity, weight and climate.", "specs": {"Category": "Measuring Devices", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d097", "name": "Resistor", "cat": "Basic Electronic Parts", "price": 100, "stock": 1, "icon": "🟫", "desc": "Resistor. Core components for building and repairing circuits.", "specs": {"Category": "Basic Electronic Parts", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d098", "name": "Capacitor", "cat": "Basic Electronic Parts", "price": 200, "stock": 1, "icon": "🔋", "desc": "Capacitor. Core components for building and repairing circuits.", "specs": {"Category": "Basic Electronic Parts", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d099", "name": "Diode", "cat": "Basic Electronic Parts", "price": 150, "stock": 1, "icon": "➡️", "desc": "Diode. Core components for building and repairing circuits.", "specs": {"Category": "Basic Electronic Parts", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d100", "name": "LED", "cat": "Basic Electronic Parts", "price": 100, "stock": 1, "icon": "💡", "desc": "LED. Core components for building and repairing circuits.", "specs": {"Category": "Basic Electronic Parts", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d101", "name": "Transistor", "cat": "Basic Electronic Parts", "price": 300, "stock": 1, "icon": "🔺", "desc": "Transistor. Core components for building and repairing circuits.", "specs": {"Category": "Basic Electronic Parts", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d102", "name": "Fuse", "cat": "Basic Electronic Parts", "price": 200, "stock": 1, "icon": "⚡", "desc": "Fuse. Core components for building and repairing circuits.", "specs": {"Category": "Basic Electronic Parts", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d103", "name": "Relay module", "cat": "Basic Electronic Modules", "price": 3500, "stock": 1, "icon": "🔌", "desc": "Relay module. Ready-made modules for learning and prototyping.", "specs": {"Category": "Basic Electronic Modules", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d104", "name": "Buzzer module", "cat": "Basic Electronic Modules", "price": 1500, "stock": 1, "icon": "🔔", "desc": "Buzzer module. Ready-made modules for learning and prototyping.", "specs": {"Category": "Basic Electronic Modules", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d105", "name": "Push-button module", "cat": "Basic Electronic Modules", "price": 1000, "stock": 1, "icon": "🔘", "desc": "Push-button module. Ready-made modules for learning and prototyping.", "specs": {"Category": "Basic Electronic Modules", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d106", "name": "LED module", "cat": "Basic Electronic Modules", "price": 1000, "stock": 1, "icon": "💡", "desc": "LED module. Ready-made modules for learning and prototyping.", "specs": {"Category": "Basic Electronic Modules", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d107", "name": "Potentiometer module", "cat": "Basic Electronic Modules", "price": 1500, "stock": 1, "icon": "🎚️", "desc": "Potentiometer module. Ready-made modules for learning and prototyping.", "specs": {"Category": "Basic Electronic Modules", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d108", "name": "Battery holder", "cat": "Basic Electronic Modules", "price": 1000, "stock": 1, "icon": "🔋", "desc": "Battery holder. Ready-made modules for learning and prototyping.", "specs": {"Category": "Basic Electronic Modules", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d109", "name": "Arduino Uno", "cat": "Arduino & Learning Kits", "price": 18000, "stock": 1, "icon": "🔷", "desc": "Arduino Uno. Starter parts for learning embedded systems.", "specs": {"Category": "Arduino & Learning Kits", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d110", "name": "Breadboard", "cat": "Arduino & Learning Kits", "price": 3500, "stock": 1, "icon": "🟦", "desc": "Breadboard. Starter parts for learning embedded systems.", "specs": {"Category": "Arduino & Learning Kits", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d111", "name": "Jumper wires", "cat": "Arduino & Learning Kits", "price": 3000, "stock": 1, "icon": "🧵", "desc": "Jumper wires. Starter parts for learning embedded systems.", "specs": {"Category": "Arduino & Learning Kits", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d112", "name": "USB programming cable", "cat": "Arduino & Learning Kits", "price": 2500, "stock": 1, "icon": "🔌", "desc": "USB programming cable. Starter parts for learning embedded systems.", "specs": {"Category": "Arduino & Learning Kits", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d113", "name": "Basic sensor kit", "cat": "Arduino & Learning Kits", "price": 25000, "stock": 1, "icon": "📡", "desc": "Basic sensor kit. Starter parts for learning embedded systems.", "specs": {"Category": "Arduino & Learning Kits", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d114", "name": "Small DC motor", "cat": "Arduino & Learning Kits", "price": 2500, "stock": 1, "icon": "⚙️", "desc": "Small DC motor. Starter parts for learning embedded systems.", "specs": {"Category": "Arduino & Learning Kits", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d115", "name": "Car radio", "cat": "Car Electronics", "price": 60000, "stock": 1, "icon": "📻", "desc": "Car radio. Electronics for the car and the road.", "specs": {"Category": "Car Electronics", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d116", "name": "Car phone charger", "cat": "Car Electronics", "price": 5000, "stock": 1, "icon": "🔌", "desc": "Car phone charger. Electronics for the car and the road.", "specs": {"Category": "Car Electronics", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d117", "name": "Dash camera", "cat": "Car Electronics", "price": 65000, "stock": 1, "icon": "📹", "desc": "Dash camera. Electronics for the car and the road.", "specs": {"Category": "Car Electronics", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d118", "name": "Car parking sensor", "cat": "Car Electronics", "price": 40000, "stock": 1, "icon": "📡", "desc": "Car parking sensor. Electronics for the car and the road.", "specs": {"Category": "Car Electronics", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d119", "name": "Car battery charger", "cat": "Car Electronics", "price": 45000, "stock": 1, "icon": "🔋", "desc": "Car battery charger. Electronics for the car and the road.", "specs": {"Category": "Car Electronics", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
+  {"id": "d120", "name": "Portable tire inflator", "cat": "Car Electronics", "price": 35000, "stock": 1, "icon": "🛞", "desc": "Portable tire inflator. Electronics for the car and the road.", "specs": {"Category": "Car Electronics", "Condition": "Brand new", "Availability": "Order online or via WhatsApp"}},
 ];
 
 function fmtRWF(n){ return n.toLocaleString('en-RW') + ' RWF'; }
@@ -5626,7 +5656,23 @@ let serverCurrentUser = null;
 let authCsrfToken = '';
 function getUsers(){ return []; }
 function getCurrentUser(){ return serverCurrentUser; }
-function setCurrentUser(user){ serverCurrentUser = user; }
+function setCurrentUser(user){
+  const changed = serverCurrentUser?.id !== user?.id || !!serverCurrentUser?.isAdmin !== !!user?.isAdmin;
+  serverCurrentUser = user;
+  if (changed){
+    serverInventory = {}; LS.set('chts_inventory', {});
+    document.getElementById('inventoryPanels')?.replaceChildren();
+    document.getElementById('adminProductTable')?.replaceChildren();
+    ['adminStats','adminOrderTable','adminCustomerList','companyPageBody'].forEach(id=>document.getElementById(id)?.replaceChildren());
+    document.getElementById('productModalOverlay')?.classList.remove('open');
+    document.getElementById('productModalBody')?.replaceChildren();
+    loadServerCatalog();
+  }
+}
+function stockLabelFor(stock){
+  if (!(stock > 0)) return 'Out of stock';
+  return getCurrentUser()?.isAdmin && stock < Number.MAX_SAFE_INTEGER ? stock + ' in stock' : 'In stock';
+}
 function authEndpointUrl(name){ return new URL('api/auth/' + name + '.php', document.baseURI); }
 async function refreshAuthSession(){
   const response = await fetch(authEndpointUrl('me'), { credentials: 'same-origin', cache: 'no-store' });
@@ -5705,7 +5751,9 @@ function getCustomProducts(){ return LS.get('chts_custom_products', PUBLISHED_DA
 function saveCustomProducts(a){ LS.set('chts_custom_products', a); }
 function getDeletedProductIds(){ return LS.get('chts_deleted_products', PUBLISHED_DATA.deleted || []); }
 function saveDeletedProductIds(a){ LS.set('chts_deleted_products', a); }
+let serverCatalogLoaded = false;
 function getCatalog(){
+  if (serverCatalogLoaded) return PRODUCTS;
   const del = new Set(getDeletedProductIds());
   return [...PRODUCTS.filter(p => !del.has(p.id)), ...getCustomProducts()];
 }
@@ -5728,8 +5776,9 @@ function ensureInventoryFor(p, stock){
    adding a size, restocking, selling — are logged to a history
    array so stock changes are auditable, not just overwritten.
    ============================================================ */
-function getInventory(){ return LS.get('chts_inventory', {}); }
-function saveInventory(inv){ LS.set('chts_inventory', inv); }
+let serverInventory = {};
+function getInventory(){ return serverInventory; }
+function saveInventory(inv){ serverInventory = inv; }
 
 function pubSizes(p){
   const pub = (PUBLISHED_DATA.inventory || {})[p.id];
@@ -5825,6 +5874,7 @@ function getLiveProducts(){
   const deals = getHotDeals(), now = Date.now();
   return getCatalog().map(p => {
     const merged = overrides[p.id] ? { ...p, ...overrides[p.id] } : { ...p };
+    if (serverCatalogLoaded) Object.assign(merged, {name:p.name,cat:p.cat,price:p.price});
     merged.basePrice = merged.price;
     const dl = deals[p.id];
     if (dl && dl.pct > 0 && (!dl.endsAt || dl.endsAt > now)){
@@ -5838,7 +5888,9 @@ function getLiveProducts(){
 }
 
 /* Load the shared catalog from PHP while retaining the embedded catalog for offline use. */
+let catalogRequestVersion = 0;
 async function loadServerCatalog(){
+  const requestVersion = ++catalogRequestVersion;
   if (!/^https?:$/.test(window.location.protocol)) return;
 
   const status = document.getElementById('catalogApiStatus');
@@ -5851,6 +5903,7 @@ async function loadServerCatalog(){
     if (!response.ok) throw new Error(`Catalog request failed (${response.status}).`);
 
     const payload = await response.json();
+    if (requestVersion !== catalogRequestVersion) return;
     if (!payload || !Array.isArray(payload.products) || !payload.products.every(p =>
       p && typeof p.id === 'string' && /^[a-z0-9_-]+$/i.test(p.id) &&
       typeof p.name === 'string' && typeof p.category === 'string' &&
@@ -5871,8 +5924,8 @@ async function loadServerCatalog(){
         desc: p.description,
         icon: typeof p.icon === 'string' ? p.icon : (embedded && embedded.icon) || '📦',
         price: Number(p.price),
-        stock: embedded ? embedded.stock : p.variants.reduce((total, variant) => {
-          const stock = Number(variant && variant.stock);
+        stock: p.variants.reduce((total, variant) => {
+          const stock = variant && Object.hasOwn(variant, "stock") ? Number(variant.stock) : (variant?.available ? Number.MAX_SAFE_INTEGER : 0);
           return total + (Number.isInteger(stock) && stock > 0 ? stock : 0);
         }, 0),
         specs: p.specs,
@@ -5881,24 +5934,25 @@ async function loadServerCatalog(){
     });
 
     PRODUCTS.splice(0, PRODUCTS.length, ...serverProducts);
+    serverCatalogLoaded = true;
 
     const inventory = getInventory();
     let inventoryChanged = false;
     for (const product of payload.products){
-      if (inventory[product.id]) continue;
+
       const sizes = product.variants.filter(v =>
         v && typeof v.id === 'string' && typeof v.label === 'string' &&
-        Number.isInteger(Number(v.stock)) && Number(v.stock) >= 0
+        (typeof v.available === 'boolean' || (Number.isInteger(Number(v.stock)) && Number(v.stock) >= 0))
       ).map(v => ({
         id: v.id,
         label: v.label,
         sku: typeof v.sku === 'string' ? v.sku : '',
-        stock: Number(v.stock)
+        stock: Object.hasOwn(v, "stock") ? Number(v.stock) : (v.available ? Number.MAX_SAFE_INTEGER : 0)
       }));
       if (!sizes.length) continue;
       inventory[product.id] = {
         sizes,
-        history: [{ ts: Date.now(), size: 'Initial stock', delta: sizes.reduce((n, size) => n + size.stock, 0), reason: 'Loaded from server catalog', by: 'system' }]
+        history: getCurrentUser()?.isAdmin && Array.isArray(product.history) ? product.history : []
       };
       inventoryChanged = true;
     }
@@ -6022,7 +6076,7 @@ function showSection(name){
 /* ---------- SMART NAV: adapt the account menu items to who's looking at them ---------- */
 function updateNavVisibility(){
   const user = getCurrentUser();
-  { const cl = document.getElementById('footerCompanyLink'); if (cl) cl.style.display = (user && user.isAdmin) ? '' : 'none'; }
+  document.querySelectorAll('[data-admin-only]').forEach(element=>{element.hidden=!user?.isAdmin;});
 
   const loginLink = document.getElementById('drawerLoginLink');
   const registerLink = document.getElementById('drawerRegisterLink');
@@ -6339,8 +6393,8 @@ function renderProducts(){
       : Math.max(0, Number(p.stock) || 0);
     const anyInStock = availableUnits > 0;
     const stockState = !anyInStock ? 'out' : availableUnits <= 5 ? 'low' : 'in';
-    const stockLabel = !anyInStock ? 'Out of stock' : availableUnits <= 5 ? `${availableUnits} left` : `${availableUnits} in stock`;
-    const sizeOptions = sizes.map(s => `<option value="${escapeAttr(s.id)}" ${s.stock === 0 ? 'disabled' : ''}>${escapeHtml(s.label)} — ${s.stock === 0 ? 'Out of stock' : s.stock + ' left'}</option>`).join('');
+    const stockLabel = stockLabelFor(availableUnits);
+    const sizeOptions = sizes.map(s => `<option value="${escapeAttr(s.id)}" ${s.stock === 0 ? 'disabled' : ''}>${escapeHtml(s.label)} — ${stockLabelFor(s.stock)}</option>`).join('');
     return `
     <div class="product-card" onclick="openProductModal('${p.id}')">
       ${window.adminPhotoBtn ? adminPhotoBtn(p.id) : ''}<div class="pic">${productPicHTML(p)}</div>
@@ -6379,8 +6433,8 @@ function hdCardHTML(p, clone){
     <h4>${p.name}</h4>
     <div><span class="hd-now">${fmtRWF(p.price)}</span><s class="price-old">${fmtRWF(p.basePrice)}</s></div>
     <div class="hd-save">Uzigama ${fmtRWF(p.basePrice - p.price)}</div>
-    <div class="hd-bar"><i style="width:${stockPct}%"></i></div>
-    <div class="hd-left"><span>${p.stock <= 5 ? '🔥 Hasigaye ' + p.stock + ' gusa' : 'Ibiri ku bubiko: ' + p.stock}</span><span>${p.deal.endsAt ? 'Birangira ' + new Date(p.deal.endsAt).toLocaleDateString('en-GB',{day:'numeric',month:'short'}) : ''}</span></div>
+
+    <div class="hd-left"><span>${stockLabelFor(p.stock)}</span><span>${p.deal.endsAt ? 'Birangira ' + new Date(p.deal.endsAt).toLocaleDateString('en-GB',{day:'numeric',month:'short'}) : ''}</span></div>
     <button class="btn btn-primary btn-sm" tabindex="${clone ? -1 : 0}" onclick="event.stopPropagation(); ${open}">⚡ Gura kuri iki giciro</button>
   </div>`;
 }
@@ -6439,7 +6493,7 @@ window.addToCart = function(id){
   const lineKey = id + '::' + size.id;
   const existing = cart.find(i => (i.id + '::' + i.sizeId) === lineKey);
   const currentQtyInCart = existing ? existing.qty : 0;
-  if (currentQtyInCart + 1 > size.stock){ alert(`Only ${size.stock} of "${size.label}" left in stock.`); return; }
+  if (currentQtyInCart + 1 > size.stock){ alert('This quantity is unavailable. Please update your cart.'); return; }
 
   if (existing) existing.qty += 1;
   else cart.push({ id: p.id, sizeId: size.id, sizeLabel: size.label, name: p.name, price: p.price, icon: p.icon, qty: 1 });
@@ -6475,9 +6529,9 @@ window.openProductModal = function(id){
   const specs = p.specs || {};
   const images = getProductImages(p);
 
-  const sizeOptions = sizes.map(s => `<option value="${s.id}" ${s.stock === 0 ? 'disabled' : ''}>${escapeAttr(s.label)} — ${s.stock === 0 ? 'Out of stock' : s.stock + ' left'}</option>`).join('');
+  const sizeOptions = sizes.map(s => `<option value="${s.id}" ${s.stock === 0 ? 'disabled' : ''}>${escapeAttr(s.label)} — ${stockLabelFor(s.stock)}</option>`).join('');
   const anyInStock = sizes.some(s => s.stock > 0);
-  const stockLabel = p.stock > 5 ? `In stock — ${p.stock} left` : (p.stock > 0 ? `Low stock — ${p.stock} left` : 'Out of stock');
+  const stockLabel = stockLabelFor(p.stock);
 
   document.getElementById('productModalBody').innerHTML = `
     <div class="pm-breadcrumb">
@@ -6542,7 +6596,7 @@ window.openProductModal = function(id){
         <div class="pm-qty-row">
           <div class="pm-qty-stepper">
             <button type="button" onclick="pmChangeQty(-1)" aria-label="Decrease quantity">−</button>
-            <input type="number" id="pmQtyInput" value="1" min="1" max="${Math.max(p.stock,1)}" />
+            <input type="number" id="pmQtyInput" value="1" min="1"  />
             <button type="button" onclick="pmChangeQty(1)" aria-label="Increase quantity">+</button>
           </div>
           <span class="stock">Total: <b id="pmQtyTotal" style="color:var(--amber-400);">${fmtRWF(p.price)}</b></span>
@@ -6669,16 +6723,10 @@ window.removePmPhoto = function(i){
   a.splice(i, 1); ta.value = a.join('\n'); renderPmThumbs();
 };
 
-window.savePmPrice = function(id){
-  const input = document.getElementById('pmPriceInput');
-  const price = parseInt(input.value, 10);
-  if (isNaN(price) || price < 0){ alert('Please enter a valid, non-negative price.'); return; }
-  const overrides = getProductOverrides();
-  overrides[id] = { ...(overrides[id] || {}), price };
-  saveProductOverrides(overrides);
-  openProductModal(id);          // re-render so deal / discounted price stay correct
-  renderProducts();
-  if (window.renderHotDeals) renderHotDeals();
+window.savePmPrice = async function(id){
+  if (!getCurrentUser()?.isAdmin) return;
+  const p=getLiveProducts().find(p=>p.id===id);
+  try{await adminProductRequest('update',{id,name:p.name,category:p.cat,price:Number(document.getElementById('pmPriceInput').value)});openProductModal(id);}catch(error){alert(error.message);}
 };
 
 window.savePmDeal = function(id){
@@ -6785,7 +6833,7 @@ window.changeQty = function(id, sizeId, delta){
   if (delta > 0){
     const sizes = getProductSizes(id);
     const size = sizes.find(s => s.id === sizeId) || sizes[0];
-    if (size && item.qty + 1 > size.stock){ alert(`Only ${size.stock} of "${size.label}" available.`); return; }
+    if (size && item.qty + 1 > size.stock){ alert('This quantity is unavailable. Please update your cart.'); return; }
   }
   item.qty += delta;
   const filtered = item.qty <= 0 ? cart.filter(i => !(i.id === id && (i.sizeId || '') === (sizeId || ''))) : cart;
@@ -7015,7 +7063,7 @@ document.getElementById('checkoutForm').addEventListener('submit', (e) => {
     const size = sizes.find(s => s.id === line.sizeId) || sizes[0];
     if (!size || size.stock < line.qty){
       msg.className = 'form-msg err';
-      msg.textContent = `Sorry, "${line.name}"${line.sizeLabel ? ' (' + line.sizeLabel + ')' : ''} only has ${size ? size.stock : 0} left. Please update your cart.`;
+      msg.textContent = `Sorry, "${line.name}"${line.sizeLabel ? ' (' + line.sizeLabel + ')' : ''} is unavailable in the requested quantity. Please update your cart.`;
       return;
     }
   }
@@ -7073,6 +7121,7 @@ window.toggleAdminLowStockFilter = function(){
 };
 
 function renderAdmin(){
+  if (!getCurrentUser()?.isAdmin) return;
   const orders = getOrders();
   const totalRevenue = orders.reduce((s,o)=>s+o.total,0);
   const liveProducts = getLiveProducts();
@@ -7145,6 +7194,7 @@ window.saveIntegration = function(provider){
 };
 
 function renderAdminStockTable(){
+  if (!getCurrentUser()?.isAdmin) return;
   const liveProducts = getLiveProducts();
   const q = adminStockSearchText.trim().toLowerCase();
   const filtered = liveProducts.filter(p => {
@@ -7279,90 +7329,41 @@ function refreshCatalogViews(){
   populateHeaderSearchCategories();
 }
 
-/* admin: save edited name, category, price and image for one product */
-window.saveProductEdit = function(id){
-  const row = document.querySelector(`.admin-edit-row[data-pid="${id}"]`);
-  const name = cleanText(row.querySelector('.admin-name-input').value);
-  const cat = cleanCategory(row.querySelector('.admin-cat-input').value);
-  const price = parseInt(row.querySelector('.admin-price-input').value, 10);
+async function adminProductRequest(action, data={}){
+  if (!getCurrentUser()?.isAdmin) throw new Error('Administrator access is required.');
+  if (!authCsrfToken) await refreshAuthSession();
+  const response=await fetch(new URL('api/admin-products.php',document.baseURI),{method:'POST',credentials:'same-origin',cache:'no-store',headers:{'Content-Type':'application/json','X-CSRF-Token':authCsrfToken},body:JSON.stringify({action,...data})});
+  const result=await response.json();
+  if (!response.ok) throw new Error(result.error || 'Product could not be saved.');
+  await loadServerCatalog();
+  return result;
+}
 
-  if (!name){ alert('Product name cannot be empty.'); return; }
-  if (!cat){ alert('Category cannot be empty.'); return; }
-  if (isNaN(price) || price < 0){ alert('Please enter a valid, non-negative price.'); return; }
-
-  const overrides = getProductOverrides();
-  const existing = overrides[id] || {};
-  overrides[id] = { ...existing, name, cat, price };
-  saveProductOverrides(overrides);
-
-  refreshCatalogViews();
-  const tag = document.getElementById(`saved-${id}`);
-  if (tag){ tag.style.display = 'inline'; setTimeout(() => { tag.style.display = 'none'; }, 1800); }
+/* Administrator changes are saved by the protected database API. */
+window.saveProductEdit = async function(id){
+  if (!getCurrentUser()?.isAdmin) return;
+  const row=document.querySelector('.admin-edit-row[data-pid="'+id+'"]');
+  try { await adminProductRequest('update',{id,name:row.querySelector('.admin-name-input').value.trim(),category:row.querySelector('.admin-cat-input').value.trim(),price:Number(row.querySelector('.admin-price-input').value)}); } catch(error){alert(error.message);}
 };
 
 /* admin: create a brand-new product */
-window.addNewProduct = function(){
-  const msg = document.getElementById('addProdMsg');
-  const fail = (t) => { msg.className = 'form-msg err'; msg.textContent = t; };
-
-  const name = cleanText(document.getElementById('newProdName').value);
-  const cat = cleanCategory(document.getElementById('newProdCat').value);
-  const price = parseInt(document.getElementById('newProdPrice').value, 10);
-  const stock = parseInt(document.getElementById('newProdStock').value, 10);
-  const icon = cleanText(document.getElementById('newProdIcon').value) || '📦';
-  const image = '';
-  const desc = cleanText(document.getElementById('newProdDesc').value) || (name + '.');
-
-  if (!name) return fail('Please enter a product name.');
-  if (!cat) return fail('Please enter or choose a category.');
-  if (isNaN(price) || price < 0) return fail('Please enter a valid price in RWF.');
-  if (isNaN(stock) || stock < 0) return fail('Please enter a valid starting stock (0 or more).');
-  const dup = getLiveProducts().some(p => p.name.toLowerCase() === name.toLowerCase() && p.cat.toLowerCase() === cat.toLowerCase());
-  if (dup) return fail(`"${name}" already exists in ${cat}. Edit that product instead, or use a different name.`);
-
-  const product = {
-    id: 'c' + Date.now().toString(36),
-    name, cat, price, icon, desc,
-    specs: { 'Category': cat, 'Condition': 'Brand new', 'Availability': 'Order online or via WhatsApp' }
-  };
-  if (image){ product.image = image; product.images = [image]; }
-
-  const custom = getCustomProducts();
-  custom.push(product);
-  saveCustomProducts(custom);
-  ensureInventoryFor(product, stock);
-
-  ['newProdName','newProdCat','newProdPrice','newProdIcon','newProdDesc'].forEach(i => document.getElementById(i).value = '');
-  document.getElementById('newProdStock').value = '10';
-  msg.className = 'form-msg'; msg.textContent = '';
-
-  refreshCatalogViews();
-  const flash = document.getElementById('addProdFlash');
-  flash.style.display = 'inline';
-  setTimeout(() => { flash.style.display = 'none'; }, 2200);
+window.addNewProduct = async function(){
+  if (!getCurrentUser()?.isAdmin) return;
+  const msg=document.getElementById('addProdMsg');
+  try {
+    await adminProductRequest('create',{name:document.getElementById('newProdName').value.trim(),category:document.getElementById('newProdCat').value.trim(),price:Number(document.getElementById('newProdPrice').value),stock:Number(document.getElementById('newProdStock').value),icon:document.getElementById('newProdIcon').value,description:document.getElementById('newProdDesc').value});
+    ['newProdName','newProdCat','newProdPrice','newProdIcon','newProdDesc'].forEach(id=>document.getElementById(id).value='');
+    msg.className='form-msg ok';msg.textContent='Product saved to the database.';
+  }catch(error){msg.className='form-msg err';msg.textContent=error.message;}
 };
 
 /* admin: remove a product. Custom products are deleted for good; default products
    are hidden and can be restored from the "Removed products" list. */
-window.removeProduct = function(id){
-  const p = getLiveProducts().find(x => x.id === id);
-  if (!p) return;
-  const isCustom = id.startsWith('c');
-  const note = isCustom
-    ? 'This custom product will be permanently deleted.'
-    : 'It will be hidden from the shop. You can restore it later from "Removed products".';
-  if (!confirm(`Remove "${p.name}"?\n\n${note}`)) return;
-
-  if (isCustom){
-    saveCustomProducts(getCustomProducts().filter(x => x.id !== id));
-    const inv = getInventory(); delete inv[id]; saveInventory(inv);
-    const ov = getProductOverrides(); delete ov[id]; saveProductOverrides(ov);
-  } else {
-    const del = getDeletedProductIds();
-    if (!del.includes(id)){ del.push(id); saveDeletedProductIds(del); }
-  }
-  saveCart(getCart().filter(i => i.id !== id)); // never leave a removed product in someone's cart
-  refreshCatalogViews();
+window.removeProduct = async function(id){
+  if (!getCurrentUser()?.isAdmin) return;
+  const product=getLiveProducts().find(p=>p.id===id);
+  if (!product || !confirm('Remove "'+product.name+'" from the storefront? Its database history will be retained.')) return;
+  try {await adminProductRequest('remove',{id});saveCart(getCart().filter(p=>p.id!==id));}catch(error){alert(error.message);}
 };
 
 window.restoreProduct = function(id){
@@ -7386,6 +7387,7 @@ const invOpenPanels = new Set();
 const invOpenHistory = new Set();
 
 function renderInventoryPanels(){
+  if (!getCurrentUser()?.isAdmin) return;
   const box = document.getElementById('inventoryPanels');
   const liveProducts = getLiveProducts();
 
@@ -7479,54 +7481,23 @@ window.quickAdjustStock = function(pid, sizeId, delta){
 };
 
 /* persist the number currently sitting in a size's stock input */
-window.saveSizeStockInput = function(pid, sizeId){
-  const row = document.querySelector(`.inv-card[data-inv-pid="${pid}"] tr[data-size-id="${sizeId}"]`);
-  const input = row.querySelector('.inv-stock-input');
-  const value = parseInt(input.value, 10);
-  if (isNaN(value) || value < 0){ alert('Please enter a valid, non-negative stock number.'); return; }
-
-  invOpenPanels.add(pid); // keep this card expanded through the re-render
-  setSizeStock(pid, sizeId, value, 'Manual admin update');
-
-  renderAdmin();
-  renderProducts(); // keep storefront in sync if it's open in another tab of this session
-
-  setTimeout(() => {
-    const flash = document.getElementById(`inv-saved-${pid}-${sizeId}`);
-    if (flash){ flash.style.display = 'inline'; setTimeout(() => flash.style.display = 'none', 1600); }
-  }, 30);
+window.saveSizeStockInput = async function(pid,sizeId){
+  if (!getCurrentUser()?.isAdmin) return;
+  const row=document.querySelector('.inv-card[data-inv-pid="'+pid+'"] tr[data-size-id="'+sizeId+'"]');
+  const size=getProductSizes(pid).find(v=>v.id===sizeId);
+  try {await adminProductRequest('stock',{id:pid,variantId:sizeId,stock:Number(row.querySelector('.inv-stock-input').value),expectedStock:size.stock});}catch(error){alert(error.message);}
 };
 
 /* add a brand-new size/variant from the mini form */
-window.createSizeVariant = function(pid){
-  const labelInput = document.getElementById(`new-size-label-${pid}`);
-  const stockInput = document.getElementById(`new-size-stock-${pid}`);
-  const label = labelInput.value.trim();
-  const stock = parseInt(stockInput.value, 10);
-
-  if (!label){ alert('Please name the new size or variant (e.g. "Large", "1kg", "5m cable").'); return; }
-  if (isNaN(stock) || stock < 0){ alert('Please enter a valid, non-negative starting stock.'); return; }
-
-  const existing = getProductSizes(pid).some(s => s.label.toLowerCase() === label.toLowerCase());
-  if (existing){ alert(`"${label}" already exists for this product.`); return; }
-
-  invOpenPanels.add(pid);
-  addSizeVariant(pid, label, stock);
-  renderAdmin();
-  renderProducts();
+window.createSizeVariant = async function(pid){
+  if (!getCurrentUser()?.isAdmin) return;
+  try{await adminProductRequest('add-variant',{id:pid,label:document.getElementById('new-size-label-'+pid).value.trim(),stock:Number(document.getElementById('new-size-stock-'+pid).value)});}catch(error){alert(error.message);}
 };
 
 /* remove a size/variant (blocked if it's the last one, to avoid a sizeless product) */
-window.deleteSizeVariant = function(pid, sizeId){
-  const sizes = getProductSizes(pid);
-  if (sizes.length <= 1){ alert('A product must keep at least one size.'); return; }
-  const size = sizes.find(s => s.id === sizeId);
-  if (!confirm(`Remove the "${size.label}" size? This cannot be undone.`)) return;
-
-  invOpenPanels.add(pid);
-  removeSizeVariant(pid, sizeId);
-  renderAdmin();
-  renderProducts();
+window.deleteSizeVariant = async function(pid,sizeId){
+  if (!getCurrentUser()?.isAdmin || !confirm('Remove this variant?')) return;
+  try{await adminProductRequest('remove-variant',{id:pid,variantId:sizeId});}catch(error){alert(error.message);}
 };
 
 /* ---------- HEADER SEARCH BAR (category select + live search, mirrors the Nyereka-style header) ---------- */
@@ -7906,7 +7877,7 @@ loadServerCatalog();
       const available = Number(product.stock) > 0;
       const stockCount = Math.max(0, Number(product.stock) || 0);
       const stockState = !available ? 'out' : stockCount <= 5 ? 'low' : 'in';
-      const stockLabel = !available ? 'Out of stock' : stockCount <= 5 ? `${stockCount} left` : 'In stock';
+      const stockLabel = stockLabelFor(stockCount);
       const productId = escapeStoreText(product.id);
       return `<div class="col-6 col-md-4 col-lg-3">
         <article class="store-product-card">
@@ -8256,8 +8227,9 @@ function snapshot(){
   const deals = {}; const now = Date.now();
   Object.entries(getHotDeals()).forEach(([id,d]) => { if (ids.has(id) && d && d.pct > 0 && (!d.endsAt || d.endsAt > now)) deals[id] = { pct: d.pct, endsAt: d.endsAt || 0 }; });
   const inventory = {};
-  Object.entries(getInventory()).forEach(([id,v]) => { if (ids.has(id) && v && Array.isArray(v.sizes)) inventory[id] = { sizes: v.sizes.map(z => ({ id: z.id, label: z.label, stock: z.stock, sku: z.sku })) }; });
-  return { overrides, custom: clone(getCustomProducts()), deleted: getDeletedProductIds().slice(), deals, inventory, biz: clone(getBiz()) };
+  Object.entries(getInventory()).forEach(([id,v]) => { if (ids.has(id) && v && Array.isArray(v.sizes)) inventory[id] = { sizes: v.sizes.map(z => ({ id: z.id, label: z.label, stock: z.stock > 0 ? 1 : 0, sku: z.sku })) }; });
+  Object.values(overrides).forEach(v => { delete v.stock; });
+  return { overrides, custom: clone(getCustomProducts()).map(p => ({ ...p, stock: p.stock > 0 ? 1 : 0 })), deleted: getDeletedProductIds().slice(), deals, inventory, biz: clone(getBiz()) };
 }
 
 async function toDataURL(url){
@@ -8413,12 +8385,12 @@ window.publishSiteFile = async function(){
   function current(){
     var saved=null;
     try{saved=localStorage.getItem(KEY)}catch(e){}
-    return saved==='light'||saved==='dark'?saved:(root.dataset.theme||'light');
+    return saved==='light'||saved==='dark'?saved:(root.dataset.theme||'dark');
   }
   function apply(t,save){
     root.dataset.theme=t;
-    if(meta)meta.setAttribute('content',t==='light'?'#1d4ed8':'#040a1c');
-    var b=document.getElementById('v3-theme'); if(b){b.textContent=t==='light'?'🌙':'☀️';b.setAttribute('aria-label',t==='light'?'Switch to dark theme':'Switch to white theme')}
+    if(meta)meta.setAttribute('content',t==='light'?'#f3f7fd':'#ffffff');
+    var b=document.getElementById('v3-theme'); if(b){b.textContent=t==='light'?'🌙':'☀️';b.setAttribute('aria-label',t==='light'?'Switch to black theme':'Switch to blue theme');b.title=t==='light'?'Switch to black theme':'Switch to blue theme';b.setAttribute('aria-pressed',String(t==='light'))}
     if(save){try{localStorage.setItem(KEY,t)}catch(e){}}
   }
   var dock=document.createElement('div'); dock.id='v3-dock';
@@ -8426,6 +8398,7 @@ window.publishSiteFile = async function(){
   document.body.appendChild(dock);
   var off=document.createElement('div'); off.id='v3-offline'; off.textContent='You are offline – showing saved pages'; document.body.appendChild(off);
   apply(current(),false);
+  window.addEventListener('storage',function(event){if(event.key===KEY&&(event.newValue==='light'||event.newValue==='dark'))apply(event.newValue,false)});
   document.getElementById('v3-theme').addEventListener('click',function(){apply(current()==='light'?'dark':'light',true)});
   // install prompt
   var dp=null, ib=document.getElementById('v3-install');
@@ -8580,7 +8553,7 @@ window.publishSiteFile = async function(){
     }
     function schedule(){
       clearTimeout(timer); if(bar) bar.classList.remove('run');
-      if(!visible||document.hidden) return;
+      if(!visible||document.hidden||window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       if(bar){ void bar.offsetWidth; bar.classList.add('run'); }
       timer=setTimeout(function(){ show(i+1); },D);
     }
@@ -8605,34 +8578,38 @@ window.publishSiteFile = async function(){
   'use strict';
   var reduceMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  [].forEach.call(document.querySelectorAll('#sec-home .home-auto-image[data-auto-images]'),function(img,index){
+  [].forEach.call(document.querySelectorAll('.home-auto-image[data-auto-images]'),function(img,index){
     var sources=(img.getAttribute('data-auto-images')||'').split('|');
     var alts=(img.getAttribute('data-auto-alts')||'').split('|');
     if(sources.length<2||sources.length!==alts.length) return;
 
     var current=sources.indexOf(img.getAttribute('src'));
     if(current<0) current=0;
-    var timer=null,visible=!('IntersectionObserver' in window);
+    var timer=null,visible=!('IntersectionObserver' in window),paused=false,pending=false;
+
     function schedule(delay){
       clearTimeout(timer);
-      if(!visible||document.hidden||(reduceMotion&&reduceMotion.matches)) return;
-      timer=setTimeout(advance,delay||5200);
+      if(!visible||document.hidden||paused||(reduceMotion&&reduceMotion.matches)) return;
+      timer=setTimeout(function(){advance(1,false);},delay||6500);
     }
-    function advance(){
-      var next=(current+1)%sources.length;
+    function advance(direction,manual){
+      if(pending)return;pending=true;
+      var next=(current+(direction||1)+sources.length)%sources.length;
       var preload=new Image();
       preload.onload=function(){
-        if(!visible||document.hidden||(reduceMotion&&reduceMotion.matches)){schedule();return;}
+        if(!manual&&(!visible||document.hidden||paused||(reduceMotion&&reduceMotion.matches))){pending=false;schedule();return;}
         current=next;
-        img.classList.add('is-changing');
-        setTimeout(function(){
-          img.alt=alts[current];
-          img.src=sources[current];
-          requestAnimationFrame(function(){img.classList.remove('is-changing');});
-        },180);
-        schedule();
+
+        var layer=img.cloneNode(false);
+        layer.removeAttribute('data-auto-images');layer.removeAttribute('data-auto-alts');
+        layer.removeAttribute('id');layer.removeAttribute('fetchpriority');layer.alt='';layer.setAttribute('aria-hidden','true');
+        layer.src=sources[current];layer.className='auto-image-transition';
+        Object.assign(layer.style,{position:'absolute',inset:'0',width:'100%',height:'100%',objectFit:'cover',opacity:'0',zIndex:'0',transition:'opacity 1000ms ease, transform 1100ms ease-out',transform:'scale(1.045)',pointerEvents:'none'});
+        img.parentElement.appendChild(layer);
+        requestAnimationFrame(function(){requestAnimationFrame(function(){layer.style.opacity='1';layer.style.transform='scale(1)';});});
+        setTimeout(function(){img.alt=window.translateSiteText?window.translateSiteText(alts[current]):alts[current];img.src=sources[current];layer.remove();pending=false;schedule();},1100);
       };
-      preload.onerror=function(){schedule();};
+      preload.onerror=function(){pending=false;schedule();};
       preload.src=sources[next];
     }
     if('IntersectionObserver' in window){
@@ -8641,14 +8618,52 @@ window.publishSiteFile = async function(){
         schedule();
       },{threshold:.1}).observe(img);
     }
+    var frame=img.parentElement;
+    frame.addEventListener('mouseenter',function(){paused=true;schedule();});
+    frame.addEventListener('mouseleave',function(){paused=false;schedule();});
+    frame.addEventListener('focusin',function(){paused=true;schedule();});
+    frame.addEventListener('focusout',function(event){if(!frame.contains(event.relatedTarget)){paused=false;schedule();}});
     document.addEventListener('visibilitychange',function(){schedule();});
     if(reduceMotion){
       var motionChange=function(){schedule();};
       if(reduceMotion.addEventListener) reduceMotion.addEventListener('change',motionChange);
       else if(reduceMotion.addListener) reduceMotion.addListener(motionChange);
     }
-    schedule(1800+index*1500);
+    schedule(6500+index*1000);
   });
+})();
+</script>
+<script id="home-hero-carousel">
+(function(){
+  'use strict';
+  var root=document.getElementById('homeHeroCarousel');
+  if(!root)return;
+  var slides=[].slice.call(root.querySelectorAll('[data-hero-slide]'));
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)');
+  var index=0,timer=null,visible=!('IntersectionObserver' in window),paused=false,duration=7200;
+  function show(next){
+    index=(next+slides.length)%slides.length;
+    slides.forEach(function(slide,i){
+      var active=i===index;
+      slide.classList.toggle('is-active',active);
+      slide.setAttribute('aria-hidden',String(!active));
+    });
+  }
+  function schedule(){
+    clearTimeout(timer);
+    if(!visible||document.hidden||paused||(reduce&&reduce.matches))return;
+    timer=setTimeout(function(){show(index+1);schedule();},duration);
+  }
+  root.addEventListener('mouseenter',function(){paused=true;clearTimeout(timer);});
+  root.addEventListener('mouseleave',function(){paused=false;schedule();});
+  root.addEventListener('focusin',function(){paused=true;clearTimeout(timer);});
+  root.addEventListener('focusout',function(event){if(!root.contains(event.relatedTarget)){paused=false;schedule();}});
+  document.addEventListener('visibilitychange',schedule);
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(entries){visible=entries[0].isIntersecting;schedule();},{threshold:.15}).observe(root);
+  }
+  if(reduce){if(reduce.addEventListener)reduce.addEventListener('change',schedule);else if(reduce.addListener)reduce.addListener(schedule);}
+  show(0);schedule();
 })();
 </script>
 <script id="chts-deeplink">
@@ -8656,5 +8671,11 @@ window.publishSiteFile = async function(){
 (function(){ var m=/[?&]go=([a-z]+)/.exec(location.search), go=m&&m[1]; if(!go) return; var n=0,t=setInterval(function(){
   if(!document.body.classList.contains('gate-locked')&&typeof showSection==='function'){ clearInterval(t); try{ showSection(go); }catch(e){} } if(++n>160) clearInterval(t); },250); })();
 </script>
+
+<script>
+setInterval(()=>{if(document.visibilityState==='visible'&&!getCurrentUser()?.isAdmin&&!document.getElementById('productModalOverlay')?.classList.contains('open'))loadServerCatalog();},30000);
+</script>
+<script src="assets/js/site-language.js?v=4"></script>
+
 </body>
 </html>

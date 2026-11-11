@@ -7,6 +7,7 @@ USE charles_tech;
 CREATE TABLE IF NOT EXISTS users (
   id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   email VARCHAR(254) NOT NULL,
+  username VARCHAR(30) NULL,
   name VARCHAR(150) NOT NULL,
   phone VARCHAR(40) NULL,
   password_hash VARCHAR(255) NOT NULL,
@@ -15,7 +16,8 @@ CREATE TABLE IF NOT EXISTS users (
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
-  UNIQUE KEY uq_users_email (email)
+  UNIQUE KEY uq_users_email (email),
+  UNIQUE KEY uq_users_username (username)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS auth_login_attempts (

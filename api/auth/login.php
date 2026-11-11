@@ -9,7 +9,7 @@ $data = auth_read_json();
 
 $email = strtolower(trim((string) ($data['email'] ?? '')));
 $password = (string) ($data['password'] ?? '');
-if (strlen($email) > 254 || !filter_var($email, FILTER_VALIDATE_EMAIL) || $password === '' || strlen($password) > 1024) {
+if (strlen($email) > 254 || (!filter_var($email, FILTER_VALIDATE_EMAIL) && !preg_match('/^[a-z0-9_.]{3,30}$/', $email)) || $password === '' || strlen($password) > 1024) {
     api_json(['error' => 'Incorrect email or password.'], 401);
 }
 
@@ -33,10 +33,10 @@ try {
     $statement = $pdo->prepare(
         'SELECT id, name, email, phone, password_hash, role
          FROM users
-         WHERE email = :email AND is_active = 1
+         WHERE (email = :email OR username = :username) AND is_active = 1
          LIMIT 1'
     );
-    $statement->execute(['email' => $email]);
+    $statement->execute(['email' => $email, 'username' => $email]);
     $user = $statement->fetch();
 
     if (!$user || !password_verify($password, $user['password_hash'])) {

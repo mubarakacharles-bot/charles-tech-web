@@ -1,7 +1,8 @@
 <?php
 declare(strict_types=1);
 
-require __DIR__ . '/bootstrap.php';
+require __DIR__ . '/auth/bootstrap.php';
+auth_start_session();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     header('Allow: GET');
@@ -15,6 +16,8 @@ if (strlen($category) > 120) {
 
 try {
     $pdo = api_db();
+    $user = auth_current_user($pdo);
+    $canViewStock = $user !== null && $user['role'] === 'admin';
     $sql = 'SELECT p.id, p.name, p.category, p.description, p.icon, p.price,
                    p.specs, p.image_paths, v.variant_id, v.label, v.sku, v.stock
             FROM products AS p
@@ -42,7 +45,7 @@ try {
                 'description' => $row['description'],
                 'icon' => $row['icon'],
                 'price' => (float) $row['price'],
-                'specs' => json_decode($row['specs'], true, 512, JSON_THROW_ON_ERROR),
+                'specs' => (object) json_decode($row['specs'], true, 512, JSON_THROW_ON_ERROR),
                 'images' => $row['image_paths'] === null
                     ? []
                     : json_decode($row['image_paths'], true, 512, JSON_THROW_ON_ERROR),
@@ -51,15 +54,37 @@ try {
         }
 
         if ($row['variant_id'] !== null) {
-            $products[$id]['variants'][] = [
+            $variant = [
                 'id' => $row['variant_id'],
                 'label' => $row['label'],
                 'sku' => $row['sku'],
-                'stock' => (int) $row['stock'],
+                'available' => (int) $row['stock'] > 0,
             ];
+            if ($canViewStock) {
+                $variant['stock'] = (int) $row['stock'];
+            }
+            $products[$id]['variants'][] = $variant;
         }
     }
 
+    if ($canViewStock && $products) {
+        $history = $pdo->query(
+            'SELECT m.product_id, v.label, m.quantity_delta, m.reason, m.created_at, u.name AS actor
+             FROM inventory_movements m
+             JOIN product_variants v ON v.product_id=m.product_id AND v.variant_id=m.variant_id
+             LEFT JOIN users u ON u.id=m.performed_by
+             ORDER BY m.id DESC LIMIT 500'
+        );
+        while ($movement = $history->fetch()) {
+            $productId = $movement['product_id'];
+            if (!isset($products[$productId]) || count($products[$productId]['history'] ?? []) >= 50) continue;
+            $products[$productId]['history'][] = [
+                'ts' => strtotime($movement['created_at']) * 1000,
+                'size' => $movement['label'], 'delta' => (int) $movement['quantity_delta'],
+                'reason' => $movement['reason'], 'by' => $movement['actor'] ?? 'Administrator',
+            ];
+        }
+    }
     api_json(['products' => array_values($products)]);
 } catch (Throwable $error) {
     api_fail($error);

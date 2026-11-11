@@ -1,0 +1,112 @@
+/* Charles Tech — photographic presentation. Existing content and navigation retained. */
+body:has(#sec-home.active){background:#101112}
+#siteShell>.wrap:has(#sec-home.active){width:100%;max-width:none;padding-inline:0}
+#sec-home .home-learning{padding:0 0 64px;background:#101112;color:#f5f3ec}
+#sec-home .home-learning-hero{position:relative;isolation:isolate;display:grid;align-items:center;min-height:720px;min-height:max(680px,calc(100svh - 150px));width:100%;border:0;border-radius:0;overflow:hidden;background:#101112;box-shadow:none}
+#sec-home .home-learning-hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:1;mask-image:none;-webkit-mask-image:none;filter:brightness(.62);transform:none}
+#sec-home .home-learning-hero::after{content:"";position:absolute;inset:0;z-index:0;background:rgba(0,0,0,.34);pointer-events:none}
+#sec-home .home-learning-copy{position:relative;z-index:2;justify-self:center;width:min(1180px,100%);max-width:none;text-align:center;padding:100px 32px 140px}
+#sec-home .home-learning-kicker{justify-content:center;color:#f0cd76;font-size:12px;letter-spacing:.22em;font-weight:700}
+#sec-home .home-learning-kicker::before{display:none}
+#sec-home .home-learning-hero h1{max-width:1100px;margin:28px auto 24px;font-family:Georgia,'Times New Roman',serif;font-size:clamp(54px,6.5vw,104px);font-weight:400;letter-spacing:-.045em;line-height:1.06;color:#fff;-webkit-text-fill-color:initial;background:none;text-shadow:0 2px 18px rgba(0,0,0,.3)}
+#sec-home .home-learning-accent{color:#e5bd55;font-size:.95em;white-space:normal;letter-spacing:-.035em}
+#sec-home .home-learning-hero p{max-width:660px;margin:0 auto 32px;color:#f1f1ee;font-size:18px;line-height:1.8}
+#sec-home .home-learning-actions{justify-content:center;gap:16px}
+#sec-home .home-learning-actions .btn{min-height:52px;border-radius:3px;padding:15px 25px;font-weight:650;font-size:14px;box-shadow:none}
+#sec-home .home-learning-actions .course-primary{background:#dfb746;border-color:#dfb746;color:#161710}
+#sec-home .home-learning-actions .course-secondary{background:rgba(0,0,0,.35);border-color:#e2e2df;color:#fff}
+#sec-home .home-learning-badge{display:none}
+
+
+
+
+#sec-home .home-course-section{max-width:1440px;margin:auto;padding:100px clamp(22px,6vw,96px) 40px}
+#sec-home .home-course-heading{text-align:center;max-width:750px;margin:0 auto 72px}
+#sec-home .home-course-heading>span{color:#e5bd55;letter-spacing:.2em;font-size:12px}
+#sec-home .home-course-heading h2{color:#fff;font:400 clamp(36px,4vw,62px)/1.15 Georgia,serif;letter-spacing:-.025em;margin:20px 0}
+#sec-home .home-course-heading p{color:#c5c5c0;font-size:17px;line-height:1.8}
+#sec-home .home-course-grid{display:flex;flex-direction:column;gap:100px}
+#sec-home .home-course-card{display:grid;grid-template-columns:1.15fr 1fr;align-items:center;gap:clamp(32px,6vw,96px);border:0;border-radius:0;background:transparent;box-shadow:none;padding:0;color:#fff;overflow:visible;transform:none}
+#sec-home .home-course-card:hover{border:0;box-shadow:none;transform:none}
+#sec-home .home-course-card:nth-child(even) .home-course-image{order:2}
+#sec-home .home-course-image{position:relative;display:block;aspect-ratio:1/1;min-height:400px;height:auto;border-radius:2px;overflow:hidden;background:#1d201f}
+#sec-home .home-course-image img{width:100%;height:100%;object-fit:cover;transform:none;filter:none}
+#sec-home .home-course-image-label{left:18px;right:auto;bottom:18px;padding:10px 14px;background:#101112e6;color:#f1cc73;border:1px solid #ffffff38;border-radius:2px;font-size:11px}
+#sec-home .home-course-card-copy{display:block;padding:0}
+#sec-home .home-course-card h3{color:#f5f3ec;font:400 clamp(32px,3.3vw,52px)/1.15 Georgia,serif;margin:0 0 26px;letter-spacing:-.025em}
+#sec-home .home-course-card-description{display:block;color:#c5c5c0;font-size:17px;line-height:1.9}
+#sec-home .home-course-tags{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px;padding-top:26px;border-top:1px solid #ffffff26}
+#sec-home .home-course-tags span{border:0;background:transparent;color:#dfbd68;border-radius:0;padding:0;font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+#sec-home .home-learning-method{display:flex;flex-direction:column;gap:28px;text-align:center;max-width:1200px;margin:70px auto 0;padding:70px 24px;border:0;border-top:1px solid #ffffff25;border-radius:0;background:transparent;box-shadow:none}
+#sec-home .home-learning-method h2{color:#f5f3ec;font:400 clamp(32px,4vw,54px)/1.2 Georgia,serif}
+#sec-home .home-learning-method p{color:#c5c5c0;max-width:740px;margin:20px auto 0;line-height:1.8}
+#sec-home .home-learning-method .btn{background:#dfb746;color:#141611;border:0;border-radius:3px;min-height:54px;padding:16px 28px}
+.hero-slides.sec-slides{height:clamp(440px,72svh,760px);border-radius:3px;box-shadow:none}
+.hs-fx .hs{will-change:auto}
+.hs-fx .hs.on{animation:fxFade .75s ease both}
+.hs-fx .hs.on .hs-img{animation:none}
+.hs-fx .hs.on .hs-txt>*{animation:none}
+.sec-slides .hs-txt{max-width:800px;bottom:72px}
+.sec-slides .hs-txt h2{font-family:Georgia,serif;font-weight:400;font-size:clamp(32px,4vw,64px);line-height:1.12}
+.sec-slides .hs-txt p{color:#f2f2ee;line-height:1.7;font-size:17px}
+:where(a,button,input,select,textarea):focus-visible{outline:3px solid #d8ad3b;outline-offset:5px}
+@media(max-width:760px){
+ #sec-home .home-learning-hero{min-height:max(650px,calc(100svh - 125px))}
+ #sec-home .home-learning-copy{padding:70px 24px 125px;text-align:center}
+ #sec-home .home-learning-kicker{font-size:10px;letter-spacing:.13em}
+ #sec-home .home-learning-hero h1{font-size:clamp(43px,9.8vw,70px);margin:24px auto}
+ #sec-home .home-learning-hero p{font-size:15px}
+ #sec-home .home-learning-actions{flex-direction:column;max-width:360px;margin:auto}
+ #sec-home .home-course-section{padding:64px 22px 20px}
+ #sec-home .home-course-heading{margin-bottom:44px}
+ #sec-home .home-course-grid{gap:64px}
+ #sec-home .home-course-card{grid-template-columns:1fr;gap:28px}
+ #sec-home .home-course-card:nth-child(even) .home-course-image{order:0}
+ #sec-home .home-course-image{min-height:0;aspect-ratio:4/3}
+ #sec-home .home-course-card h3{font-size:36px}
+ #sec-home .home-course-card-description{font-size:16px}
+ #sec-home .home-learning-method{margin-top:44px;padding:50px 24px}
+ .hero-slides.sec-slides{height:70svh;min-height:400px}
+ .sec-slides .hs-txt{left:24px;right:24px;bottom:65px}
+ .sec-slides .hs-txt p{display:block;font-size:14px}
+}
+@media(prefers-reduced-motion:reduce){
+ .hs-fx .hs.on,.hs-fx .hs.on .hs-img,.home-auto-image{animation:none!important;transition:none!important}
+}
+
+/* Quiet cinematic motion, with no control strip covering the images. */
+.auto-banner-frame{position:relative;overflow:hidden;isolation:isolate;height:clamp(300px,52svh,620px);margin-bottom:32px;background:var(--chts-surface,#0b0b0b)}
+.auto-banner-frame>.sec-banner{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;margin:0;border-radius:0;box-shadow:none}
+.auto-image-transition{max-width:none;display:block;user-select:none}
+.home-course-image-label{z-index:2}
+.hs-fx .hs.on .hs-img{animation:cinemaDrift 8500ms ease-out both}
+@keyframes cinemaDrift{from{transform:scale(1.055)}to{transform:scale(1)}}
+@media(prefers-reduced-motion:reduce){.auto-image-transition{transition:none!important}.hs-fx .hs.on .hs-img{animation:none!important}}
+@media(max-width:760px){.auto-banner-frame{height:clamp(250px,45svh,460px)}}
+
+/* A compact skills ticker adds energy without competing with the hero carousel. */
+#sec-home .skills-marquee{overflow:hidden;background:#111;color:#fff;border-block:1px solid #272727;padding:15px 0}
+#sec-home .skills-marquee-track{display:flex;align-items:center;gap:30px;width:max-content;animation:skillsMarquee 34s linear infinite;font:700 11px/1.2 system-ui,sans-serif;letter-spacing:.2em}
+#sec-home .skills-marquee-track span{white-space:nowrap}
+#sec-home .skills-marquee-track i{color:#dfb746;font-style:normal;font-size:14px}
+#sec-home .skills-marquee:hover .skills-marquee-track,#sec-home .skills-marquee:focus-within .skills-marquee-track{animation-play-state:paused}
+@keyframes skillsMarquee{to{transform:translateX(-50%)}}
+#sec-home .home-course-heading h2,#sec-home .home-course-card h3,#sec-home .home-learning-method h2{color:#111!important}
+#sec-home .home-course-heading p,#sec-home .home-course-card-description,#sec-home .home-learning-method p{color:#3f4b5c!important}
+#sec-home .home-course-heading>span,#sec-home .home-learning-kicker{color:#8a6414!important}
+#sec-home .home-course-tags{border-color:#dce3eb}
+#sec-home .home-course-tags span{color:#8a6414}
+#sec-home .home-course-image-label{background:rgba(17,17,17,.92);color:#f7d77c;border-color:rgba(255,255,255,.25)}
+@media(prefers-reduced-motion:reduce){#sec-home .skills-marquee-track{animation:none}}
+@media(max-width:760px){#sec-home .skills-marquee{padding:13px 0}#sec-home .skills-marquee-track{gap:22px;font-size:10px}}
+
+/* Layered, user-controllable hero messaging; photos continue their separate crossfade. */
+#sec-home .hero-carousel{position:relative;width:min(900px,100%);min-height:clamp(285px,30vw,350px);margin:0 auto 16px;perspective:1000px;text-align:center}
+#sec-home .hero-message{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 18px 42px;opacity:0;visibility:hidden;transform:translate3d(0,28px,-35px) rotateX(-4deg);filter:blur(5px);transition:opacity .75s ease,transform .85s cubic-bezier(.2,.75,.25,1),filter .7s ease,visibility .75s;pointer-events:none}
+#sec-home .hero-message.is-active{opacity:1;visibility:visible;transform:translate3d(0,0,0) rotateX(0);filter:blur(0);pointer-events:auto}
+#sec-home .hero-message-kicker{display:block;margin:0 0 16px;color:#f2cf68;font-size:11px;font-weight:750;letter-spacing:.2em}
+#sec-home .hero-message h1,#sec-home .hero-message h2{max-width:1000px;margin:0 auto 18px;color:#fff;font:400 clamp(43px,6.2vw,88px)/1.04 Georgia,'Times New Roman',serif;letter-spacing:-.04em;text-shadow:0 2px 18px rgba(0,0,0,.38)}
+#sec-home .hero-message .home-learning-accent{color:#f2cf68}
+#sec-home .hero-message p{max-width:670px;margin:0 auto;color:#fff;font-size:clamp(15px,1.4vw,18px);line-height:1.75;text-shadow:0 1px 9px rgba(0,0,0,.5)}
+@media(max-width:760px){#sec-home .hero-carousel{min-height:300px;margin-bottom:12px}#sec-home .hero-message-kicker{font-size:9px;letter-spacing:.15em;margin-bottom:13px}#sec-home .hero-message h1,#sec-home .hero-message h2{font-size:clamp(37px,9vw,56px);margin-bottom:14px}#sec-home .hero-message p{font-size:14px;line-height:1.6;max-width:36ch}}
+@media(prefers-reduced-motion:reduce){#sec-home .hero-message{filter:none;transform:none;transition:none}}

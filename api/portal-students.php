@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 require __DIR__ . '/auth/bootstrap.php';
+require_once __DIR__ . '/portal-registration.php';
 auth_start_session();
 
 function portal_student_payload(array $account): array
@@ -415,15 +416,12 @@ try {
                     'SELECT state_json, revision FROM student_portal_state WHERE state_id = 1 FOR UPDATE'
                 )->fetch();
                 $state = json_decode($lockedState['state_json'], true, 64, JSON_THROW_ON_ERROR);
-                $matchedStudent = null;
-                foreach (($state['students'] ?? []) as $candidate) {
-                    if (is_array($candidate) && strcasecmp((string) ($candidate['reg'] ?? ''), $registration) === 0) {
-                        $matchedStudent = $candidate;
-                    }
-                }
-                if (!$matchedStudent || empty($matchedStudent['id'])) {
-                    throw new DomainException('Your student record was not found. Ask the administrator to add you before registering.');
-                }
+                $state = array_replace([
+                    'users' => [], 'students' => [], 'attendance' => [], 'items' => [],
+                    'moves' => [], 'log' => [], 'cfg' => ['start' => '', 'hist' => []],
+                    'disc' => [], 'tasks' => [], 'subs' => [], 'posts' => [], 'sent' => [], 'seal' => '',
+                ], $state);
+                $matchedStudent = portal_registration_student($state['students'], $registration, $name, $class, $phone);
                 foreach (($state['students'] ?? []) as $candidate) {
                     if (!is_array($candidate) || ($candidate['id'] ?? null) === $matchedStudent['id']) {
                         continue;
@@ -460,7 +458,7 @@ try {
                     $state['students'] ?? [],
                     static fn (array $candidate): bool => ($candidate['id'] ?? null) !== $studentId
                 ));
-                $state['students'][] = ['id' => $studentId, 'name' => $name, 'cls' => $class, 'reg' => $registration, 'phone' => $phone];
+                $state['students'][] = array_merge($matchedStudent, ['id' => $studentId, 'name' => $name, 'cls' => $class, 'reg' => $registration, 'phone' => $phone]);
                 $state['users'] = $state['users'] ?? [];
                 $state['users'][] = portal_student_payload([
                     'account_id' => $accountId, 'student_id' => $studentId, 'username' => $username,

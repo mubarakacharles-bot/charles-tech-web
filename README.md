@@ -95,7 +95,7 @@ The PHP API finds its database configuration at a `private\charles-tech-db.php` 
 | Method | Route | Purpose |
 | --- | --- | --- |
 | `GET` | `/api/health.php` | Database connectivity check. |
-| `GET` | `/api/products.php` | Product catalogue, optionally filtered by `?category=...`. |
+| `GET` | `/api/products.php` | Product catalogue, optionally filtered by `?category=...`. Variant `available` is public; exact `stock` is returned only for an active administrator session. |
 | `POST` | `/api/auth/register.php` | Create an account. |
 | `POST` | `/api/auth/login.php` | Start an authenticated session. |
 | `GET` | `/api/auth/me.php` | Restore/check the current session. |
@@ -109,7 +109,7 @@ Authentication writes are protected by CSRF tokens and PHP sessions. Passwords a
 
 ## Current backend scope
 
-The product catalogue and website account/session flows use the PHP and database backend. The schema also defines order, inventory, and business-settings tables, but there are not yet backend write endpoints for product or stock edits, checkout/orders, or business settings. Shop product-stock changes are browser-side and must be published with the Admin Dashboard's share-ready file to distribute them. The Attendance & Stock application is isolated in `student-portal.html`; its administrator can use the website's server-side administrator session to load and synchronize portal data.
+The product catalogue and website account/session flows use the PHP and database backend. The schema also defines order, inventory, and business-settings tables, but there are not yet backend write endpoints for product or stock edits, checkout/orders, or business settings. Shop product creation, edits, removal, variant changes, and stock adjustments use the administrator-only `POST /api/admin-products.php` endpoint. The Attendance & Stock application is isolated in `student-portal.html`; its administrator can use the website's server-side administrator session to load and synchronize portal data.
 
 ### Student Portal data assessment
 
@@ -132,3 +132,25 @@ There is no automated test runner configured in this repository. For a local smo
 ## License
 
 No license has been specified yet. All rights remain with their respective owners; contact Charles Tech before reuse or redistribution.
+
+Stock visibility: the catalogue API checks the current user role in MySQL on each request. Guests and customers receive availability only. Stock counts are held in page memory and cleared when accounts change; public HTML exports contain availability rather than inventory quantities. Checkout remains a browser preview: final quantities must be confirmed by the business until server-side order validation is implemented.
+
+## Vercel deployment
+
+Import this repository into Vercel. Set framework to Other and configure CHTS_BACKEND_URL as the public HTTPS URL of the PHP application (without /api). The checked-in build command packages only public assets and proxies /api to that backend. PHP/MySQL must remain on a public PHP host, with database configuration outside its web root. The build intentionally fails without a backend URL so login and database features are not silently published broken. Verify login/logout, admin-only stock and Student Portal after deployment.
+
+### Attendance and stock persistence improvements
+
+Portal saves capture an immutable snapshot at the time of each save and persist snapshots in order. Database loads wait for pending writes and retain the previous browser copy at `sas_data_v1_before_database_load`; explicit uploads download a JSON backup first. The admin API validates record IDs, stock quantities, movement directions, and Present/Absent attendance marks before writing, and rolls back failed transactions. Existing roles, student projections, scoring, revision checks and tables are retained. Run `C:\xampp\php\php.exe tools/test-portal-validation.php` for record validation checks.
+
+Student self-registration creates a student record automatically when the submitted registration number is new. Existing registration numbers retain their linked student identity and metadata. All new accounts use the student role; existing uniqueness constraints, password hashing, session/CSRF rules and administrator-only stock access remain in place. Run `C:\xampp\php\php.exe tools/test-portal-registration.php` for registration checks.
+
+Administrator sign-in supports an optional unique website username as well as email. Existing installations must run `database/configure_auth_db.php` to add the nullable username column before deploying the updated login API. The Attendance & Stock sign-in screen has a separate Administrator sign in button that verifies the website session and database role. Local account recovery uses the CLI-only `database/set_admin_login.php existing-email username`; provide the new password on stdin. This command updates only the specified existing account and verifies the password hash. Do not commit account passwords.
+
+### Administrator product management
+
+Use Admin Dashboard > Stock Levels to add/edit products and prices, remove products, and maintain quantities per variant. Writes require an active database administrator role and CSRF token; stock writes check the previous quantity to prevent overwriting another session. Removed products are deactivated to retain order and inventory history. Stock movements record actor, time and quantity delta. Public catalogue responses omit exact stock and movement history; the storefront refreshes from the server every 30 seconds while visible. Admins can use Refresh live stock to update without losing unsaved edits automatically. Run `database/configure_auth_db.php` on existing installations to grant the application its product write permissions. Product photos, deals and checkout remain existing browser features.
+
+### Photographic presentation
+
+The visual layer in `assets/css/photographic.css` uses the existing Charles Tech images and content: a full-screen home hero, alternating course sections, and taller Learn/Hot Deals carousels. Hero controls support next/previous and pause/play; automatic image changes stop offscreen, in hidden tabs and for reduced-motion users. Service-worker installation downloads only the opening image rather than the entire image catalogue; viewed images are still cached on demand. Existing navigation, catalogue, portal and database controls are retained.

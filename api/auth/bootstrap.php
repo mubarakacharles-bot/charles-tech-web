@@ -12,7 +12,8 @@ function auth_start_session(): void
     ini_set('session.use_strict_mode', '1');
     ini_set('session.use_only_cookies', '1');
     $scriptPath = $_SERVER['SCRIPT_NAME'] ?? '/api/auth/index.php';
-    $appPath = dirname(dirname($scriptPath));
+    $apiPosition = strpos($scriptPath, '/api/');
+    $appPath = $apiPosition === false ? '' : substr($scriptPath, 0, $apiPosition);
     if ($appPath === DIRECTORY_SEPARATOR || $appPath === '.') {
         $appPath = '';
     }
